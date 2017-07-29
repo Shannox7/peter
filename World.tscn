@@ -1,0 +1,181 @@
+[gd_scene load_steps=9 format=1]
+
+[ext_resource path="res://Data/Levels/World.gd" type="Script" id=1]
+[ext_resource path="res://Peter.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Data/Tiles/Ground_set.xml" type="TileSet" id=3]
+[ext_resource path="res://Data/Tiles/Slope_set.xml" type="TileSet" id=4]
+[ext_resource path="res://Data/Tiles/Space_set.xml" type="TileSet" id=5]
+[ext_resource path="res://Data/Tiles/Obstacles.xml" type="TileSet" id=6]
+[ext_resource path="res://Data/Tiles/SpaceTiles/space background.jpg" type="Texture" id=7]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=8]
+
+[node name="World" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="Movement" parent="." instance=ExtResource( 2 )]
+
+transform/pos = Vector2( -106, -127 )
+
+[node name="Grass_map" type="TileMap" parent="."]
+
+mode = 0
+tile_set = ExtResource( 3 )
+cell/size = Vector2( 64, 64 )
+cell/quadrant_size = 32
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 3
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="slope_left" type="TileMap" parent="."]
+
+mode = 0
+tile_set = ExtResource( 4 )
+cell/size = Vector2( 64, 64 )
+cell/quadrant_size = 32
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 137735
+collision/mask = 137735
+occluder/light_mask = 1
+tile_data = IntArray( -131060, -1610612736, -65521, -1610612736, 17, -1610612736, 65554, -1610612736 )
+
+[node name="TileMap" type="TileMap" parent="."]
+
+mode = 0
+tile_set = ExtResource( 5 )
+cell/size = Vector2( 64, 64 )
+cell/quadrant_size = 32
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 1
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 137735
+collision/mask = 137735
+occluder/light_mask = 1
+tile_data = IntArray( -262153, 8, -196617, 8, -131081, 8, -65545, 8, -131064, 11, -131063, 8, -131062, 10, -131061, 10, -9, 0, -8, 0, -7, 0, -6, 0, -5, 0, -4, 0, -3, 0, -2, 0, -1, 0, -65536, 0, -65535, 0, -65534, 0, -65533, 0, -65532, 0, -65531, 0, -65530, 0, -65529, 0, -65528, 0, -65527, 8, -65526, 10, -65525, 10, -65524, 10, -65523, 10, -65522, 10, 13, 10, 14, 10, 15, 10, 16, 10, 20, -1610612736, 21, -1610612736, 22, -1610612736, 23, -1610612736, 24, -1610612736, 65551, 10, 65552, 10, 65553, -1610612736, 131087, -1610612736, 131088, -1610612736, 131089, -1610612736, 131090, -1610612736, 131091, -1610612736, 131092, -1610612736, 131093, -1610612736, 131094, -1610612736, 131095, -1610612736, 131096, -1610612736, 131097, -1610612736 )
+
+[node name="Obstacles" type="TileMap" parent="."]
+
+mode = 0
+tile_set = ExtResource( 6 )
+cell/size = Vector2( 8, 8 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 137735
+collision/mask = 137735
+occluder/light_mask = 1
+tile_data = IntArray( -720947, 0, -720924, 0, -720911, 0, -720898, 0, -786422, 0, -720879, 1, -655338, 2, 786591, -1610612736, 786595, 0, 786599, 0, 786603, 0, 786607, 0, 786611, 0, 786615, 0, 786619, 0, 786623, 0, 786627, 0 )
+
+[node name="spawnpoint" type="Position2D" parent="."]
+
+transform/pos = Vector2( -54, -167 )
+
+[node name="spawnpoint1" type="Position2D" parent="."]
+
+transform/pos = Vector2( 112, -134 )
+
+[node name="spawnpoint3" type="Position2D" parent="."]
+
+transform/pos = Vector2( 208, -133 )
+
+[node name="spawnpoint2" type="Position2D" parent="."]
+
+transform/pos = Vector2( 249, -186 )
+
+[node name="spawnpoint4" type="Position2D" parent="."]
+
+transform/pos = Vector2( 2, -147 )
+
+[node name="passive_spawnpoint" type="Position2D" parent="."]
+
+transform/pos = Vector2( 499, -294 )
+
+[node name="passive_spawnpoint1" type="Position2D" parent="."]
+
+transform/pos = Vector2( -352, -144 )
+
+[node name="passive_spawnpoint2" type="Position2D" parent="."]
+
+transform/pos = Vector2( -480, -112 )
+
+[node name="passive_spawnpoint3" type="Position2D" parent="."]
+
+transform/pos = Vector2( 359, -230 )
+
+[node name="player_spawn" type="Position2D" parent="."]
+
+transform/pos = Vector2( -432, -224 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+editor/display_folded = true
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+scroll/offset = Vector2( 0, 0 )
+scroll/base_offset = Vector2( 0, 0 )
+scroll/base_scale = Vector2( 1, 1 )
+scroll/limit_begin = Vector2( 0, 0 )
+scroll/limit_end = Vector2( 0, 0 )
+scroll/ignore_camera_zoom = false
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground"]
+
+transform/pos = Vector2( 526, 273 )
+transform/scale = Vector2( 0.580208, 0.652344 )
+texture = ExtResource( 7 )
+
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+transform/pos = Vector2( -802, -222 )
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[node name="HUD" parent="." instance=ExtResource( 8 )]
+
+

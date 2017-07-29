@@ -1,0 +1,237 @@
+[gd_scene load_steps=29 format=1]
+
+[ext_resource path="res://Data/Passives/giraff/giraff.gd" type="Script" id=1]
+[ext_resource path="res://Data/Passives/giraff/stand1.png" type="Texture" id=2]
+[ext_resource path="res://Data/Passives/giraff/walk1.png" type="Texture" id=3]
+[ext_resource path="res://Data/Passives/giraff/walk2.png" type="Texture" id=4]
+[ext_resource path="res://Data/Passives/giraff/stand2.png" type="Texture" id=5]
+[ext_resource path="res://Data/Passives/giraff/walk3.png" type="Texture" id=6]
+[ext_resource path="res://Data/Passives/giraff/walk4.png" type="Texture" id=7]
+[ext_resource path="res://Data/Passives/dead_person/dead person.png" type="Texture" id=8]
+[ext_resource path="res://Data/Passives/dead_person/dead person1.png" type="Texture" id=9]
+[ext_resource path="res://Data/Passives/dead_person/dead person2.png" type="Texture" id=10]
+[ext_resource path="res://Data/Passives/pig/Pig.gd" type="Script" id=11]
+[ext_resource path="res://Data/Passives/pig/19478003_10158778279995386_1611983827_n.png" type="Texture" id=12]
+[ext_resource path="res://Data/Passives/pig/19512572_10158778280940386_85772049_n.png" type="Texture" id=13]
+[ext_resource path="res://Data/Passives/pig/19477953_10158778282665386_33791701_n.png" type="Texture" id=14]
+[ext_resource path="res://Data/Passives/pig/19250945_10158778282860386_1801077393_n.png" type="Texture" id=15]
+[ext_resource path="res://Data/Passives/pig/19489284_10158778282060386_2104955746_n.png" type="Texture" id=16]
+[ext_resource path="res://Data/Passives/pig/19512345_10158778282275386_1782990052_n.png" type="Texture" id=17]
+[ext_resource path="res://Data/Passives/pig/19512338_10158778282440386_129959277_n.png" type="Texture" id=18]
+[ext_resource path="res://Data/Passives/bat/19512032_10158778537175386_1084719297_n (1).png" type="Texture" id=19]
+[ext_resource path="res://Data/Passives/bat/19511931_10158778537355386_1104693282_n.png" type="Texture" id=20]
+[ext_resource path="res://Data/Passives/bat/19265267_10158778537810386_325304541_n.png" type="Texture" id=21]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 8, 10 )
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "walk",
+"speed": 7.0
+} ]
+
+[sub_resource type="SpriteFrames" id=3]
+
+animations = [ {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "idle",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 8 ), ExtResource( 10 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "walk",
+"speed": 2.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 20, 11 )
+
+[sub_resource type="SpriteFrames" id=5]
+
+animations = [ {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "idle",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "walk",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=6]
+
+custom_solver_bias = 0.0
+extents = Vector2( 18, 10 )
+
+[sub_resource type="SpriteFrames" id=7]
+
+animations = [ {
+"frames": [ ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "flying",
+"speed": 5.0
+} ]
+
+[node name="Passives" type="Node2D"]
+
+z/z = -1
+
+[node name="Giraff" type="KinematicBody2D" parent="."]
+
+transform/pos = Vector2( 0, -64 )
+z/z = -1
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0.5, 72 )
+shapes/0/trigger = false
+collision/layers = 2048
+collision/mask = 2048
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+RUN_SPEED = 120
+WALK_SPEED = 60
+ACCELERATION = 5
+acceleration_modifier = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Giraff"]
+
+transform/pos = Vector2( 0, -3 )
+transform/scale = Vector2( 2, 2 )
+frames = SubResource( 2 )
+animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Giraff"]
+
+transform/pos = Vector2( 0.5, 72 )
+z/z = -1
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Timer" type="Timer" parent="Giraff"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="dead_person" type="KinematicBody2D" parent="."]
+
+z/z = -1
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -2, 28 )
+shapes/0/trigger = false
+collision/layers = 2048
+collision/mask = 2048
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+RUN_SPEED = 120
+WALK_SPEED = 60
+ACCELERATION = 5
+acceleration_modifier = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="dead_person"]
+
+transform/pos = Vector2( 1, -1 )
+transform/scale = Vector2( 2, 2 )
+frames = SubResource( 3 )
+animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="dead_person"]
+
+transform/pos = Vector2( -2, 28 )
+z/z = -1
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Timer" type="Timer" parent="dead_person"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="Pig" type="KinematicBody2D" parent="."]
+
+z/z = -1
+input/pickable = false
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 10 )
+shapes/0/trigger = false
+collision/layers = 2048
+collision/mask = 2048
+collision/margin = 0.08
+script/script = ExtResource( 11 )
+RUN_SPEED = 120
+WALK_SPEED = 50
+ACCELERATION = 5
+acceleration_modifier = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Pig"]
+
+frames = SubResource( 5 )
+animation = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pig"]
+
+transform/pos = Vector2( 0, 10 )
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Timer" type="Timer" parent="Pig"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="Bat" type="KinematicBody2D" parent="."]
+
+z/z = -1
+input/pickable = false
+shapes/0/shape = SubResource( 6 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, -10, 6 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 0
+collision/margin = 0.08
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Bat"]
+
+frames = SubResource( 7 )
+animation = "flying"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bat"]
+
+transform/pos = Vector2( -10, 6 )
+shape = SubResource( 6 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Timer" type="Timer" parent="Bat"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+

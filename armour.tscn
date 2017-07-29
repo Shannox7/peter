@@ -1,0 +1,159 @@
+[gd_scene load_steps=9 format=1]
+
+[ext_resource path="res://Data/Armour/flakjacket.gd" type="Script" id=1]
+[ext_resource path="res://Data/Armour/Flak Jacket.png" type="Texture" id=2]
+[ext_resource path="res://Data/Armour/combathelmet.gd" type="Script" id=3]
+[ext_resource path="res://Data/Armour/Combat Helmet.png" type="Texture" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 7, 6 )
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "standing",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 14, 14 )
+
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 11, 6 )
+
+[node name="armour" type="Node2D"]
+
+[node name="Tier_1" type="Node2D" parent="."]
+
+[node name="body" type="Node2D" parent="Tier_1"]
+
+editor/display_folded = true
+
+[node name="flakjacket" type="KinematicBody2D" parent="Tier_1/body" groups=[
+"body",
+"armour",
+]]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 4096
+collision/mask = 4096
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Tier_1/body/flakjacket"]
+
+frames = SubResource( 2 )
+animation = "standing"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/body/flakjacket"]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Pickup" type="Area2D" parent="Tier_1/body/flakjacket"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/body/flakjacket/Pickup"]
+
+shape = SubResource( 3 )
+trigger = true
+_update_shape_index = 0
+
+[node name="pick me up!" type="Label" parent="Tier_1/body/flakjacket/Pickup"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -37.0
+margin/top = -46.0
+margin/right = 38.0
+margin/bottom = -32.0
+text = "Pick me up!"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="head" type="Node2D" parent="Tier_1"]
+
+editor/display_folded = true
+
+[node name="combathelmet" type="KinematicBody2D" parent="Tier_1/head" groups=[
+"head",
+"armour",
+]]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 4096
+collision/mask = 4096
+collision/margin = 0.08
+script/script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="Tier_1/head/combathelmet"]
+
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/head/combathelmet"]
+
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Pickup" type="Area2D" parent="Tier_1/head/combathelmet"]
+
+input/pickable = true
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/head/combathelmet/Pickup"]
+
+shape = SubResource( 3 )
+trigger = true
+_update_shape_index = 0
+
+[node name="pick me up!" type="Label" parent="Tier_1/head/combathelmet/Pickup"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -37.0
+margin/top = -46.0
+margin/right = 38.0
+margin/bottom = -32.0
+text = "Pick me up!"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+

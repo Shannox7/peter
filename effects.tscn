@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://Data/Effects/Bullethole_r.png" type="Texture" id=1]
+
+[node name="effects" type="Node2D"]
+
+[node name="Bullethole_r_human" type="Sprite" parent="."]
+
+texture = ExtResource( 1 )
+
+
