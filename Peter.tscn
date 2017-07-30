@@ -5,8 +5,8 @@
 [ext_resource path="res://Data/Player/Idle_R.png" type="Texture" id=3]
 [ext_resource path="res://Data/Player/Crawl_Prone_R1.png" type="Texture" id=4]
 [ext_resource path="res://Data/Player/Crawl_Prone_R2.png" type="Texture" id=5]
-[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=6]
-[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=7]
+[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=6]
+[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=7]
 [ext_resource path="res://Data/Player/Idle_Prone_R.png" type="Texture" id=8]
 [ext_resource path="res://Data/Player/Updated peter/run_1.png" type="Texture" id=9]
 [ext_resource path="res://Data/Player/Updated peter/idle.png" type="Texture" id=10]
@@ -55,17 +55,12 @@ animations = [ {
 "name": "prone_crawl_r",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ) ],
-"loop": true,
-"name": "crouch_idle_r",
-"speed": 5.0
-}, {
 "frames": [  ],
 "loop": false,
 "name": "jump_r",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
 "loop": true,
 "name": "crouch_walk_r",
 "speed": 5.0
@@ -79,6 +74,11 @@ animations = [ {
 "loop": true,
 "name": "run_r",
 "speed": 10.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "crouch_idle_r",
+"speed": 5.0
 } ]
 
 [sub_resource type="SpriteFrames" id=7]
@@ -98,14 +98,14 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
-"loop": false,
-"name": "shoot",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 15 ) ],
 "loop": true,
 "name": "aim",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": false,
+"name": "shoot",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 16 ), ExtResource( 15 ) ],
@@ -215,7 +215,6 @@ type_mask = 15
 [node name="Arm" type="AnimatedSprite" parent="Player"]
 
 editor/display_folded = true
-z/z = 1
 frames = SubResource( 8 )
 animation = "idle"
 

@@ -46,7 +46,7 @@ func _fixed_process(delta):
 	move(velocity)
 	
 	if is_colliding():
-		if get_collider().is_in_group("players"):
+		if get_collider().is_in_group("players") or get_collider().is_in_group("allies"):
 			if flip_mod == -1:
 				flip_effect = true
 			else:

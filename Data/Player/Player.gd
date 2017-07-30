@@ -7,6 +7,7 @@ var utility = [[],[],[],[],[],[],[],[]]
 var knockback_velocity = Vector2()
 var total_health = 50
 var current_health = 50
+var dead = false
 var armour = 0
 var total_ammo = 0
 var current_ammo = 0

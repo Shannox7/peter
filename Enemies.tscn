@@ -1,21 +1,22 @@
-[gd_scene load_steps=28 format=1]
+[gd_scene load_steps=30 format=1]
 
 [ext_resource path="res://Data/Enemies/Zombie/Zombie_soldier.gd" type="Script" id=1]
 [ext_resource path="res://Data/Enemies/Zombie/Arm_l.png" type="Texture" id=2]
-[ext_resource path="res://Data/Enemies/Zombie/Run_1.png" type="Texture" id=3]
-[ext_resource path="res://Data/Enemies/Zombie/idle.png" type="Texture" id=4]
+[ext_resource path="res://Data/Enemies/Zombie/idle.png" type="Texture" id=3]
+[ext_resource path="res://Data/Enemies/Zombie/Run_1.png" type="Texture" id=4]
 [ext_resource path="res://Data/Enemies/Zombie/Run_2.png" type="Texture" id=5]
 [ext_resource path="res://Data/Enemies/Zombie/torso.png" type="Texture" id=6]
 [ext_resource path="res://Data/Enemies/Zombie/Head.png" type="Texture" id=7]
-[ext_resource path="res://Data/Enemies/Zombie/Enemies.tres" type="Animation" id=8]
-[ext_resource path="res://Data/Enemies/Zombie/armWalk.tres" type="Animation" id=9]
-[ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=10]
+[ext_resource path="res://Data/Attacks/Unicorn_bullet.png" type="Texture" id=8]
+[ext_resource path="res://Data/Enemies/Zombie/Enemies.tres" type="Animation" id=9]
+[ext_resource path="res://Data/Enemies/Zombie/armWalk.tres" type="Animation" id=10]
 [ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=11]
-[ext_resource path="res://Data/Enemies/Zombie/Arm_r.png" type="Texture" id=12]
-[ext_resource path="res://Data/Enemies/Zombie/Zombie.gd" type="Script" id=13]
-[ext_resource path="res://Data/Enemies/Creep/creeprun.png" type="Texture" id=14]
+[ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=12]
+[ext_resource path="res://Data/Enemies/Zombie/Arm_r.png" type="Texture" id=13]
+[ext_resource path="res://Data/Enemies/Zombie/Zombie.gd" type="Script" id=14]
 [ext_resource path="res://Data/Enemies/Creep/creepidle.png" type="Texture" id=15]
-[ext_resource path="res://Data/Enemies/Creep/Creep Head.png" type="Texture" id=16]
+[ext_resource path="res://Data/Enemies/Creep/creeprun.png" type="Texture" id=16]
+[ext_resource path="res://Data/Enemies/Creep/Creep Head.png" type="Texture" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -25,14 +26,14 @@ extents = Vector2( 5.576, 21.633 )
 [sub_resource type="SpriteFrames" id=2]
 
 animations = [ {
-"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "run",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 4 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "run",
 "speed": 5.0
 } ]
 
@@ -91,38 +92,43 @@ tracks/0/keys = {
 [sub_resource type="SpriteFrames" id=8]
 
 animations = [ {
-"frames": [ ExtResource( 10 ) ],
-"loop": false,
-"name": "health_empty",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 11 ) ],
 "loop": false,
 "name": "health_full",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ) ],
+"loop": false,
+"name": "health_empty",
+"speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=9]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 3 )
+radius = 311.11
 
 [sub_resource type="RectangleShape2D" id=10]
 
 custom_solver_bias = 0.0
+extents = Vector2( 10, 3 )
+
+[sub_resource type="RectangleShape2D" id=11]
+
+custom_solver_bias = 0.0
 extents = Vector2( 10, 26 )
 
-[sub_resource type="SpriteFrames" id=11]
+[sub_resource type="SpriteFrames" id=12]
 
 animations = [ {
-"frames": [ ExtResource( 14 ) ],
-"loop": true,
-"name": "run",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 15 ) ],
 "loop": true,
 "name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ) ],
+"loop": true,
+"name": "run",
 "speed": 5.0
 } ]
 
@@ -134,7 +140,6 @@ animations = [ {
 "enemies",
 ]]
 
-editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1.07604, 0, 0, 0.924514, 0, 4 )
@@ -175,7 +180,6 @@ texture = ExtResource( 6 )
 
 [node name="head" type="Sprite" parent="Zombie_soldier"]
 
-editor/display_folded = true
 transform/pos = Vector2( 0, -6 )
 texture = ExtResource( 7 )
 
@@ -188,7 +192,6 @@ type_mask = 15
 
 [node name="ViewArea" type="Area2D" parent="Zombie_soldier/head"]
 
-visibility/visible = false
 transform/pos = Vector2( 2.5, -0.45397 )
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
@@ -198,6 +201,7 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_soldier/head/ViewArea"]
 
@@ -207,10 +211,14 @@ shape = SubResource( 3 )
 trigger = true
 _update_shape_index = 0
 
+[node name="Sprite" type="Sprite" parent="Zombie_soldier/head/ViewArea/CollisionShape2D"]
+
+texture = ExtResource( 8 )
+
 [node name="Vision" type="RayCast2D" parent="Zombie_soldier"]
 
 enabled = true
-cast_to = Vector2( 0, 400 )
+cast_to = Vector2( 0, 0 )
 layer_mask = 1
 type_mask = 15
 
@@ -220,8 +228,8 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/Attack = SubResource( 4 )
-anims/armRun = ExtResource( 8 )
-anims/armWalk = ExtResource( 9 )
+anims/armRun = ExtResource( 9 )
+anims/armWalk = ExtResource( 10 )
 anims/fliparmWalk = SubResource( 5 )
 anims/shoot = SubResource( 6 )
 anims/shootflip = SubResource( 7 )
@@ -261,8 +269,9 @@ _update_shape_index = 0
 
 [node name="arm_r" type="Sprite" parent="Zombie_soldier"]
 
+editor/display_folded = true
 transform/pos = Vector2( -5, 5 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Gun" type="Sprite" parent="Zombie_soldier/arm_r"]
 
@@ -270,19 +279,19 @@ transform/pos = Vector2( 18, 0 )
 
 [node name="Area2D" type="Area2D" parent="Zombie_soldier"]
 
-visibility/visible = false
+editor/display_folded = true
 input/pickable = true
 shapes/0/shape = SubResource( 9 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 25 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_soldier/Area2D"]
 
-transform/pos = Vector2( 0, 25 )
 shape = SubResource( 9 )
 trigger = true
 _update_shape_index = 0
@@ -300,7 +309,7 @@ shapes/0/trigger = false
 collision/layers = 2
 collision/mask = 2
 collision/margin = 0.08
-script/script = ExtResource( 13 )
+script/script = ExtResource( 14 )
 RUN_SPEED = 120
 WALK_SPEED = 50
 ACCELERATION = 5
@@ -340,7 +349,7 @@ texture = ExtResource( 7 )
 
 transform/pos = Vector2( -5, 5 )
 transform/rot = 8.89976
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 
 [node name="Vision" type="RayCast2D" parent="Zombie"]
 
@@ -355,8 +364,8 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/Attack = SubResource( 4 )
-anims/armRun = ExtResource( 8 )
-anims/armWalk = ExtResource( 9 )
+anims/armRun = ExtResource( 9 )
+anims/armWalk = ExtResource( 10 )
 anims/fliparmWalk = SubResource( 5 )
 playback/active = true
 playback/speed = 1.0
@@ -408,7 +417,7 @@ autostart = true
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 25 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -419,7 +428,7 @@ angular_damp = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie/Area2D"]
 
 transform/pos = Vector2( 0, 25 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 trigger = true
 _update_shape_index = 0
 
@@ -436,7 +445,7 @@ _update_shape_index = 0
 editor/display_folded = true
 visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 10 )
+shapes/0/shape = SubResource( 11 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -4 )
 shapes/0/trigger = false
 collision/layers = 2
@@ -446,13 +455,13 @@ collision/margin = 0.08
 [node name="CollisionShape2D 2" type="CollisionShape2D" parent="Creep"]
 
 transform/pos = Vector2( 0, -4 )
-shape = SubResource( 10 )
+shape = SubResource( 11 )
 trigger = false
 _update_shape_index = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Creep"]
 
-frames = SubResource( 11 )
+frames = SubResource( 12 )
 animation = "idle"
 
 [node name="Timer" type="Timer" parent="Creep"]
@@ -515,7 +524,7 @@ autostart = true
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 25 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -526,13 +535,13 @@ angular_damp = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Creep/Area2D"]
 
 transform/pos = Vector2( 0, 25 )
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 trigger = true
 _update_shape_index = 0
 
 [node name="head" type="Sprite" parent="Creep"]
 
 transform/pos = Vector2( 0, -16 )
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 
 

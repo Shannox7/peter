@@ -84,12 +84,15 @@ func _ready():
 	timer = get_node("Timer")
 	viewarea = get_node("head/Area2D")
 	viewarea.connect("body_enter", self, "cast")
-	viewarea.connect("body_exit", self, "stop_cast")
+#	viewarea.connect("body_exit", self, "stop_cast")
+	get_node("Area2D").connect("body_exit", self, "untrack")
 	allyAnimNode = get_node("body")
 	head = get_node("head")
 	allyArm = get_node("Arm")
-#	healthBar = get_node("healthBar")
-#	health_bars(total_health)
+	
+	healthBar = get_node("healthBar")
+	health_bars(total_health)
+	
 	attack_timer = get_node("Attack")
 	attack_timer.set_wait_time(.5)
 	attack_timer.connect("timeout", self, "attack_flip")
@@ -97,8 +100,10 @@ func _ready():
 	tracking = false
 	health = total_health
 	basic_gun = Guns.instance().get_node("Tier_1/M14").duplicate()
+	basic_gun.generate("Tier_1")
 	if EquippedGuns == []:
 		equip(basic_gun)
+		basic_gun.start()
 #	enemyGun = get_node("arm_r/Gun")
 #	ammo = total_ammo
 #	patrol()
@@ -109,38 +114,74 @@ func patrol():
 	timer.set_wait_time(wait_time)
 	timer.start()
 
-func cast(collider):
-#	print("casting")
-	if collider.get_name() == "TileMap" or collider.get_name() == "Obstacles" or collider.get_name() == "slope_left":
-		pass
-	elif collider.is_in_group("enemies"):
-		timer.stop()
-		target_list.append(collider)
-		print (collider)
-		enemy = target_list.front()
-		track(enemy)
-#	print(target_list)
-func stop_cast(collider):
-	var nothing
-	if collider == enemy:
-		print('works')
-		enemy = nothing
-		target_list.clear()
-		tracking = false
-		patrol = false
-		viewarea.connect("body_enter", self, "cast")
-		patrol()
-
+func cast(Collider):
+#	print("Collider name: " + str(Collider.get_name()))
+	if Collider.is_in_group("enemies"):
+#		target_list.append(collider)
+		track(Collider)
+		var position = Vector2(Collider.get_global_pos().x, Collider.get_global_pos().y - Collider.get_global_pos().y)
+#		print (collider.get_name())
+		raycast.set_cast_to(position)
+#		print("casting")
+#		collider = Collider
+#		raycast.add_exception(collider)
+#		cast = true
+#		print (raycast.get_cast_to())
+#		if raycast.is_colliding():
+#			print ("colliding")
+#			print (raycast.get_collider())
+#			if raycast.get_collider().is_in_group("players") or raycast.get_collider().is_in_group("allies"):
+#				target_list.append(collider)
+#				print(target_list)
+				
+#		player = collider
+		
 func track(collider):
-	tracking = true
-#	enemy = target_list.front()
-	viewarea.disconnect("body_enter", self, "cast")
+#	raycast.add_exception(collider)
+	var number = 0
+	for targets in target_list:
+		if targets.get_instance_ID() == collider.get_instance_ID():
+			target_list.remove(number)
+#			raycast.remove_exception(collider)
+		number += 1
+	if target_list != []:
+		if collider.get_pos() - get_pos() < target_list.front().get_pos() - get_pos():
+			target_list.push_front(collider)
+		else:
+			target_list.append(collider)
+	else:
+		target_list.append(collider)
+#	raycast.set_cast_to(Vector2(0,0))
+	cast = false
+	print ("tracking")
+	print (target_list)
+#	tracking = true
+#	target = collider
+#		playerPos = player.get_pos()
+#		print("Spotted!")
 
 func untrack(collider):
-	if collider == enemy:
-		tracking = false
-		print("untrakc")
+	if collider != null:
+		if collider.is_in_group("enemies"):
+			var number = 0
+			for targets in target_list:
+				if targets.get_instance_ID() == collider.get_instance_ID():
+					target_list.remove(number)
+	#				raycast.remove_exception(collider)
+				number += 1
+		#	tracking = false
+#		print("untrakc")
+#		print (target_list)
 		
+func health_bars(number):
+	for bar in range(number - 1):
+		var new_health_bar = healthBar.duplicate()
+		new_health_bar.set_pos(Vector2(healthBar.get_pos().x * -bar, healthBar.get_pos().y))
+#		print (new_health_bar.get_instance_ID())
+		health_bar_list.append(new_health_bar)
+		call_deferred("deferred", new_health_bar)
+func deferred(new_health_bar):
+	add_child(new_health_bar)
 func attack_flip():
 	attack_ready = true
 	attack_timer.set_wait_time(allyGun.fire_rate)
@@ -150,10 +191,18 @@ func attack():
 	var Aimrot
 	Aimrot = allyArm.get_rot()
 	var pos = Vector2(cos(Aimrot), -sin(Aimrot))
-	var spawn_point = allyArm.get_pos() + pos + get_global_pos()
-	allyGun.bullet_list.back().set_rot(allyArm.get_rot())
-	allyGun.bullet_list.back().set_pos(spawn_point)
-	get_parent().add_child(allyGun.bullet_list.back())
+	var spawn_point = pos + get_global_pos()
+#	allyArm.get_pos() +
+#	allyGun.bullet_list.back().set_rot(allyArm.get_rot())
+#	allyGun.bullet_list.back().set_pos(spawn_point)
+#	get_parent().add_child(allyGun.bullet_list.back())
+	for bullets in allyGun.bullet_list.back():
+		if flip_mod == -1:
+			bullets.get_node("Sprite").set_flip_h(true)  
+			bullets.flip_mod = -1
+		bullets.set_rotd(rad2deg(Aimrot) + rand_range(allyGun.accuracy, -allyGun.accuracy))
+		bullets.set_pos(spawn_point)
+		get_parent().add_child(bullets)
 	allyGun.shoot()
 	attack_ready = false
 	attack_timer.set_wait_time(allyGun.fire_rate)
@@ -186,8 +235,7 @@ func flip():
 		head.set_flip_h(flipped)
 		get_node("Arm").set_flip_h(flipped)
 		if EquippedGuns != []:
-			allyGun.flipped = true
-			allyGun.get_node("Sprite").set_flip_h(flipped)
+			allyGun.flip(true)
 	else:
 		flip_mod = 1
 #		head.set_rot(-head.get_rot())
@@ -196,14 +244,82 @@ func flip():
 		head.set_flip_h(false)
 		get_node("Arm").set_flip_h(false)
 		if EquippedGuns != []:
-			allyGun.flipped = false
-			allyGun.get_node("Sprite").set_flip_h(false)
-
+			allyGun.flip(false)
+#			allyGun.get_node("Sprite").set_flip_h(false)
+	if is_prone != true:
+		head.set_pos(Vector2(3 * flip_mod, -13))
+		get_node("body").set_pos(Vector2(3 * flip_mod, 4))
+		allyArm.set_pos(Vector2(-4 * flip_mod, -5))
+		if EquippedGuns != []:
+			allyGun.set_pos(Vector2(10 * flip_mod, 0))
+#			playerGun.set_rotd(0)
+		anim = "run"
+			
+	elif is_prone == true:
+		get_node("body").set_pos(Vector2(-4 * flip_mod, -2))
+		head.set_pos(Vector2(12 * flip_mod, -6))
+#			allyArm.set_pos(Vector2(4 * flip_mod, 2))
+		allyGun.set_pos(Vector2(15 * flip_mod, 0))
+		if EquippedGuns != []:
+			allyGun.set_pos(Vector2(0 * flip_mod, 0))
 func set_free():
-	free()
+	set_fixed_process(false)
+	queue_free()
 
 func hit(collider):
-	pass
+	if collider.get_global_pos().y < collider.get_global_pos().y:
+#		print ("critical")
+		collider.damage = collider.damage * 2
+
+#if attack.get_name() == "Bullet":
+#	animation	
+#	print(dam)
+#	bullethole.duplicate()
+#	add_child(bullethole)
+#	if flip_effect == true:
+#		bullethole.set_flip_h(true)
+#		flipbullet = -1
+#	bullethole.set_global_pos(Vector2(position.x + 5 * flipbullet, position.y))
+#	bullethole.set_z(2)
+	knockback_velocity.x = collider.velocity.x * collider.stopping_power
+	knockback_velocity.y = collider.velocity.y * collider.stopping_power
+#	print("knockback_velocity: " + str(knockback_velocity)) 
+	if dead == false:
+		for hits in range(collider.damage):
+#			print(health)
+			health_bar_list[health - 2].play("health_empty")
+			health -= 1
+			print ("soldier shot!")
+		if health <= 0 and dead == false:
+			healthBar.play("health_empty")
+#			dismember(head)
+#			dismember(torso)
+			death()
+#			print ("shot meh")
+
+func death():
+#	print ("started at the bottom")
+	var deathTime = get_node("death")
+	deathTime.set_wait_time(1)
+	set_layer_mask_bit(0, false)
+	set_collision_mask_bit(0, false)
+	set_layer_mask(5)
+	set_collision_mask(5)
+
+#	get_node("CollisionShape2D").set_trigger(true)
+	dead = true
+#	get_parent().death(self)
+#			print ("taking out the traaaaaaaash")
+	deathTime.start()
+	deathTime.connect("timeout", self, "set_free")
+	dropGun()
+
+func dropGun():
+	allyGun.get_parent().remove_child(allyGun)
+	get_parent().add_child(allyGun)
+	allyGun.set_global_pos(get_node("Arm/Gun").get_global_pos())
+	allyGun.unlock()
+
 func jump():
 	if abs(velocity.y) < 20:
 		velocity.y -= JUMP
@@ -213,16 +329,33 @@ func _fixed_process(delta):
 	else:
 		acceleration_modifier = 1
 	var force = Vector2(0, GRAVITY)
-	if tracking:
-		if enemy.dead:
-			stop_cast(enemy)
+	if dead == true:
+#		print (get_rotd())
+		if get_rotd() > -90 and get_rotd() < 90: 
+#			print("rotation")
+			rotate(.05 * flip_mod)
+			anim = "idle"
+#			velocity.x = kn
+			move(velocity)
+		else:
+			pass
+	elif target_list != []:
+		if target_list.front().dead:
+			untrack(enemy)
+#			stop_cast(enemy)
 		else:
 #			print (rayNode.get_rotd())
-			var go_to = (enemy.get_global_pos())
-			allyArm.set_rot(get_angle_to(go_to) - 3.14159/2)
+			var go_to = (target_list.front().get_global_pos())
+
 			head.set_rot(get_angle_to(go_to) - 3.14159/2 * flip_mod)
 			raycast.set_rot(get_angle_to(go_to) - 3.14159/2)
-
+			allyArm.set_rot(head.get_rot())
+			if raycast.get_rotd() < -90  and flipped == false:
+				flipped = true
+				flip()
+			elif raycast.get_rotd() > -90 and flipped == true:
+				flipped = false
+				flip()
 			timer.set_active(false)
 			velocity.x = max(min(velocity.x + ACCELERATION * acceleration_modifier * flip_mod, WALK_SPEED), -WALK_SPEED)
 			if abs(go_to.x - get_pos().x) <= 50 + allyGun.distance * 100: 
@@ -249,24 +382,7 @@ func _fixed_process(delta):
 				velocity.x = 0
 					
 				
-		if is_prone != true:
-			head.set_pos(Vector2(3 * flip_mod, -13))
-			get_node("body").set_pos(Vector2(3 * flip_mod, 4))
-	#		playerArm.set_pos(Vector2(-4 * flip_mod, -5))
-	#		playerArm.set_pos(Vector2(0 * flip_mod, 0))
-			if EquippedGuns != []:
-				allyGun.set_pos(Vector2(10 * flip_mod, 0))
-	#			playerGun.set_rotd(0)
-			anim = "run"
-				
-		elif is_prone == true:
-			get_node("body").set_pos(Vector2(-4 * flip_mod, -2))
-			head.set_pos(Vector2(12 * flip_mod, -6))
-	#		playerArm.set_offset(Vector2(7 * flip_mod, 2))
-	#		playerArm.set_pos(Vector2(4 * flip_mod, 2))
-			allyGun.set_pos(Vector2(15 * flip_mod, 0))
-			if EquippedGuns != []:
-				allyGun.set_pos(Vector2(0 * flip_mod, 0))
+
 	get_node("headcollision").set_pos(head.get_pos())
 	
 #	var stop = true
@@ -284,7 +400,8 @@ func _fixed_process(delta):
 #		anim = "prone_idle_r"
 	if abs(velocity.x) < 30:
 		anim = "idle_r"
-		
+	else:
+		anim = "run"
 	velocity += force*delta
 	var motion = velocity*delta
 	motion = move(motion)

@@ -193,9 +193,12 @@ func _fixed_process(delta):
 #		if raycast.is_colliding():
 #			if raycast.get_collider() == enemy:
 #				tracking = true
-	if is_colliding():
-		if (get_collider().get_name()== "TileMap" or get_collider().get_name()== "Obstacles") and tracking == false:  
-			set_fixed_process(false)
+	if get_node("Area2D").is_colliding():
+		print(get_node("Area2D").get_collider())
+		
+		
+#		if (get_collider().get_name()== "TileMap" or get_collider().get_name()== "Obstacles") and tracking == false:  
+#			set_fixed_process(false)
 	else:
 		move(velocity)
 		

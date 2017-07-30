@@ -54,7 +54,7 @@ func _fixed_process(delta):
 			queue_free()
 		else:
 #		print (get_collider().get_name())
-			if get_collider().get_name() == "TileMap" or get_collider().get_name() == "Obstacles" or get_collider().get_name() == "slope_left":
+			if get_collider().is_in_group("inanimate"):
 #			get_collider().add_child(bullet_humanoid)
 				queue_free()
 			elif get_collider().is_in_group("bullets"):
@@ -68,6 +68,7 @@ func _fixed_process(delta):
 					flip_effect = true
 				else:
 					flip_effect = false
+#				if get_collider().is_in_group("players") or get_collider().is_in_group("allies"):
 				get_collider().hit(self)
 #			get_collider().add_child(bullet_humanoid)
 				queue_free()

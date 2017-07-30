@@ -23,6 +23,11 @@ var right_arm_gone = false
 var left_arm_gone = false
 var enemy_stopping_power = 0
 
+var target_list = []
+var priority_target_list = []
+var objective_list = []
+
+
 var velocity = Vector2()
 var rayNode
 var raycast
@@ -75,7 +80,7 @@ var healthpos
 var attack_timer
 var headup = true
 var wait_time
-
+var collider
 var reloading
 func _ready():
 	set_fixed_process(true)
@@ -83,12 +88,12 @@ func _ready():
 	arm_r = get_node("arm_r")
 	head = get_node("head")
 	torso = get_node("torso")
-	rayNode = get_node("Vision")
-	raycast = get_node("head/cast")
+	rayNode = get_node("head/cast")
+	raycast = get_node("Vision")
 	timer = get_node("Timer")
 	viewarea = get_node("head/ViewArea")
 	viewarea.connect("body_enter", self, "cast")
-	viewarea.connect("body_exit", self, "stop_cast")
+#	viewarea.connect("body_exit", self, "stop_cast")
 	animation = get_node("arms")
 	enemyAnimNode = get_node("AnimatedSprite")
 	healthBar = get_node("healthBar")
@@ -97,9 +102,10 @@ func _ready():
 	attack_timer.set_wait_time(.5)
 	attack_timer.connect("timeout", self, "attack_flip")
 #	attack_timer.set_active(false)
-	landing = get_node("Area2D")
-	landing.connect("body_enter", self, "landed")
-	landing.connect("body_exit", self, "airborne")
+#	landing = get_node("Area2D")
+#	landing.connect("body_enter", self, "landed")
+#	landing.connect("body_exit", self, "airborne")
+	get_node("Area2D").connect("body_exit", self, "untrack")
 	tracking = false
 	flip_mod = 1
 	wait_time = rand_range(1, 5)
@@ -127,14 +133,58 @@ func action():
 	elif random == 3:
 		man_flip()
 	
-func cast(collider):
-	if collider.is_in_group("players"):
-		cast = true
-		player = collider
-func stop_cast(collider):
-	if collider.is_in_group("players"):
-		cast = false
-		player = collider
+func cast(Collider):
+	print("Collider name: " + str(Collider.get_name()))
+	if Collider.is_in_group("players") or Collider.is_in_group("allies"):
+#		target_list.append(collider)
+		track(Collider)
+		var position = Vector2(Collider.get_global_pos().x, Collider.get_global_pos().y - Collider.get_global_pos().y)
+#		print (collider.get_name())
+		raycast.set_cast_to(position)
+#		print("casting")
+		collider = Collider
+#		raycast.add_exception(collider)
+#		cast = true
+#		print (raycast.get_cast_to())
+#		if raycast.is_colliding():
+#			print ("colliding")
+#			print (raycast.get_collider())
+#			if raycast.get_collider().is_in_group("players") or raycast.get_collider().is_in_group("allies"):
+#				target_list.append(collider)
+#				print(target_list)
+				
+#		player = collider
+		
+func track(collider):
+#	raycast.add_exception(collider)
+	var number = 0
+	for targets in target_list:
+		if targets.get_instance_ID() == collider.get_instance_ID():
+			target_list.remove(number)
+#			raycast.remove_exception(collider)
+		number += 1
+	target_list.append(collider)
+#	raycast.set_cast_to(Vector2(0,0))
+	cast = false
+	print ("tracking")
+	print (target_list)
+#	tracking = true
+#	target = collider
+#		playerPos = player.get_pos()
+#		print("Spotted!")
+
+func untrack(collider):
+	if collider.is_in_group("players") or collider.is_in_group("allies"):
+		var number = 0
+		for targets in target_list:
+			if targets.get_instance_ID() == collider.get_instance_ID():
+				target_list.remove(number)
+				raycast.remove_exception(collider)
+			number += 1
+	#	tracking = false
+		print("untrakc")
+		print (target_list)
+		
 func landed(beneath):
 	grounded = true
 func airborne(beneath):
@@ -218,16 +268,6 @@ func set_free():
 	set_fixed_process(false)
 	queue_free()
 	
-func track(collider):
-	tracking = true
-	player = collider
-#		playerPos = player.get_pos()
-#		print("Spotted!")
-
-func untrack(collider):
-	if collider == player:
-		tracking = false
-		print("untrakc")
 		
 func attack():
 	var Aimrot
@@ -396,49 +436,53 @@ func _fixed_process(delta):
 			pass
 	else:
 		if cast == true:
-#
-			var position = Vector2(player.get_pos().x, player.get_pos().y - player.get_pos().y)
-#			
-			raycast.set_cast_to(position)
-#			print (raycast.get_cast_to())
-#			print(player.get_pos())
-#			get_angle_to(player.get_pos()) - 3.14159/2 + 90 *flip_mod
-			
+#			var position = Vector2(player.get_pos().x, player.get_pos().y - player.get_pos().y)
+#			raycast.set_cast_to(position)
+#			print (position)
+#			print (collider.get_global_pos())
 			if raycast.is_colliding():
+#				print (raycast.get_collider().get_name())
+#				print(raycast.get_collider().get_pos())
+#				print (raycast.get_cast_to())
 #				print('i am colliding')
-				if raycast.get_collider() == player:
+				if raycast.get_collider().is_in_group("players") or raycast.get_collider().is_in_group("allies"):
+					track(raycast.get_collider())
 #					print('player collision')
-					tracking = true
-
-		if tracking:
-#			print (rayNode.get_rotd())
-			var go_to = (player.get_global_pos())
-			rayNode.set_rot(get_angle_to(go_to) - 3.14159/2)
-			head.set_rot(get_angle_to(go_to) - 3.14159/2 * flip_mod)
-			if right_arm_gone == false:
-				arm_r.set_rotd(head.get_rotd())
+#					tracking = true
+		if target_list != []:
+			if target_list.front().dead:
+				untrack(target_list.front())
+#			stop_cast(enemy)
+			else:
+				var target = target_list.front()
+	#			print (rayNode.get_rotd())
+				var go_to = (target.get_global_pos())
+				rayNode.set_rot(get_angle_to(go_to) - 3.14159/2)
+				head.set_rot(get_angle_to(go_to) - 3.14159/2 * flip_mod)
+				if right_arm_gone == false:
+					arm_r.set_rotd(head.get_rotd())
 #
-			if rayNode.get_rotd() < -90  and flipped == false:
-				flipped = true
-				flip()
-			elif rayNode.get_rotd() > -90 and flipped == true:
-				flipped = false
-				flip()
-
-			timer.set_active(false)
-			velocity.x = max(min(velocity.x + ACCELERATION * acceleration_modifier * flip_mod, RUN_SPEED), -RUN_SPEED)
-			if abs(go_to.x - get_pos().x) <= 300 and right_arm_gone == false: 
-				velocity.x = 0
-				if attack_ready == true and enemyGun.current_clip > 0:
-					attack()
-			elif abs(go_to.x - get_pos().x) <= 20 and abs(go_to.y - get_pos().y) <= 25 and right_arm_gone == true:
-				velocity.x = 0
-				if attack_ready == true:
-					attack()
-			elif go_to.y - get_pos().y <= -40 and grounded == true and abs(velocity.y) < 20:
-				jump()
-			anim = "run"
-#			armAnim = "armRun"
+				if rayNode.get_rotd() < -90  and flipped == false:
+					flipped = true
+					flip()
+				elif rayNode.get_rotd() > -90 and flipped == true:
+					flipped = false
+					flip()
+	
+				timer.set_active(false)
+				velocity.x = max(min(velocity.x + ACCELERATION * acceleration_modifier * flip_mod, RUN_SPEED), -RUN_SPEED)
+				if abs(go_to.x - get_pos().x) <= 300 and right_arm_gone == false: 
+					velocity.x = 0
+					if attack_ready == true and enemyGun.current_clip > 0:
+						attack()
+				elif abs(go_to.x - get_pos().x) <= 20 and abs(go_to.y - get_pos().y) <= 25 and right_arm_gone == true:
+					velocity.x = 0
+					if attack_ready == true:
+						attack()
+				elif go_to.y - get_pos().y <= -40 and grounded == true and abs(velocity.y) < 20:
+					jump()
+				anim = "run"
+	#			armAnim = "armRun"
 #patrol
 		else:
 			timer.set_active(true)

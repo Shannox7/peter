@@ -39,7 +39,6 @@ extents = Vector2( 15, 7 )
 "deployables",
 ]]
 
-editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
@@ -114,7 +113,6 @@ autostart = true
 
 [node name="Area2D" type="Area2D" parent="machinegun_turret"]
 
-editor/display_folded = true
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
@@ -134,8 +132,8 @@ trigger = true
 _update_shape_index = 0
 
 [node name="mine" type="KinematicBody2D" parent="." groups=[
-"explosives",
 "deployables",
+"explosives",
 ]]
 
 editor/display_folded = true

@@ -48,11 +48,11 @@ func _ready():
 	stats.sort()
 	stats.push_front(damaged)
 	get_node("Pickup/pick me up!").hide()
-#	if get_parent() != null:
-	if get_parent().get_parent().is_in_group("enemies"):
-		bullettype("enemy")
-	else:
-		bullettype("player")
+	if get_parent().get_parent() != null:
+		if get_parent().get_parent().is_in_group("enemies"):
+			bullettype("enemy")
+		else:
+			bullettype("player")
 #	print (bullet_list)
 #	print (current_clip)
 func start():

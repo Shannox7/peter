@@ -1,5 +1,5 @@
 extends Node2D
-
+var woop
 var Player = preload("res://Peter.tscn")
 var enemies = preload("res://Enemies.tscn")
 var e
@@ -26,7 +26,7 @@ var camera
 var M14
 var Pistol
 var Blaster
-var flood_spawn = 0
+var flood_spawn = 5
 var timer
 var playername
 var health_bar_list = []
@@ -200,7 +200,7 @@ func flood_spawn():
 		enemies.equip(dup)
 		self.add_child(enemies)
 		dup.start()
-		enemies.track(get_node("Movement/Player"))
+#		enemies.track(get_node("Movement/Player"))
 		flood_spawn -= 1
 		
 func death(dead):
