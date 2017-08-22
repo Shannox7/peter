@@ -24,6 +24,7 @@ script/script = ExtResource( 1 )
 
 visibility/behind_parent = true
 texture = ExtResource( 2 )
+centered = false
 script/script = ExtResource( 3 )
 
 [node name="sight" type="Node2D" parent="Tier_1"]
@@ -46,6 +47,7 @@ script/script = ExtResource( 5 )
 
 visibility/behind_parent = true
 texture = ExtResource( 6 )
+centered = false
 script/script = ExtResource( 7 )
 
 [node name="special" type="Node2D" parent="Tier_1"]

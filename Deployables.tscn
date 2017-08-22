@@ -6,11 +6,12 @@
 [ext_resource path="res://Data/Deployables/Turret_head.gd" type="Script" id=4]
 [ext_resource path="res://Data/Deployables/mine.gd" type="Script" id=5]
 [ext_resource path="res://Data/Deployables/Mine.png" type="Texture" id=6]
+[ext_resource path="res://Data/Deployables/deploy_build.gd" type="Script" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 16, 17 )
+extents = Vector2( 10, 10 )
 
 [sub_resource type="CapsuleShape2D" id=2]
 
@@ -18,45 +19,45 @@ custom_solver_bias = 0.0
 radius = 32.0
 height = 414.0
 
-[sub_resource type="RectangleShape2D" id=3]
-
-custom_solver_bias = 0.0
-extents = Vector2( 16, 17 )
-
-[sub_resource type="ConvexPolygonShape2D" id=4]
-
-custom_solver_bias = 0.0
-points = Vector2Array( 0, -5, 11, 5, -11, 5 )
-
 [sub_resource type="RectangleShape2D" id=5]
 
 custom_solver_bias = 0.0
-extents = Vector2( 15, 7 )
+extents = Vector2( 10, 7 )
+
+[sub_resource type="RectangleShape2D" id=6]
+
+custom_solver_bias = 0.0
+extents = Vector2( 9, 9 )
 
 [node name="Deployables" type="Node2D"]
 
-[node name="machinegun_turret" type="KinematicBody2D" parent="." groups=[
+[node name="machinegun_turret" type="StaticBody2D" parent="." groups=[
 "deployables",
 ]]
 
+editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -10 )
 shapes/0/trigger = false
-collision/layers = 4096
-collision/mask = 4096
-collision/margin = 0.08
+collision/layers = 0
+collision/mask = 0
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
 script/script = ExtResource( 1 )
 total_health = 10
 
 [node name="Body" type="Sprite" parent="machinegun_turret"]
 
+transform/pos = Vector2( -10, -20 )
 texture = ExtResource( 2 )
+centered = false
 
 [node name="head" type="Sprite" parent="machinegun_turret"]
 
-editor/display_folded = true
-transform/pos = Vector2( 0, -14 )
+transform/pos = Vector2( 0.28479, -16.5954 )
 texture = ExtResource( 3 )
 script/script = ExtResource( 4 )
 
@@ -71,8 +72,8 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 monitorable = false
-collision/layers = 2
-collision/mask = 2
+collision/layers = 0
+collision/mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="machinegun_turret/head/Area2D"]
 
@@ -90,9 +91,13 @@ cast_to = Vector2( 0, 50 )
 layer_mask = 1
 type_mask = 15
 
+[node name="gun" type="Position2D" parent="machinegun_turret/head"]
+
+transform/pos = Vector2( 7.71521, -0.4046 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="machinegun_turret"]
 
-transform/pos = Vector2( 0, -1 )
+transform/pos = Vector2( 0, -10 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
@@ -111,51 +116,40 @@ wait_time = 0.01
 one_shot = false
 autostart = true
 
-[node name="Area2D" type="Area2D" parent="machinegun_turret"]
-
-input/pickable = true
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
-shapes/0/trigger = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-collision/layers = 2
-collision/mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="machinegun_turret/Area2D"]
-
-transform/pos = Vector2( 0, -1 )
-shape = SubResource( 3 )
-trigger = true
-_update_shape_index = 0
-
-[node name="mine" type="KinematicBody2D" parent="." groups=[
+[node name="mine" type="Area2D" parent="." groups=[
 "deployables",
 "explosives",
 ]]
 
 editor/display_folded = true
 input/pickable = false
-shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
-shapes/0/trigger = false
-collision/layers = 32769
-collision/mask = 32769
-collision/margin = 0.08
+shapes/0/shape = SubResource( 5 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -7 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 0
+collision/mask = 0
 script/script = ExtResource( 5 )
-
-[node name="Sprite" type="Sprite" parent="mine"]
-
-texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="mine"]
 
-transform/pos = Vector2( 0, -1 )
-shape = SubResource( 4 )
-trigger = false
+transform/pos = Vector2( 0, -7 )
+shape = SubResource( 5 )
+trigger = true
 _update_shape_index = 0
+
+[node name="Blow_up" type="Position2D" parent="mine"]
+
+transform/pos = Vector2( 0, -4 )
+
+[node name="body" type="Sprite" parent="mine"]
+
+transform/pos = Vector2( -11, -9 )
+texture = ExtResource( 6 )
+centered = false
 
 [node name="Timer" type="Timer" parent="mine"]
 
@@ -164,25 +158,34 @@ wait_time = 2.0
 one_shot = true
 autostart = false
 
-[node name="Area2D" type="Area2D" parent="mine"]
+[node name="Build" type="Area2D" parent="."]
 
+editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 5 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -2 )
+shapes/0/shape = SubResource( 6 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -10 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-monitorable = false
-collision/layers = 2
-collision/mask = 2
+collision/layers = 512
+collision/mask = 513
+script/script = ExtResource( 7 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="mine/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Build"]
 
-transform/pos = Vector2( 0, -2 )
-shape = SubResource( 5 )
+transform/pos = Vector2( 0, -10 )
+shape = SubResource( 6 )
 trigger = true
 _update_shape_index = 0
+
+[node name="RayCast2D" type="RayCast2D" parent="Build"]
+
+transform/pos = Vector2( 0, -10 )
+enabled = true
+cast_to = Vector2( 0, 11 )
+layer_mask = 1
+type_mask = 1
 
 

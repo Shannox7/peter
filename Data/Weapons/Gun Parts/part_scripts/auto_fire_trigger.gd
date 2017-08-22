@@ -12,6 +12,10 @@ var reload_speed = 0
 var fire_rate = 0
 var clip_capacity = 0
 
+func bullet(bullet):
+	bullet = get_parent().b.instance().get_node("Lazer")
+	return bullet
+	
 func _ready():
 	stats = [fa]
 	# Called every time the node is added to the scene.

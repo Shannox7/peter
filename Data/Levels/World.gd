@@ -1,17 +1,20 @@
 extends Node2D
-var woop
-var Player = preload("res://Peter.tscn")
-var enemies = preload("res://Enemies.tscn")
-var e
-var passive = preload("res://Passives.tscn")
-var guns = preload("res://Guns.tscn")
-var armour = preload("res://armour.tscn")
+#var Player = preload("res://Peter.tscn").instance()
+#var enemies = preload("res://Enemies.tscn").instance()
+#var allies =  preload("res://Allies.tscn").instance()
+#var squad = preload("res://Squad.tscn").instance()
+#var passive = preload("res://Passives.tscn").instance()
+#var guns = preload("res://Guns.tscn").instance()
+#var armour = preload("res://armour.tscn").instance()
 var passive_list = []
 var enemy_list = []
+var ally_list = []
+var ally_engineer_list = []
 var passive_spawnpoint_list = []
 var enemy_spawnpoint_list = []
 var displaylist = []
-var boxdisplay = []
+
+var objective_list = []
 var gunpickup
 var gunpickup1
 var gunpickup2
@@ -26,66 +29,71 @@ var camera
 var M14
 var Pistol
 var Blaster
-var flood_spawn = 5
+var enemy_spawn_max = 0
+var ally_spawn_max = 0
+var enemy_spawn = 0
+var ally_spawn = 0
+var enemy_time = 1
+var ally_time = 1
 var timer
 var playername
-var health_bar_list = []
 var bullet_list = []
 var HUD
+var ally_player_list = []
+var enemy_player_list = []
+var ally_defence_list = []
+var enemy_defence_list
+var ally_build_list = []
+var enemy_build_list = []
 func _ready():
-#	passive_spawnpoint_list.append(.get_node("passive_spawnpoint"))
-#	passive_spawnpoint_list.append(.get_node("passive_spawnpoint1"))
-#	passive_spawnpoint_list.append(.get_node("passive_spawnpoint2"))
-#	passive_spawnpoint_list.append(.get_node("passive_spawnpoint3"))
-	timer = get_node("Timer")
-	timer.connect("timeout", self, "flood_spawn")
+	objective_list.append(get_node("defence_zone"))
+	objective_list.append(get_node("defence_zone 2"))
+	objective_list.append(get_node("defence_zone 3"))
+	objective_list.append(get_node("defence_zone 4"))
+	get_node("defence_zone").set_controlled("allies")
+	get_node("defence_zone 4").set_controlled("enemies")
+	get_node("enemy_flood_wait").connect("timeout", self, "enemy_start_spawn")
+	get_node("enemy_Timer").connect("timeout", self, "enemy_flood_spawn")
+	get_node("enemy_Timer").set_wait_time(enemy_time)
+	get_node("enemy_Timer").start()
 	enemy_spawnpoint_list.append(get_node("spawnpoint"))
+	get_node("ally_flood_wait").connect("timeout", self, "ally_start_spawn")
+	get_node("ally_Timer").connect("timeout", self, "ally_flood_spawn")
+	get_node("ally_Timer").set_wait_time(ally_time)
+	get_node("ally_Timer").start()
 	camera = get_node("Camera2D")
-#	playername = get_node("CanvasLayer 2")
-	HUD = get_node("HUD")
-	get_node("HUD/Player1").set_global_pos(Vector2(get_parent().get_rect().size.x - get_parent().get_rect().size.x + 50, get_parent().get_rect().size.y - 75))
-	update_hud()
 	var e = enemies.instance()
 	var p = passive.instance()
 	var gi = guns.instance()
 	var p1 = Player.instance()
-	
 	M14 = gi.get_node("Tier_1/M14").duplicate()
 	Pistol = gi.get_node("Pistol").duplicate()
 	Blaster = gi.get_node("Blaster").duplicate()
 	flak_jacket = armour.instance().get_node("Tier_1/body/flakjacket").duplicate()
 	combat_helmet = armour.instance().get_node("Tier_1/head/combathelmet").duplicate()
-	call_deferred("spawn_gun", get_node("spawnpoint2"))
-	call_deferred("spawn_gun", get_node("spawnpoint3"))
-	call_deferred("spawn_gun", get_node("spawnpoint"))
-	call_deferred("spawn_gun2", get_node("spawnpoint"))
-	call_deferred("spawn_armour", get_node("spawnpoint3"))
-#	passive_list.append(p.get_node("dead_person").duplicate())
-#	passive_list.append(p.get_node("Pig").duplicate())
-#	passive_list.append(p.get_node("Giraff").duplicate())
-#	passive_list.append(p.get_node("dead_person").duplicate())
+	call_deferred("start_equip", get_node("Movement"))
+#	set_fixed_process(true)
 
-#make other functions dependent on player distance and amount of enemies..
-	boxdisplay = [get_node("HUD/Player1/boxes/box1"), get_node("HUD/Player1/boxes/box2"), get_node("HUD/Player1/boxes/box3"), get_node("HUD/Player1/boxes/box4"), get_node("HUD/Player1/boxes/box5"), get_node("HUD/Player1/boxes/box6"), get_node("HUD/Player1/boxes/box7"), get_node("HUD/Player1/boxes/box8"), get_node("HUD/Player1/boxes/box9")]
-	var player = get_node("Movement/Player")
-	call_deferred("passive_spawn", passive_list)
-	call_deferred("start_equip", player)
-#func spawn_player(spawn):
-#	spawn.set_pos(get_node("player_spawn").get_pos())
-#	spawn.add_child(Camera2D)
-#	self.add_child(spawn)
-	set_fixed_process(true)
+func spawn_squad(spawn):
+	var s = squad.instance().duplicate()
+	add_child(s)
+	s.spawn_squad()
 	
+func points(side, points):
+	if side == "ally":
+		for players in ally_player_list:
+			players.points += points
+			players.update_hud()
+	if side == "enemy":
+		pass
+#		for players in enemy_player_list:
+#			players.points += points
 func spawn_armour(spawn):
 	var dup = flak_jacket.duplicate()
-#	dup.start()
-#	dup.generate("Tier_1")
 	dup.set_pos(spawn.get_pos())
 	add_child(dup)
 	dup.unlock()
 	var dup1 = combat_helmet.duplicate()
-#	dup.start()
-#	dup.generate("Tier_1")
 	dup1.set_pos(spawn.get_pos())
 	add_child(dup1)
 	dup1.unlock()
@@ -106,111 +114,74 @@ func spawn_gun(spawn):
 	dup2.unlock()
 #	dup.unlock()
 	
-func hit(player, dam):
-	for hits in range(dam):
-		health_bar_list[player.health - 2].play("health_empty")
-		player.health -= 1
-		if player.health <= 0:
-			get_node("HUD/Player1/health_bar").play("health_empty")
-#			print("im dead")
-
-func health_bars(number):
-	for bars in health_bar_list:
-#		if bars.get_parent() != null:
-		call_deferred("queue_free", bars)
-#		else:
-#			bars.free()
-	health_bar_list.clear()
-	for bar in range(number - 1):
-		var new_health_bar = get_node("HUD/Player1/health_bar").duplicate()
-		new_health_bar.set_pos(Vector2(get_node("HUD/Player1/health_bar").get_pos().x + 16 * bar, get_node("HUD/Player1/health_bar").get_pos().y))
-#		print (new_health_bar.get_instance_ID())
-		health_bar_list.append(new_health_bar)
-		call_deferred("deferred", new_health_bar)
-
-func deferred(defer):
-	get_node("HUD/Player1").add_child(defer)
-	
-func clear_ammo():
-	for bullet in range(bullet_list.size()):
-		bullet_list.back().unlock()
-		bullet_list.pop_back()
-func ammo(player):
-	for bullet in range(player.bullet_list.size()):
-		var new_bullet = get_node("HUD/Player1/ammo").duplicate()
-		new_bullet.set_pos(Vector2(get_node("HUD/Player1/ammo_position").get_pos().x + 4 * bullet, get_node("HUD/Player1/ammo_position").get_pos().y))
-		bullet_list.append(new_bullet)
-		call_deferred("deferred", new_bullet)
-func update_selected(selected_display):
-	selected_display.set_pos(get_node("HUD/Player1/boxes/box9").get_pos())
-	get_node("HUD/Player1/boxes").add_child(selected_display)
-
-	
-func update_hud():
-	total_ammo = get_node("Movement/Player").total_ammo
-	current_ammo = get_node("Movement/Player").current_ammo
-	total_health = get_node("Movement/Player").total_health
-	current_health = get_node("Movement/Player").current_health
-	get_node("HUD/Player1/Label 2").set_text(str(current_ammo) + "/" + str(total_ammo))
-	var grow = 0
-	for items in displaylist:
-#		lists.get_parent().remove_child(items)
-#		print (lists)
-		items.queue_free()
-#		displaylist.clear()
-#		lists.clear()
-#		grow += 1
-	displaylist.clear()
-	var growing = 0
-#	print(get_node("Peter").utility)
-	for lists in get_node("Movement/Player").utility:
-		if lists != []:
-			var udisplay = lists[0].duplicate()
-#			print(udisplay.get_name())
-			displaylist.append(udisplay)
-			udisplay.set_pos(boxdisplay[growing].get_pos())
-			get_node("HUD/Player1/boxes").add_child(udisplay)
-		growing += 1
-		
-func shoot(player):
-	bullet_list.back().unlock()
-	bullet_list.pop_back()
-	
 func start_equip(player):
-	var Uzi = guns.instance().get_node("Tier_1/Uzi").duplicate()
+	var Uzi = guns.instance().get_node("Tier_1/M14").duplicate()
 	var Unicorn = guns.instance().get_node("Unicorn").duplicate()
 	var dup = Uzi.duplicate()
 	dup.generate("Tier_1")
 	dup.start()
-	player.equip(dup, true, "playerGun")
+	player.equip(dup, true, "primaryGun")
 
-func flood_spawn():
+func enemy_flood_spawn():
 	e = enemies.instance()
-	var enemies = e.get_node("Zombie_soldier").duplicate()
-	if flood_spawn > 0:
-		enemy_list.append(enemies)
-		var listrange = enemy_list.size()
-		var dup = M14.duplicate()
+	var Uzi = guns.instance().get_node("Tier_1/M14").duplicate()
+	var enemy = e.get_node("Zombie_movement").duplicate()
+	if enemy_spawn > 0 and enemy_list.size() < enemy_spawn_max:
+		var dup = Uzi
+		var hold_order = 1
+
+		enemy_list.append(enemy)
 #		if enemy_list != []:
-		for e in enemy_list:
-			enemies.add_collision_exception_with(enemy_list[listrange - 1])
-			listrange -= 1
-		enemies.set_pos(get_node("spawnpoint2").get_global_pos())
+#		for e in enemy_list:
+#			enemy.add_collision_exception_with(e)
+#			print (e)
+#			enemy.add_collision_exception_with(e)
+
+		enemy.set_pos(get_node("spawnpoint1").get_global_pos())
 		dup.generate("Tier_1")
-		enemies.equip(dup)
-		self.add_child(enemies)
+		self.add_child(enemy)
+		enemy.side("enemies")
+		enemy.equip(dup, false, "primaryGun")
+		enemy.hold_order("add")
 		dup.start()
 #		enemies.track(get_node("Movement/Player"))
-		flood_spawn -= 1
+		enemy_spawn -= 1
+	if enemy_spawn == 0:
+		get_node("enemy_Timer").stop()
+		get_node("enemy_flood_wait").set_wait_time(5)
+		get_node("enemy_flood_wait").start()
+
+func ally_flood_spawn():
+	var a = allies.instance()
+	var ally = a.get_node("Infantry").duplicate()
+	if ally_spawn > 0 and ally_list.size() < ally_spawn_max:
+		ally_list.append(ally)
+#		var listrange = ally_list.size()
+		var dup = M14.duplicate()
+#		if enemy_list != []:
+#		for a in ally_list:
+#			ally.call_deferred("add_collision_exception_with", a)
+#			ally.add_collision_exception_with(get_node("Movement"))
+#			listrange -= 1
+		ally.set_pos(get_node("spawnpoint").get_global_pos())
+		dup.generate("Tier_1")
+		ally.equip(dup)
+		self.add_child(ally)
+		dup.start()
+#		enemies.track(get_node("Movement/Player"))
+		ally_spawn -= 1
+	if ally_spawn == 0:
+		get_node("ally_Timer").stop()
+		get_node("ally_flood_wait").set_wait_time(5)
+		get_node("ally_flood_wait").start()
 		
-func death(dead):
-	var listrange = enemy_list.size() - 1
-	for e in enemy_list:
-#		print(dead.get_instance_ID())
-#		print (enemy_list[listrange].get_instance_ID())
-		if enemy_list[listrange].get_instance_ID() == dead.get_instance_ID():
-			enemy_list.remove(listrange)
-		listrange -= 1
+func enemy_start_spawn():
+	enemy_spawn = 5
+	get_node("enemy_Timer").start()
+	
+func ally_start_spawn():
+	ally_spawn = 5
+	get_node("ally_Timer").start()
 
 func passive_spawn(spawn):
 	var spawnpoint_range = passive_spawnpoint_list.size() - 1
@@ -219,16 +190,16 @@ func passive_spawn(spawn):
 		passive.set_pos(passive_spawnpoint_list[spawnpoint_range].get_global_pos())
 #		enemy.get_parent().remove_child(enemy)
 		self.add_child(passive)
-		passive.add_collision_exception_with(passive_list[0])
-		passive.add_collision_exception_with(passive_list[1])
-		passive.add_collision_exception_with(passive_list[2])
-		passive.add_collision_exception_with(passive_list[3])
+#		passive.add_collision_exception_with(passive_list[0])
+#		passive.add_collision_exception_with(passive_list[1])
+#		passive.add_collision_exception_with(passive_list[2])
+#		passive.add_collision_exception_with(passive_list[3])
 #		passive.add_collision_exception_with(passive_list[4])
 #		if spawnpoint_range == 0:
 #			spawnpoint_range = enemy_spawnpoint_list.size() - 1
 		spawnpoint_range -= 1
 
-func _fixed_process(delta):
-	get_node("Camera2D").set_pos(get_node("Movement").get_pos())
+#func _fixed_process(delta):
+#	get_node("Camera2D").set_pos(get_node("Movement").get_pos())
 #	if get_parent().get_rect().size != Vector2(1024, 600):
-	get_node("HUD/Player1").set_global_pos(Vector2(get_parent().get_rect().size.x - get_parent().get_rect().size.x + 50, get_parent().get_rect().size.y - 75))
+#	get_node("Movement/HUD/Player1").set_global_pos(Vector2(get_parent().get_rect().size.x - get_parent().get_rect().size.x + 50, get_parent().get_rect().size.y - 75))

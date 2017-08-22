@@ -80,6 +80,15 @@ func _ready():
 	pack.append(mine.duplicate())
 	mine.deactivate()
 	machinegun_turret.deactivate()
+	enemynumber = 2
+	sidenumber = 4
+	enemyside = "allies"
+	side = "enemies"
+	sidelist = get_parent().enemy_list
+	sidedefencelist = get_parent().enemy_defence_list
+	get_node("body").add_to_group("enemies")
+	get_node("body").set_collision_mask(sidenumber)
+	get_parent().enemy_player_list.append(self)
 func prone(proned):
 	if proned:
 		set_pos(Vector2(0, 12))
@@ -103,7 +112,7 @@ func flip(flipped):
 		secondaryGun[0].flip(flipped)
 	
 	get_node("headcollision").set_pos(playerHead.get_pos())
-	if get_parent().is_prone != true:
+	if get_parent().get_parent().is_prone != true:
 		playerHead.set_pos(Vector2(3 * flip_mod, -13))
 		get_node("AnimatedSprite").set_pos(Vector2(3 * flip_mod, 4))
 		if headArmour != []:
@@ -117,7 +126,7 @@ func flip(flipped):
 			secondaryGun[0].set_pos(Vector2(get_node("AnimatedSprite/secondaryEquip").get_pos().x * flip_mod, get_node("AnimatedSprite/secondaryEquip").get_pos().y))
 			secondaryGun[0].set_rotd(-90 * flip_mod)
 
-	elif get_parent().is_prone == true:
+	elif get_parent().get_parent().is_prone == true:
 		get_node("AnimatedSprite").set_pos(Vector2(-4 * flip_mod, -2))
 		playerHead.set_pos(Vector2(12 * flip_mod, -6))
 		if headArmour != []:

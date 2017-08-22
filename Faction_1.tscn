@@ -1,0 +1,288 @@
+[gd_scene load_steps=8 format=1]
+
+[ext_resource path="res://Data/Levels/World.gd" type="Script" id=1]
+[ext_resource path="res://Faction.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Peter.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Data/Tiles/dirt.xml" type="TileSet" id=4]
+[ext_resource path="res://Data/Tiles/SpaceTiles/space background.jpg" type="Texture" id=5]
+[ext_resource path="res://Goal.tscn" type="PackedScene" id=6]
+[ext_resource path="res://defence_zone.tscn" type="PackedScene" id=7]
+
+[node name="World" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="Faction" parent="." instance=ExtResource( 2 )]
+
+transform/pos = Vector2( 0, -3 )
+
+[node name="Movement" parent="Faction" instance=ExtResource( 3 )]
+
+transform/pos = Vector2( 200, -27 )
+
+[node name="Faction 2" parent="." instance=ExtResource( 2 )]
+
+[node name="dirt" type="TileMap" parent="." groups=[
+"inanimate",
+]]
+
+mode = 0
+tile_set = ExtResource( 4 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 8
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 1
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 0.0
+collision/bounce = 0.0
+collision/layers = 7
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray( -851994, 536870913, -917376, 536870913, -786458, 536870913, -851840, 536870913, -720922, 536870913, -786304, 536870913, -655386, 536870913, -720768, 536870913, -589850, 536870913, -655232, 536870913, -524314, 536870913, -589696, 536870913, -458778, 536870913, -524160, 536870913, -393242, 536870913, -458624, 536870913, -327706, 536870913, -327684, 1, -393088, 536870913, -262170, 536870913, -262148, 1, -327552, 536870913, -196634, 536870913, -196613, 1, -262060, 536870913, -262059, 536870913, -262058, 536870913, -262057, 1, -262056, 1, -262055, 1, -262054, 1, -262053, 1, -262052, 1, -262051, 1, -262050, 1, -262049, 1, -262048, 1, -262047, 1, -262046, 1, -262045, 1, -262044, 1, -262043, 1, -262042, 1, -262041, 1, -262040, 1, -262039, 1, -262038, 1, -262037, 1, -262036, 1, -262035, 1, -262034, 1, -262033, 1, -262016, 536870913, -131098, 536870913, -131097, 536870913, -131096, 536870913, -131095, 536870913, -131094, 536870913, -131093, 536870913, -131092, 536870913, -131091, 536870913, -131090, 536870913, -131089, 536870913, -131079, 1, -131078, 1, -196529, 536870913, -196528, 536870913, -196527, 536870913, -196526, 536870913, -196525, 536870913, -196524, 536870913, -196523, 536870913, -196522, 536870913, -196521, 536870913, -196520, 536870913, -196519, 536870913, -196518, 536870913, -196517, 536870913, -196516, 536870913, -196515, 536870913, -196514, 536870913, -196513, 536870913, -196512, 536870913, -196511, 536870913, -196510, 536870913, -196509, 536870913, -196508, 536870913, -196507, 536870913, -196506, 536870913, -196505, 536870913, -196504, 536870913, -196503, 536870913, -196502, 0, -196501, 0, -196500, 536870913, -196499, 536870913, -196498, 536870913, -196497, 536870913, -196496, 536870913, -196495, 536870913, -196494, 536870913, -196493, 536870913, -196492, 536870913, -196491, 536870913, -196490, 536870913, -196489, 536870913, -196488, 536870913, -196487, 536870913, -196486, 536870913, -196485, 536870913, -196484, 536870913, -196483, 536870913, -196482, 536870913, -196481, 536870913, -196480, 536870913, -65561, 536870913, -65560, 536870913, -65559, 536870913, -65558, 536870913, -65557, 536870913, -65556, 536870913, -65555, 536870913, -65554, 536870913, -65553, 536870913, -65552, 536870913, -65551, 536870913, -65550, 536870913, -130995, 536870913, -130994, 536870913, -130993, 536870913, -130992, 536870913, -130991, 536870912, -130990, 536870912, -130989, 536870912, -130988, 536870913, -130987, 536870913, -130986, 536870912, -130985, 536870912, -130984, 536870913, -130983, 536870913, -130964, 536870913, -130963, 536870913, -130962, 536870913, -130961, 536870913, -130951, 536870913, -130950, 536870913, -130949, 536870913, -130948, 536870913, -24, 536870913, -23, 536870913, -22, 536870913, -21, 536870913, -20, 536870913, -19, 536870913, -18, 536870913, -17, 1, -16, 1, -15, 536870913, -14, 536870913, -13, 536870913, -12, 536870913, -11, 536870913, -10, 536870913, -9, 536870913, -8, 536870913, -7, 1, -65460, 536870913, -65459, 536870913, -65458, 536870913, -65457, 536870913, -65456, 536870913, -65455, 536870913, -65454, 536870913, -65453, 536870913, -65452, 536870913, -65451, 536870912, 65513, 536870913, 65514, 536870913, 65515, 536870913, 65516, 536870913, 65517, 536870913, 65518, 536870913, 65519, 1, 65520, 1, 65521, 1, 65522, 1, 65523, 1, 65524, 1, 65525, 1, 65526, 1, 65527, 1, 65528, 1, 65529, 1, 65530, 536870913, 65531, 536870913, 65532, 536870913, 65533, 536870913, 65534, 536870913, 65535, 1, 0, 1, 1, 1, 2, 536870913, 3, 536870913, 4, 536870913, 5, 536870913, 6, 536870913, 7, 536870913, 8, 536870913, 9, 536870913, 10, 536870913, 11, 1, 12, 1, 13, 1, 14, 1, 15, 1, 16, 1, 17, 1, 18, 1, 19, 1, 20, 1, 21, 1, 22, 1, 23, 1, 24, 1, 25, 1, 26, 1, 27, 1, 28, 1, 29, 1, 30, 1, 31, 1, 32, 1, 33, 1, 34, 1, 35, 1, 36, 1, 37, 1, 38, 1, 39, 1, 40, 1, 41, 1, 42, 1, 43, 1, 44, 1, 45, 1, 46, 1, 47, 1, 48, 1, 49, 1, 50, 1, 51, 1, 52, 1, 53, 1, 54, 1, 55, 1, 56, 1, 57, 1, 58, 1, 59, 1, 60, 1, 61, 1, 62, 1, 63, 1, 64, 1, 65, 1, 66, 1, 67, 1, 68, 1, 69, 1, 70, 1, 71, 1, 72, 1, 73, 1, 74, 1, 75, 536870913, 76, 536870913, 77, 536870913, 78, 536870913, 79, 536870913, 80, 536870913, 81, 536870913, 82, 536870913, 131054, 1, 131055, 1, 131056, 1, 131057, 1, 131058, 1, 131059, 1, 131060, 1, 131061, 1, 131062, 1, 131063, 1, 131064, 1, 131065, 1, 131066, 1, 131067, 1, 131068, 1, 131069, 1, 131070, 1, 131071, 1, 65536, 1, 65537, 1, 65538, 1, 65539, 1, 65540, 1, 65541, 1, 65542, 1, 65543, 1, 65544, 1, 65545, 1, 65546, 1, 65547, 1, 65548, 1, 65549, 1, 65550, 1, 65551, 1, 65552, 1, 65553, 1, 65554, 1, 65555, 1, 65556, 1, 65557, 1, 65558, 1, 65559, 1, 65560, 1, 65561, 1, 65562, 1, 65563, 1, 65564, 1, 65565, 1, 65566, 1, 65567, 1, 65568, 1, 65569, 1, 65570, 1, 65571, 1, 65572, 1, 65573, 1, 65574, 1, 65575, 1, 65576, 1, 65577, 1, 65578, 1, 65579, 1, 65580, 1, 65581, 1, 65582, 1, 65583, 1, 65584, 1, 65585, 1, 65586, 1, 65587, 1, 65588, 536870913, 65589, 1, 65590, 536870913, 65591, 536870913, 65592, 536870913, 65593, 536870913, 65594, 1, 65595, 1, 65596, 1, 65597, 1, 65598, 1, 65599, 1, 65600, 536870913, 65601, 536870913, 65602, 536870913, 65603, 536870913, 65604, 536870913, 65605, 536870913, 65606, 536870913, 65607, 536870913, 65608, 536870913, 65609, 536870913, 65610, 536870913, 65611, 536870913, 65612, 536870913, 65613, 536870913, 65614, 536870913, 65615, 536870913, 196590, 1, 196591, 1, 196592, 1, 196593, 1, 196594, 1, 196595, 1, 196596, 1, 196597, 1, 196598, 1, 196599, 1, 196600, 1, 196601, 1, 196602, 1, 196603, 1, 196604, 1, 196605, 1, 196606, 1, 196607, 1, 131072, 1, 131073, 1, 131074, 1, 131075, 1, 131076, 1, 131077, 1, 131078, 1, 131079, 1, 131080, 1, 131081, 1, 131082, 1, 131083, 1, 131084, 1, 131085, 1, 131086, 1, 131087, 1, 131088, 1, 131089, 1, 131090, 1, 131091, 1, 131092, 536870913, 131093, 1, 131094, 1, 131095, 536870913, 131096, 536870913, 131097, 536870913, 131098, 536870913, 131099, 536870913, 131100, 536870913, 131101, 536870913, 131102, 536870913, 131103, 536870913, 131104, 536870913, 131105, 536870913, 131106, 536870913, 131107, 536870913, 131108, 536870913, 131109, 536870913, 131110, 536870913, 131111, 536870913, 131112, 536870913, 131113, 536870913, 131114, 536870913, 131115, 536870913, 131116, 536870913, 131117, 1, 131118, 1, 131119, 1, 131120, 1, 131121, 1, 131122, 536870912, 131123, 536870912, 131124, 536870912, 131125, 536870912, 131126, 536870912, 131127, 536870912, 131128, 536870912, 131129, 536870912, 131130, 536870912, 131131, 536870912, 131132, 536870912, 131133, 536870912, 131134, 536870912, 131135, 536870912, 131136, 536870912, 131137, 536870912, 131138, 536870912, 131139, 536870912, 131140, 536870912, 131141, 536870912, 131142, 536870912, 131143, 536870912, 131144, 536870912, 131145, 536870912, 131146, 536870913, 131147, 536870913, 131148, 536870913, 131149, 536870913, 131150, 536870913, 131151, 536870913, 262126, 1, 262127, 1, 262128, 1, 262130, 1, 262131, 1, 262132, 1, 262133, 1, 262134, 1, 262135, 1, 262136, 1, 262137, 1, 262138, 1, 262139, 1, 262140, 1, 262141, 1, 262142, 1, 262143, 1, 196608, 1, 196609, 1, 196610, 1, 196611, 1, 196612, 1, 196613, 1, 196614, 1, 196615, 1, 196616, 1, 196617, 1, 196618, 1, 196619, 1, 196620, 1, 196621, 1, 196622, 1, 196623, 1, 262150, 1, 262151, 1 )
+
+[node name="Grass_map" type="TileMap" parent="." groups=[
+"inanimate",
+]]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 64, 64 )
+cell/quadrant_size = 32
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 3
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="slope_left" type="TileMap" parent="." groups=[
+"inanimate",
+]]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 64, 64 )
+cell/quadrant_size = 32
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 137735
+collision/mask = 137735
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="TileMap" type="TileMap" parent="." groups=[
+"inanimate",
+]]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 64, 64 )
+cell/quadrant_size = 32
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 1
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 137735
+collision/mask = 131584
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Obstacles" type="TileMap" parent="." groups=[
+"inanimate",
+]]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 10, 10 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 137735
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="spawnpoint" type="Position2D" parent="."]
+
+transform/pos = Vector2( -411.581, -95.3879 )
+
+[node name="spawnpoint1" type="Position2D" parent="."]
+
+transform/pos = Vector2( 2457.18, -152.054 )
+
+[node name="spawnpoint3" type="Position2D" parent="."]
+
+transform/pos = Vector2( 656.123, -49.5141 )
+
+[node name="spawnpoint2" type="Position2D" parent="."]
+
+transform/pos = Vector2( 606.27, -54.6325 )
+
+[node name="spawnpoint4" type="Position2D" parent="."]
+
+transform/pos = Vector2( 2, -147 )
+
+[node name="passive_spawnpoint" type="Position2D" parent="."]
+
+transform/pos = Vector2( 499, -294 )
+
+[node name="passive_spawnpoint1" type="Position2D" parent="."]
+
+transform/pos = Vector2( -352, -144 )
+
+[node name="passive_spawnpoint2" type="Position2D" parent="."]
+
+transform/pos = Vector2( -480, -112 )
+
+[node name="passive_spawnpoint3" type="Position2D" parent="."]
+
+transform/pos = Vector2( 359, -230 )
+
+[node name="player_spawn" type="Position2D" parent="."]
+
+transform/pos = Vector2( -432, -224 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+editor/display_folded = true
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+scroll/offset = Vector2( 0, 0 )
+scroll/base_offset = Vector2( 0, 0 )
+scroll/base_scale = Vector2( 1, 1 )
+scroll/limit_begin = Vector2( 0, 0 )
+scroll/limit_end = Vector2( 0, 0 )
+scroll/ignore_camera_zoom = false
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground"]
+
+transform/pos = Vector2( 515, 298 )
+transform/scale = Vector2( 0.532292, 0.587891 )
+texture = ExtResource( 5 )
+
+[node name="enemy_Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="ally_Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+transform/pos = Vector2( -802, -222 )
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[node name="allyGoal" parent="." groups=[
+"inanimate",
+] instance=ExtResource( 6 )]
+
+transform/pos = Vector2( -420, -90 )
+
+[node name="enemyGoal" parent="." groups=[
+"inanimate",
+] instance=ExtResource( 6 )]
+
+editor/display_folded = true
+transform/pos = Vector2( 2490, -90 )
+z/z = -2
+
+[node name="Sprite" parent="enemyGoal/HQ"]
+
+flip_h = true
+
+[node name="ally_flood_wait" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="enemy_flood_wait" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = true
+autostart = false
+
+[node name="defence_zone" parent="." instance=ExtResource( 7 )]
+
+editor/display_folded = true
+transform/pos = Vector2( -250, -10 )
+
+[node name="Flagpole" parent="defence_zone"]
+
+transform/pos = Vector2( -50, -90 )
+
+[node name="defence_zone 2" parent="." instance=ExtResource( 7 )]
+
+editor/display_folded = true
+transform/pos = Vector2( 630, 0 )
+
+[node name="defence_zone 3" parent="." instance=ExtResource( 7 )]
+
+editor/display_folded = true
+transform/pos = Vector2( 1430, -10 )
+
+[node name="Flagpole" parent="defence_zone 3"]
+
+transform/pos = Vector2( 0, -50 )
+
+[node name="defence_zone 4" parent="." instance=ExtResource( 7 )]
+
+editor/display_folded = true
+transform/pos = Vector2( 2310, 10 )
+
+[node name="Flagpole" parent="defence_zone 4"]
+
+transform/pos = Vector2( 100, -130 )
+
+
+[editable path="enemyGoal"]
+[editable path="defence_zone"]
+[editable path="defence_zone 2"]
+[editable path="defence_zone 3"]
+[editable path="defence_zone 4"]

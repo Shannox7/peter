@@ -1,5 +1,5 @@
-extends KinematicBody2D
-var BULLETSPEED = 500
+extends "res://Data/Attacks/Attacks.gd"
+var bulletspeed = 500
 var Gravity = 100
 var gravitycounter = 20
 var bullet
@@ -15,15 +15,15 @@ var bullet_humanoid
 var flip_effect
 var drop = false
 var opacity = 1
-
+var side
 func _ready():
 	var bullethole = bh.instance()
 	bullet_humanoid = bullethole.get_node("Bullethole_r_human").duplicate()
 	distance_timer = get_node("Distance")
 	distance_timer.set_wait_time(distance)
 	distance_timer.connect("timeout", self, "Drop")
-
 	distance_timer.start()
+	
 	set_fixed_process(true)
 
 func hit(damage, s, d, f, g, h):
@@ -33,19 +33,11 @@ func Drop():
 	drop = true
 
 func _fixed_process(delta):
-	velocity = Vector2(cos(get_rot()) * delta * BULLETSPEED * flip_mod, -sin(get_rot()) * delta * BULLETSPEED * flip_mod)
-	velocity.y += delta + accuracy 
-	velocity.x += delta + accuracy
+	velocity = Vector2(cos(get_rot()) * delta * bulletspeed * flip_mod, -sin(get_rot()) * delta * bulletspeed * flip_mod)
 	
 	if drop == true:
-#		velocity.y += delta * Gravity
-#		velocity.x += delta * -Gravity * flip_mod 
-#		Gravity += 1
-#		if velocity.x <= 0.2 and flip_mod == 1:
-#			velocity.x = 0
-#		elif flip_mod == -1 and velocity.x >= .02:
-#			velocity.x = 0
-#		print(velocity.x)
+		lazer_drop()
+		
 		opacity -= .1
 		get_node("Sprite").set_opacity(opacity)
 		damage = 0
@@ -59,9 +51,9 @@ func _fixed_process(delta):
 #		print (get_collider().get_name())
 		if drop == true:
 			queue_free()
-		if get_collider().get_name() == "TileMap" or get_collider().get_name() == "Obstacles" or get_collider().get_name() == "slope_left":
+		if get_collider().is_in_group("inanimate") or get_collider().is_in_group(str(side)):
 #			get_collider().add_child(bullet_humanoid)
-			free()
+			queue_free()
 		else:
 #			bullet_humanoid.set_pos(get_pos())
 #			bullet_humanoid.set_rotd(get_rotd())

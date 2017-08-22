@@ -1,66 +1,47 @@
-extends KinematicBody2D
+extends StaticBody2D
 var named = "Turret"
 var name = "Turret"
-var damage = 2
-var stopping_power = 1
-var fire_rate = 0.1
-var clip_capacity = 10
-var current_clip = 10
-var ammo_capacity = 400
-var current_ammo = 400
-var reload_speed = 3
-var distance = 1
-var accuracy = .2
-var fullauto = true
+var cost = 10
+var build_time = 5
 
-var GRAVITY = 300
-var knockback_velocity = Vector2(0, 0)
-var knockback
-var attack_speed = 200
+
+
+var target
+#var grounded = false
 var target_list = []
 var hit = false
 export var total_health = 10
 var health
-var velocity = Vector2()
 var rayNode
 var raycast
 var timer
+var placed = false
 #var bullet = preload("res://Bullets.tscn")
-var enemy
 var attack = preload("res://Attacks.tscn")
-var ammo
-var allyGun
-
-var idle = false
+var build = preload("res://Buildings.tscn")
 
 var viewarea
 var tracking
-var healthBar
 var dead = false
 
 var head
-var ai
-var pos
 var attack_ready = true
-var flipbullet = 1
 
 var reload
 var cast = false
 var anim
-var allyAnimNode
-var animNew
-var placeable = true
-var sight_pos
+
 var random
-var health_bar_list = []
-var healthpos
 var patrol = true
 var attack_timer
 var wait_time
 var reloading
-var deactivated = false
-var buildable_obstructions = []
 var stats = []
+
+var enemy
+var side
+var sidenumber
+var enemynumber
 func _ready():
 
 #	set_fixed_process(true)
@@ -87,6 +68,9 @@ func patrol():
 	timer.set_wait_time(wait_time)
 	timer.start()
 
+func builder():
+	return build.instance().get_node("one_tile/Build")
+
 func cast(collider):
 	if collider.get_name() == "TileMap" or collider.get_name() == "Obstacles" or collider.get_name() == "slope_left":
 		pass
@@ -96,14 +80,14 @@ func cast(collider):
 		timer.stop()
 		target_list.append(collider)
 #		print (collider)
-		enemy = target_list.front()
-		track(enemy)
+		target = target_list.front()
+		track(target)
 #	print(target_list)
 func stop_cast(collider):
 	var nothing
-	if collider == enemy:
+	if collider == target:
 #		print('works')
-		enemy = nothing
+		target = nothing
 		target_list.clear()
 		tracking = false
 		patrol = false
@@ -111,14 +95,20 @@ func stop_cast(collider):
 		head.set_rotd(0)
 		set_fixed_process(false)
 		patrol()
-
+func red():
+	get_node("head").set_modulate(Color(255, 0, 0))
+	get_node("Body").set_modulate(Color(255, 0, 0))
+func original_colour():
+	get_node("head").set_modulate(Color(1, 1, 1))
+	get_node("Body").set_modulate(Color(1, 1, 1))
+	
 func track(collider):
 	tracking = true
 #	enemy = target_list.front()
 	viewarea.disconnect("body_enter", self, "cast")
 
 func untrack(collider):
-	if collider == enemy:
+	if collider == target:
 		tracking = false
 #		print("untrakc")
 		
@@ -131,17 +121,18 @@ func attack():
 	var Aimrot
 	Aimrot = head.get_rot()
 	var pos = Vector2(cos(Aimrot), -sin(Aimrot))
-	var spawn_point = head.get_pos() + pos + get_global_pos()
-	head.bullet_list.back().set_rot(head.get_rot())
-	head.bullet_list.back().set_pos(spawn_point)
-	get_parent().add_child(head.bullet_list.back())
+	var spawn_point = pos + get_node("head/gun").get_global_pos()
+	for bullets in head.bullet_list.back():
+		bullets.set_rotd(rad2deg(Aimrot) + rand_range(head.accuracy, -head.accuracy))
+		bullets.set_pos(spawn_point)
+		bullets.set_collision_mask(4)
+		bullets.side = side
+		get_parent().get_parent().add_child(bullets)
 	head.shoot()
 	attack_ready = false
 	attack_timer.set_wait_time(head.fire_rate)
 	if head.current_clip <= 0 and head.current_ammo > 0:
 		reload()
-	else:
-		print('click')
 	
 func reload():
 	attack_timer.stop()
@@ -149,31 +140,27 @@ func reload():
 	head.reload()
 	attack_timer.start()
 func set_free():
-	free()
+	queue_free()
 func deactivate():
-	set_fixed_process(false)
-	get_node("CollisionShape2D").set_trigger(true)
-	if get_node("Area2D").is_connected("body_enter", self, "non_buildable") == false:
-		get_node("Area2D").connect("body_enter", self, "non_buildable")
-		get_node("Area2D").connect("body_exit", self, "buildable")  
-#	timer.stop()
-#	attack_timer.stop()
+#	set_fixed_process(false)
+#	get_node("CollisionShape2D").set_trigger(true)
 	set_z(1)
-	deactivated = true
-func non_buildable(collider):
-	placeable = false
-#	print(buildable_obstructions)
-	buildable_obstructions.append(collider)
-func buildable(collider):
-	buildable_obstructions.pop_front()
-#	print(buildable_obstructions)
-	if buildable_obstructions == []:
-		placeable = true
+
 	
-func activate():
+func activate(s, n, e, en):
 	set_fixed_process(true)
-	set_z(0)
-	get_node("CollisionShape2D").set_trigger(false)
+	head.start()
+	set_z(-1)
+	enemy = e
+	side = s
+	enemynumber = en
+	sidenumber = n
+	add_to_group(s)
+	set_layer_mask(n)
+	set_collision_mask(n)
+	set_layer_mask_bit(9, true)
+	get_node("head/Area2D").set_collision_mask(n)
+#	get_node("CollisionShape2D").set_trigger(false)
 	viewarea.connect("body_enter", self, "cast")
 	viewarea.connect("body_exit", self, "stop_cast")
 	attack_timer.connect("timeout", self, "attack_flip")
@@ -181,11 +168,10 @@ func activate():
 	timer.start()
 	attack_timer.start()
 	patrol()
-	deactivated = false
+	placed = true
 func hit(collider):
 	pass
 func _fixed_process(delta):
-	velocity.y += delta * GRAVITY
 #	if cast == true:
 #		print ("casting")
 #		var position = Vector2(enemy.get_pos().x, enemy.get_pos().y - enemy.get_pos().y)
@@ -193,18 +179,19 @@ func _fixed_process(delta):
 #		if raycast.is_colliding():
 #			if raycast.get_collider() == enemy:
 #				tracking = true
-	if get_node("Area2D").is_colliding():
-		print(get_node("Area2D").get_collider())
-		
+#	if get_node("Area2D").is_colliding():
+#		print(get_node("Area2D").get_collider())
+#			if get_node("RayCast2D").get_coller() is_in_group("inanimate")
+			
 		
 #		if (get_collider().get_name()== "TileMap" or get_collider().get_name()== "Obstacles") and tracking == false:  
 #			set_fixed_process(false)
-	else:
-		move(velocity)
+#	else:
+#		move(velocity)
 		
 	if tracking:
-		if enemy.dead:
-			stop_cast(enemy)
+		if target.dead:
+			stop_cast(target)
 #			target_list.pop_front()
 #			enemy = target_list.front()
 #			print(target_list)
@@ -215,12 +202,12 @@ func _fixed_process(delta):
 #				pass
 #		print("tracking")
 		else:
-			var go_to = (enemy.get_global_pos())
+			var go_to = (target.get_global_pos())
 			head.set_rot(get_angle_to(go_to)- 3.14159/2)
 #			timer.set_active(false)
 			if abs(go_to.x - get_pos().x) <= 300 and attack_ready == true and head.current_clip > 0: 
 				attack()
 #				print ("track and attack")
-	if patrol == true:	
-		head.rotate(.1 * random)
+#	if patrol == true:	
+#		head.rotate(.1 * random)
 

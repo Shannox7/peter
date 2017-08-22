@@ -12,6 +12,17 @@ var damage = 0
 var fire_rate = 0
 var fullauto
 
+func bullet(bullet):
+	bullet = get_parent().b.instance().get_node("Lazer").duplicate()
+	return bullet
+func equip():
+	get_parent().clip_capacity += clip_capacity
+	get_parent().reload_speed += reload_speed
+	
+func unequip():
+	get_parent().clip_capacity -= clip_capacity
+	get_parent().reload_speed -= reload_speed
+	pass
 func _ready():
 	#pro
 	#con

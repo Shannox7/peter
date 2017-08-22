@@ -1,0 +1,225 @@
+[gd_scene load_steps=10 format=1]
+
+[ext_resource path="res://Data/Deployables/defence_zone.gd" type="Script" id=1]
+[ext_resource path="res://Data/positions.gd" type="Script" id=2]
+[ext_resource path="res://Data/Deployables/buildable_highlight_red.png" type="Texture" id=3]
+[ext_resource path="res://Data/Deployables/buildable_highlight.png" type="Texture" id=4]
+[ext_resource path="res://Data/Goals/flag_pole.png" type="Texture" id=5]
+[ext_resource path="res://Data/Goals/ally flag.png" type="Texture" id=6]
+[ext_resource path="res://Data/Goals/zombie flag.png" type="Texture" id=7]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+custom_solver_bias = 0.0
+extents = Vector2( 250, 500 )
+
+[sub_resource type="SpriteFrames" id=2]
+
+animations = [ {
+"frames": [ ExtResource( 3 ) ],
+"loop": true,
+"name": "red",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "green",
+"speed": 5.0
+} ]
+
+[node name="defence_zone" type="Node2D" groups=[
+"defence_zone",
+]]
+
+script/script = ExtResource( 1 )
+
+[node name="Position2D" type="Position2D" parent="."]
+
+[node name="Position2D" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -240, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D1" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -220, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D2" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -200, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D3" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -180, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D4" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -160, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D5" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -140, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D6" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -120, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D7" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -100, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D8" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -80, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D9" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -60, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D10" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -40, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D11" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( -20, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D12" type="Position2D" parent="Position2D"]
+
+script/script = ExtResource( 2 )
+
+[node name="Position2D13" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 20, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D14" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 40, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D15" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 60, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D16" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 80, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D17" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 100, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D18" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 120, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D19" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 140, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D20" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 160, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D21" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 180, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D22" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 200, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D23" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 220, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Position2D24" type="Position2D" parent="Position2D"]
+
+transform/pos = Vector2( 240, 0 )
+script/script = ExtResource( 2 )
+
+[node name="Area2D" type="Area2D" parent="." groups=[
+"defence_zone",
+]]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 768
+collision/mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+
+shape = SubResource( 1 )
+trigger = true
+_update_shape_index = 0
+
+[node name="Sprite" type="AnimatedSprite" parent="Area2D"]
+
+visibility/self_opacity = 0.0
+transform/scale = Vector2( 10, 20 )
+frames = SubResource( 2 )
+animation = "green"
+
+[node name="Flagpole" type="Sprite" parent="."]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -60 )
+texture = ExtResource( 5 )
+
+[node name="alliesflag" type="Sprite" parent="Flagpole"]
+
+visibility/opacity = 0.0
+transform/pos = Vector2( 0, 40 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="enemiesflag" type="Sprite" parent="Flagpole"]
+
+visibility/opacity = 0.0
+transform/pos = Vector2( 0, 40 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Label" type="Label" parent="Flagpole"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -20.0
+margin/top = -83.0
+margin/right = 20.0
+margin/bottom = -69.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+

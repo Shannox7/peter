@@ -1,135 +1,231 @@
-[gd_scene load_steps=20 format=1]
+[gd_scene load_steps=28 format=1]
 
-[ext_resource path="res://Data/Deployables/Soldier_ally.gd" type="Script" id=1]
-[ext_resource path="res://Data/Player/Updated peter/run_1.png" type="Texture" id=2]
-[ext_resource path="res://Data/Player/Updated peter/idle.png" type="Texture" id=3]
-[ext_resource path="res://Data/Player/Updated peter/run_2.png" type="Texture" id=4]
-[ext_resource path="res://Data/Player/Updated peter/prone.png" type="Texture" id=5]
-[ext_resource path="res://Data/Player/Updated peter/prone_crawl.png" type="Texture" id=6]
-[ext_resource path="res://Data/Player/Updated peter/prone_crawl_2.png" type="Texture" id=7]
-[ext_resource path="res://Data/Player/Updated peter/head.png" type="Texture" id=8]
-[ext_resource path="res://Data/Player/Updated peter/arm.png" type="Texture" id=9]
-[ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=10]
-[ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=11]
+[ext_resource path="res://Data/Player/Ally_Movement.gd" type="Script" id=1]
+[ext_resource path="res://Data/Player/Melee.tres" type="Animation" id=2]
+[ext_resource path="res://Data/Player/Shoot.tres" type="Animation" id=3]
+[ext_resource path="res://Data/Player/body.gd" type="Script" id=4]
+[ext_resource path="res://Data/Player/Idle_R.png" type="Texture" id=5]
+[ext_resource path="res://Data/Player/Walk_Crouch_R2.png" type="Texture" id=6]
+[ext_resource path="res://Data/Player/Crawl_Prone_R1.png" type="Texture" id=7]
+[ext_resource path="res://Data/Player/Crawl_Prone_R2.png" type="Texture" id=8]
+[ext_resource path="res://Data/Player/Run_R2.png" type="Texture" id=9]
+[ext_resource path="res://Data/Player/Run_R1.png" type="Texture" id=10]
+[ext_resource path="res://Data/Player/Idle_Prone_R.png" type="Texture" id=11]
+[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=12]
+[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=13]
+[ext_resource path="res://Data/Player/Head.png" type="Texture" id=14]
+[ext_resource path="res://Data/Health bar/health_meter.png" type="Texture" id=15]
+[ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=16]
+[ext_resource path="res://Data/Player/newArm.png" type="Texture" id=17]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=18]
+[ext_resource path="res://Data/Player/Engineer_movement.gd" type="Script" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 4, 10 )
+extents = Vector2( 6, 5 )
 
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 10, 3 )
+extents = Vector2( 6, 12 )
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
-radius = 6.0
+extents = Vector2( 16, 5 )
 
-[sub_resource type="SpriteFrames" id=4]
+[sub_resource type="CircleShape2D" id=4]
 
-animations = [ {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
-"loop": true,
-"name": "run",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 3 ) ],
-"loop": true,
-"name": "idle_r",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 5 ) ],
-"loop": true,
-"name": "prone_idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "prone_crawl",
-"speed": 5.0
-} ]
+custom_solver_bias = 0.0
+radius = 9.0
 
 [sub_resource type="SpriteFrames" id=5]
 
 animations = [ {
-"frames": [ ExtResource( 8 ) ],
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": false,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "prone_crawl",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 5 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "prone_idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "crouch_walk_r",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 13 ) ],
+"loop": true,
+"name": "crouch_idle_r",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=6]
+
+animations = [ {
+"frames": [ ExtResource( 14 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=6]
+[sub_resource type="CapsuleShape2D" id=7]
 
 custom_solver_bias = 0.0
 radius = 24.0
 height = 258.0
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CircleShape2D" id=8]
 
 custom_solver_bias = 0.0
 radius = 319.148
 
-[sub_resource type="SpriteFrames" id=8]
-
-animations = [ {
-"frames": [ ExtResource( 10 ) ],
-"loop": true,
-"name": "health_full",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 11 ) ],
-"loop": true,
-"name": "health_empty",
-"speed": 5.0
-} ]
-
 [node name="Allies" type="Node2D"]
 
-[node name="Soldier" type="KinematicBody2D" parent="." groups=[
-"allies",
-]]
+[node name="Infantry" type="KinematicBody2D" parent="."]
 
+transform/pos = Vector2( 0, -17 )
+z/z = -2
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 3, 7 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 11 )
 shapes/0/trigger = false
-shapes/1/shape = SubResource( 2 )
-shapes/1/transform = Matrix32( 1, 0, 0, 1, 3, 7 )
-shapes/1/trigger = false
-shapes/2/shape = SubResource( 3 )
-shapes/2/transform = Matrix32( 1, 0, 0, 1, 3, -8 )
-shapes/2/trigger = false
-collision/layers = 1
+collision/layers = 0
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-WALK_SPEED = 150
-PRONE_SPEED = 60
-CROUCH_SPEED = 100
-ACCELERATION = 20
-DECCELERATION = 10
-acceleration_modifier = 1
-AIMSPEED = 0.05
-total_health = 10
 
-[node name="body" type="AnimatedSprite" parent="Soldier"]
+[node name="Timer" type="Timer" parent="Infantry"]
 
-transform/pos = Vector2( 3, 6 )
-frames = SubResource( 4 )
-animation = "idle_r"
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
 
-[node name="head" type="AnimatedSprite" parent="Soldier"]
+[node name="Attack" type="Timer" parent="Infantry"]
 
-transform/pos = Vector2( 3, -9 )
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="death" type="Timer" parent="Infantry"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="hit_timer" type="Timer" parent="Infantry"]
+
+process_mode = 1
+wait_time = 0.1
+one_shot = true
+autostart = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Infantry"]
+
+transform/pos = Vector2( 0, 11 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="jump_over" type="RayCast2D" parent="Infantry"]
+
+transform/pos = Vector2( 0, 16 )
+transform/rot = 90.0
+enabled = true
+cast_to = Vector2( 0, 10 )
+layer_mask = 1
+type_mask = 1
+
+[node name="jump_l" type="RayCast2D" parent="Infantry"]
+
+transform/pos = Vector2( -6, 16 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+layer_mask = 1
+type_mask = 1
+
+[node name="jump_r" type="RayCast2D" parent="Infantry"]
+
+transform/pos = Vector2( 5, 16 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+layer_mask = 1
+type_mask = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Infantry"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/Melee = ExtResource( 2 )
+anims/Shoot = ExtResource( 3 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="body" type="KinematicBody2D" parent="Infantry"]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 4 )
+shapes/0/trigger = false
+shapes/1/shape = SubResource( 3 )
+shapes/1/transform = Matrix32( 1, 0, 0, 1, 0, 5 )
+shapes/1/trigger = false
+shapes/2/shape = SubResource( 4 )
+shapes/2/transform = Matrix32( 1, 0, 0, 1, 0, -13 )
+shapes/2/trigger = false
+collision/layers = 0
+collision/mask = 0
+collision/margin = 0.08
+script/script = ExtResource( 4 )
+
+[node name="legs" type="AnimatedSprite" parent="Infantry/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 5 )
 frames = SubResource( 5 )
+animation = "idle"
+
+[node name="secondaryEquip" type="Sprite" parent="Infantry/body/legs"]
+
+transform/pos = Vector2( -5, -20 )
+transform/rot = -90.0
+
+[node name="head" type="AnimatedSprite" parent="Infantry/body"]
+
+transform/pos = Vector2( 0, -13 )
+frames = SubResource( 6 )
 animation = "default"
 
-[node name="Area2D" type="Area2D" parent="Soldier/head"]
+[node name="Area2D" type="Area2D" parent="Infantry/body/head"]
 
-input/pickable = true
-shapes/0/shape = SubResource( 6 )
+input/pickable = false
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 161, -1 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -137,72 +233,79 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 monitorable = false
-collision/layers = 2
-collision/mask = 2
+collision/layers = 0
+collision/mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Soldier/head/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Infantry/body/head/Area2D"]
 
 transform/pos = Vector2( 161, -1 )
 transform/rot = 90.0
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 trigger = true
 _update_shape_index = 0
 
-[node name="Arm" type="Sprite" parent="Soldier"]
+[node name="health_meter" type="Sprite" parent="Infantry/body/head"]
 
-texture = ExtResource( 9 )
+transform/pos = Vector2( -8, -3 )
+transform/scale = Vector2( 1, -1 )
+texture = ExtResource( 15 )
+centered = false
 
-[node name="Gun" type="Sprite" parent="Soldier/Arm"]
+[node name="health" type="Sprite" parent="Infantry/body/head/health_meter"]
 
-transform/pos = Vector2( 9, -1 )
+transform/pos = Vector2( 2, 1 )
+transform/scale = Vector2( 1, 3 )
+texture = ExtResource( 16 )
+centered = false
 
-[node name="standing" type="CollisionShape2D" parent="Soldier"]
+[node name="arm_r" type="Sprite" parent="Infantry/body"]
 
-transform/pos = Vector2( 3, 7 )
-shape = SubResource( 1 )
+transform/pos = Vector2( -5, -3 )
+texture = ExtResource( 17 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Infantry/body/arm_r"]
+
+visibility/visible = false
+transform/pos = Vector2( 5, -4 )
+texture = ExtResource( 18 )
+centered = false
+
+[node name="standing" type="CollisionShape2D" parent="Infantry/body"]
+
+transform/pos = Vector2( 0, 4 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
-[node name="prone" type="CollisionShape2D" parent="Soldier"]
+[node name="prone" type="CollisionShape2D" parent="Infantry/body"]
 
-transform/pos = Vector2( 3, 7 )
-shape = SubResource( 2 )
+transform/pos = Vector2( 0, 5 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 1
 
-[node name="headcollision" type="CollisionShape2D" parent="Soldier"]
+[node name="headcollision" type="CollisionShape2D" parent="Infantry/body"]
 
-transform/pos = Vector2( 3, -8 )
-shape = SubResource( 3 )
+transform/pos = Vector2( 0, -13 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 2
 
-[node name="Timer" type="Timer" parent="Soldier"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = true
-
-[node name="Attack" type="Timer" parent="Soldier"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = true
-
-[node name="RayCast2D" type="RayCast2D" parent="Soldier"]
+[node name="RayCast2D" type="RayCast2D" parent="Infantry/body"]
 
 enabled = false
 cast_to = Vector2( 0, 50 )
 layer_mask = 1
 type_mask = 15
 
-[node name="Area2D" type="Area2D" parent="Soldier"]
+[node name="Area2D" type="Area2D" parent="Infantry/body"]
 
 editor/display_folded = true
-input/pickable = true
-shapes/0/shape = SubResource( 7 )
+visibility/visible = false
+input/pickable = false
+shapes/0/shape = SubResource( 8 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -210,26 +313,230 @@ gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
 monitorable = false
-collision/layers = 2
-collision/mask = 2
+collision/layers = 0
+collision/mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Soldier/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Infantry/body/Area2D"]
 
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 trigger = false
 _update_shape_index = 0
 
-[node name="death" type="Timer" parent="Soldier"]
+[node name="Engineer" type="KinematicBody2D" parent="." groups=[
+"engineers",
+]]
+
+transform/pos = Vector2( 0, -17 )
+z/z = -2
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 11 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 19 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Engineer"]
+
+transform/pos = Vector2( 0, 11 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="jump_over" type="RayCast2D" parent="Engineer"]
+
+transform/pos = Vector2( 0, 16 )
+transform/rot = 90.0
+enabled = true
+cast_to = Vector2( 0, 10 )
+layer_mask = 1
+type_mask = 1
+
+[node name="jump_l" type="RayCast2D" parent="Engineer"]
+
+transform/pos = Vector2( -6, 16 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+layer_mask = 1
+type_mask = 1
+
+[node name="jump_r" type="RayCast2D" parent="Engineer"]
+
+transform/pos = Vector2( 5, 16 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+layer_mask = 1
+type_mask = 1
+
+[node name="Timer" type="Timer" parent="Engineer"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="death" type="Timer" parent="Engineer"]
 
 process_mode = 1
 wait_time = 1.0
 one_shot = false
 autostart = false
 
-[node name="healthBar" type="AnimatedSprite" parent="Soldier"]
+[node name="hit_timer" type="Timer" parent="Engineer"]
 
-transform/pos = Vector2( -12.635, -29.7825 )
-frames = SubResource( 8 )
-animation = "health_full"
+process_mode = 1
+wait_time = 0.1
+one_shot = true
+autostart = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Engineer"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/Melee = ExtResource( 2 )
+anims/Shoot = ExtResource( 3 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="body" type="KinematicBody2D" parent="Engineer"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 4 )
+shapes/0/trigger = false
+shapes/1/shape = SubResource( 3 )
+shapes/1/transform = Matrix32( 1, 0, 0, 1, 0, 5 )
+shapes/1/trigger = false
+shapes/2/shape = SubResource( 4 )
+shapes/2/transform = Matrix32( 1, 0, 0, 1, 0, -13 )
+shapes/2/trigger = false
+collision/layers = 0
+collision/mask = 0
+collision/margin = 0.08
+script/script = ExtResource( 4 )
+
+[node name="legs" type="AnimatedSprite" parent="Engineer/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 5 )
+frames = SubResource( 5 )
+animation = "idle"
+
+[node name="secondaryEquip" type="Sprite" parent="Engineer/body/legs"]
+
+transform/pos = Vector2( -5, -20 )
+transform/rot = -90.0
+
+[node name="head" type="AnimatedSprite" parent="Engineer/body"]
+
+transform/pos = Vector2( 0, -13 )
+frames = SubResource( 6 )
+animation = "default"
+
+[node name="Area2D" type="Area2D" parent="Engineer/body/head"]
+
+editor/display_folded = true
+input/pickable = true
+shapes/0/shape = SubResource( 7 )
+shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 161, -1 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitorable = false
+collision/layers = 0
+collision/mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Engineer/body/head/Area2D"]
+
+transform/pos = Vector2( 161, -1 )
+transform/rot = 90.0
+shape = SubResource( 7 )
+trigger = true
+_update_shape_index = 0
+
+[node name="health_meter" type="Sprite" parent="Engineer/body/head"]
+
+transform/pos = Vector2( -8, -3 )
+transform/scale = Vector2( 1, -1 )
+texture = ExtResource( 15 )
+centered = false
+
+[node name="health" type="Sprite" parent="Engineer/body/head/health_meter"]
+
+transform/pos = Vector2( 2, 1 )
+transform/scale = Vector2( 1, 3 )
+texture = ExtResource( 16 )
+centered = false
+
+[node name="arm_r" type="Sprite" parent="Engineer/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( -5, -3 )
+texture = ExtResource( 17 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Engineer/body/arm_r"]
+
+visibility/visible = false
+transform/pos = Vector2( 5, -4 )
+texture = ExtResource( 18 )
+centered = false
+
+[node name="standing" type="CollisionShape2D" parent="Engineer/body"]
+
+transform/pos = Vector2( 0, 4 )
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+[node name="prone" type="CollisionShape2D" parent="Engineer/body"]
+
+transform/pos = Vector2( 0, 5 )
+shape = SubResource( 3 )
+trigger = false
+_update_shape_index = 1
+
+[node name="headcollision" type="CollisionShape2D" parent="Engineer/body"]
+
+transform/pos = Vector2( 0, -13 )
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 2
+
+[node name="RayCast2D" type="RayCast2D" parent="Engineer/body"]
+
+enabled = false
+cast_to = Vector2( 0, 50 )
+layer_mask = 1
+type_mask = 15
+
+[node name="Area2D" type="Area2D" parent="Engineer/body"]
+
+editor/display_folded = true
+visibility/visible = false
+input/pickable = true
+shapes/0/shape = SubResource( 8 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitorable = false
+collision/layers = 0
+collision/mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Engineer/body/Area2D"]
+
+shape = SubResource( 8 )
+trigger = false
+_update_shape_index = 0
 
 

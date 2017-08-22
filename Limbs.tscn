@@ -8,8 +8,6 @@
 [ext_resource path="res://Data/Enemies/Zombie/z_torso.gd" type="Script" id=6]
 [ext_resource path="res://Data/Enemies/Zombie/torso.png" type="Texture" id=7]
 
-
-
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
@@ -33,8 +31,8 @@ input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 8, 0 )
 shapes/0/trigger = false
-collision/layers = 4096
-collision/mask = 4096
+collision/layers = 0
+collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 
@@ -58,12 +56,13 @@ autostart = true
 
 [node name="z_arm_l" type="KinematicBody2D" parent="."]
 
+editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 8, 0 )
 shapes/0/trigger = false
-collision/layers = 4096
-collision/mask = 528384
+collision/layers = 0
+collision/mask = 524289
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 
@@ -91,8 +90,8 @@ input/pickable = false
 shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
-collision/layers = 4096
-collision/mask = 4096
+collision/layers = 0
+collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 4 )
 
@@ -115,12 +114,13 @@ autostart = true
 
 [node name="z_torso" type="KinematicBody2D" parent="."]
 
+editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
-collision/layers = 4096
-collision/mask = 4096
+collision/layers = 0
+collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 6 )
 

@@ -1,12 +1,16 @@
 extends Node2D
 var name = "M14"
 var named = "M14"
+var gun_size = 20
 var value = 10
 var damage = 1
+var melee_damage = 0
+var melee_stopping_power = 2
+var bulletspeed = 500
 var stopping_power = 1
-var fire_rate = 0.5
-var clip_capacity = 1
-var current_clip = 1
+var fire_rate = 0.1
+var clip_capacity = 120
+var current_clip = 120
 var ammo_capacity = 400
 var current_ammo = 400
 var is_equipped = false
@@ -22,12 +26,12 @@ var b = preload("res://Attacks.tscn")
 var gp = preload("res://Gun_parts.tscn")
 #var pu = preload("res://Pickup.tscn")
 #var barrel_size .. use later maybe
-
+var countdown = 10
 var GRAVITY = 100
 var velocity
 var random
 var flipped = false
-
+var locked = true
 var barrel = []
 var sight = []
 var clip = []
@@ -36,6 +40,8 @@ var special = []
 var pickup_area
 var pickup = false
 var player
+
+var aiming = false
 func _ready():
 	var damaged = "Dam: " + str(damage)
 	var fire_rated = "Rof: " + str(round(fire_rate/3 * 100))
@@ -48,50 +54,35 @@ func _ready():
 	stats.sort()
 	stats.push_front(damaged)
 	get_node("Pickup/pick me up!").hide()
-	if get_parent().get_parent() != null:
-		if get_parent().get_parent().is_in_group("enemies"):
-			bullettype("enemy")
-		else:
-			bullettype("player")
+	bullettype()
+	set_fixed_process(true)
+#	locked = true
 #	print (bullet_list)
 #	print (current_clip)
 func start():
-	if get_parent() != null:
-		for groups in get_parent().get_groups():
-#			print (groups)
-			if groups == "enemy":
-				bullettype("enemy")
-				
-				pass
-	else:
-		bullettype("player")
+	bullettype()
 	current_clip = int(rand_range(1, clip_capacity))
-	ammo()
-func bullettype(identity):
-	bullettype = b.instance().get_node("Bullet")
-	if identity == "enemy":
-		bullettype.set_collision_mask_bit(2, false)
-		bullettype.set_collision_mask(1)
-		bullettype.set_layer_mask_bit(1, false)
-		bullettype.set_layer_mask_bit(2, true)
-	else:
-		bullettype.set_collision_mask_bit(1, false)
-		bullettype.set_collision_mask(2)
-		bullettype.set_layer_mask_bit(1, false)
-		bullettype.set_layer_mask_bit(2, true)
+#	ammo()
+func bullettype():
+	var new_bullet = b.instance().get_node("Bullet").duplicate()
+#	new_bullet = clip[0].bullet(new_bullet)
+	special[0].bullet(new_bullet)
+	barrel[0].bullet(new_bullet)
+	new_bullet.distance = distance
+	new_bullet.stopping_power = stopping_power
+	new_bullet.damage = damage
+	new_bullet.bulletspeed = bulletspeed
+	return new_bullet
+
 func ammo():
-	for bullet in range(current_clip):
-		bullet_list.append([])
-	for lists in bullet_list:
-		for number in range(bullets_inbullets):
-			var new_bullet = bullettype.duplicate()
-			new_bullet.distance = distance
-#			var accuracy_skew = rand_range(-accuracy, accuracy)
-#			new_bullet.accuracy = accuracy_skew
-			new_bullet.stopping_power = stopping_power
-			new_bullet.damage = damage
-#			new_bullet.BULLETSPEED += abs(rand_range(100, 300))
-			lists.append(new_bullet)
+	pass
+#	for bullet in range(current_clip):
+#		bullet_list.append([])
+#	for lists in bullet_list:
+#		for number in range(bullets_inbullets):
+#			var new_bullet = bullettype.duplicate()
+	
+#			lists.append(new_bullet)
 #	get_parent().bullet_list = bullet_list
 func reload():
 	if (current_ammo - current_clip) < clip_capacity:
@@ -104,7 +95,7 @@ func reload():
 	else:
 		current_ammo -= clip_capacity
 		current_clip = clip_capacity
-	ammo()
+#	ammo()
 func unequip(part, location):
 	damage -= part.damage
 	clip_capacity -= part.clip_capacity
@@ -116,6 +107,7 @@ func unequip(part, location):
 	if part.fullauto != null:
 		!fullauto
 	if location == "barrel":
+		gun_size -= part.barrel_size
 		barrel.pop_back()
 	elif location == "sight":
 		sight.pop_back()
@@ -141,6 +133,8 @@ func equip(part, location):
 	add_child(part)
 	part.set_pos(get_node(location).get_pos())
 	if location == "barrel":
+		gun_size += part.barrel_size
+		get_node("barrel_tip").set_pos(Vector2(get_node("barrel_tip").get_pos().x + part.barrel_size, get_node("barrel_tip").get_pos().y))
 		barrel.push_front(part)
 	elif location == "sight":
 		sight.push_front(part)
@@ -160,21 +154,40 @@ func generate(tier):
 	equip(c, "clip")
 	equip(sp, "special")
 func shoot():
+#	var shooter = get_parent().get_parent()
+#	var flip_mod = shooter.flip_mod
+#	var Aimrot = get_parent().get_rot() * flip_mod
+#	var pos = Vector2(cos(Aimrot), -sin(Aimrot)) * flip_mod
+#	var spawn_point = pos + get_node("barrel_tip").get_global_pos()
+#	for bullets in bullet_list.back():
+#		if flip_mod == -1:
+#			bullets.get_node("Sprite").set_flip_h(true)  
+#			bullets.flip_mod = -1
+#		bullets.set_rotd(rad2deg(Aimrot) + rand_range(accuracy, -accuracy))
+#		bullets.set_collision_mask(shooter.enemynumber)
+#		bullets.set_pos(spawn_point)
+#		bullets.side = shooter.side
+#		shooter.get_parent().get_parent().add_child(bullets)
 	current_clip -= 1
 	bullet_list.pop_back()
 
 func unlock():
+	locked = false
+	aiming = false
 	set_fixed_process(true)
 	set_process_input(true)
 	random = rand_range(-.05, .05)
 	pickup = false
 	pickup_area = get_node("Pickup")
 	pickup_area.show()
+	countdown = 10
+	get_node("CollisionShape2D").set_trigger(false)
 	pickup_area.connect("body_enter", self, "pickmeup")
 	pickup_area.connect("body_exit", self, "cantpickmeup")
 	
 func lock():
-	set_fixed_process(false)
+	locked = true
+#	set_fixed_process(false)
 	set_process_input(false)
 	get_node("CollisionShape2D").set_trigger(true)
 	get_node("Pickup").hide()
@@ -194,39 +207,59 @@ func cantpickmeup(collider):
 		pickup = false
 		get_node("Pickup/pick me up!").hide()
 
-func _fixed_process(delta):
-	velocity = Vector2()
-	velocity.y += delta * GRAVITY
-	get_node("CollisionShape2D").set_trigger(false)
-		
-	if is_colliding():
-		pass
-	else:
-		random = rand_range(-.05, .05)
-		rotate(random)
-	move(velocity)
+func aiming(choice, number):
+	get_node("RayCast2D").set_layer_mask(number)
+	get_node("RayCast2D").set_enabled(choice)
+	set_fixed_process(true)
+	aiming = choice
 	
+func _fixed_process(delta):
+	if aiming:
+		get_node("RayCast2D").set_cast_to(Vector2(bulletspeed * distance, 0))
+		if get_node("RayCast2D").is_colliding():
+			get_node("RayCast2D/lazer_sight").set_scale(Vector2(get_node("RayCast2D/lazer_sight").get_global_pos().distance_to(get_node("RayCast2D").get_collision_point()), 1))
+		else:
+			get_node("RayCast2D/lazer_sight").set_scale(Vector2(get_node("RayCast2D").get_cast_to().x, 1))
+	else:
+		get_node("RayCast2D/lazer_sight").set_scale(Vector2(0, 1))
+	if not locked:
+		velocity = Vector2()
+		velocity.y += delta * GRAVITY
+		countdown -= delta
+		if countdown <= 0:
+			queue_free()
+		if is_colliding():
+			set_fixed_process(false)
+		else:
+			random = rand_range(-.05, .05)
+			rotate(random)
+		move(velocity)
+	if not aiming and locked:
+		set_fixed_process(false)
 func flip(flipped):
 	var flip_mod
 	if flipped:
 		flip_mod = -1
 	else:
 		flip_mod = 1
-	get_node("Sprite").set_flip_h(flipped)
-	barrel[0].set_pos(Vector2(get_node("barrel").get_pos().x * flip_mod, get_node("barrel").get_pos().y))
-	sight[0].set_pos(Vector2(get_node("sight").get_pos().x * flip_mod, get_node("sight").get_pos().y))
-	clip[0].set_pos(Vector2(get_node("clip").get_pos().x * flip_mod, get_node("clip").get_pos().y))
-	special[0].set_pos(Vector2(get_node("special").get_pos().x * flip_mod, get_node("special").get_pos().y))
-	special[0].set_flip_h(flipped)
-	barrel[0].set_flip_h(flipped)
-	sight[0].set_flip_h(flipped)
-	clip[0].set_flip_h(flipped)
+#	get_node("Sprite").set_flip_h(flipped)
+	set_scale(Vector2(1 * flip_mod, 1))
+#	get_node("barrel").set_pos(get_node("barrel").get_pos().x * flip_mod)
+#	barrel[0].set_scale(Vector2(1 * flip_mod, 1))
+#	barrel[0].set_pos(Vector2(get_node("barrel").get_pos().x * flip_mod, get_node("barrel").get_pos().y))
+#	sight[0].set_pos(Vector2(get_node("sight").get_pos().x * flip_mod, get_node("sight").get_pos().y))
+#	clip[0].set_pos(Vector2(get_node("clip").get_pos().x * flip_mod, get_node("clip").get_pos().y))
+#	special[0].set_pos(Vector2(get_node("special").get_pos().x * flip_mod, get_node("special").get_pos().y))
+#	special[0].set_flip_h(flipped)
+#	barrel[0].set_flip_h(flipped)
+#	sight[0].set_flip_h(flipped)
+#	clip[0].set_flip_h(flipped)
 	
 func _input(event):
 	if event.is_action_pressed("equip") and pickup == true:
 		lock()
 		self.get_parent().remove_child(self)
-		player.equip(self, true, "playerGun")
+		player.equip(self, true, "primaryGun")
 	elif event.is_action_pressed("pickup") and pickup == true:
 		lock()
 		self.get_parent().remove_child(self)

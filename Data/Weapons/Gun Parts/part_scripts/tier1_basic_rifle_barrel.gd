@@ -10,7 +10,12 @@ var reload_speed = 0
 var fire_rate = 0
 var clip_capacity = 0
 var fullauto
+var barrel_size = 5
 
+func bullet(bullet):
+	bullet = get_parent().b.instance().get_node("Lazer")
+	return bullet
+	
 func _ready():
 	var accuracyd = round((accuracy/5 * 100)*-1)
 	var distanced = round((distance/3 * 100) * -1)
