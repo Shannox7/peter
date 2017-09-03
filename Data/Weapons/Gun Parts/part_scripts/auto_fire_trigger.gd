@@ -1,4 +1,4 @@
-extends Sprite
+extends "res://Data/Weapons/Gun Parts/Special/Mod.gd"
 var name = "Automatic Chamber"
 var accuracy = 0
 var distance = 0

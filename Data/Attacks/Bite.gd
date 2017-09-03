@@ -11,14 +11,6 @@ var position
 var bullethole
 var flip_effect
 var bullet_humanoid
-#var flipped = false
-
-#func flip():
-#	get_node("bullet").set_flip_h(flipped)
-#	flipped = !flipped
-#	flip_mod = flip_mod * -1
-
-#var enemy = preload("res://Enemies.tscn")
 var distance
 var distance_timer
 func _ready():

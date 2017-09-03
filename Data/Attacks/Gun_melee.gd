@@ -2,7 +2,7 @@ extends RayCast2D
 var damage = 0
 var stopping_power = 0
 var enemyside
-var time = .4
+var time = .25
 var attacker
 var velocity = Vector2(0, 0)
 var drop = false
@@ -21,6 +21,6 @@ func _fixed_process(delta):
 		queue_free()
 	if is_colliding():
 #		print("colliding")
-		if get_collider().is_in_group(str(enemyside)):
+		if not get_collider().is_in_group("inanimate"):
 			get_collider().get_parent().hit(self)
 			add_exception(get_collider())

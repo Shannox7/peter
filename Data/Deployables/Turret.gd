@@ -76,17 +76,13 @@ func cast(collider):
 		pass
 	elif collider.is_in_group("enemies"):
 		set_fixed_process(true)
-#		print("cast")
 		timer.stop()
 		target_list.append(collider)
-#		print (collider)
 		target = target_list.front()
 		track(target)
-#	print(target_list)
 func stop_cast(collider):
 	var nothing
 	if collider == target:
-#		print('works')
 		target = nothing
 		target_list.clear()
 		tracking = false
@@ -110,14 +106,12 @@ func track(collider):
 func untrack(collider):
 	if collider == target:
 		tracking = false
-#		print("untrakc")
-		
+
 func attack_flip():
 	attack_ready = true
 	attack_timer.set_wait_time(head.fire_rate)
 	attack_timer.start()
 func attack():
-#	print("attacking")
 	var Aimrot
 	Aimrot = head.get_rot()
 	var pos = Vector2(cos(Aimrot), -sin(Aimrot))

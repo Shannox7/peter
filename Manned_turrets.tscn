@@ -1,0 +1,196 @@
+[gd_scene load_steps=12 format=1]
+
+[ext_resource path="res://Data/Buildings/mounted_gun.gd" type="Script" id=1]
+[ext_resource path="res://Data/Buildings/nest_pig.gd" type="Script" id=2]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=3]
+[ext_resource path="res://Data/Weapons/Gun Parts/Barrel/basic_barrel.png" type="Texture" id=4]
+[ext_resource path="res://Data/Weapons/Gun Parts/Melee/bayanette.png" type="Texture" id=5]
+[ext_resource path="res://Data/Weapons/Gun Parts/Clip/small clip.png" type="Texture" id=6]
+[ext_resource path="res://Data/Weapons/Gun Parts/Special_attatchments/grenade_launcher.png" type="Texture" id=7]
+[ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=8]
+[ext_resource path="res://Data/Buildings/mounted_pig.png" type="Texture" id=9]
+[ext_resource path="res://Data/Weapons/basic_gun_shoot.tres" type="Animation" id=10]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 30.0
+height = 168.0
+
+[node name="Manned_turrets" type="Node2D"]
+
+[node name="machinegun_turret" type="StaticBody2D" parent="." groups=[
+"deployables",
+]]
+
+input/pickable = false
+collision/layers = 0
+collision/mask = 0
+constant_linear_velocity = Vector2( 0, 0 )
+constant_angular_velocity = 0.0
+friction = 1.0
+bounce = 0.0
+script/script = ExtResource( 1 )
+
+[node name="Pig" type="KinematicBody2D" parent="machinegun_turret" groups=[
+"guns and parts",
+"weapons",
+]]
+
+transform/pos = Vector2( 0, -1 )
+input/pickable = false
+collision/layers = 0
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 2 )
+
+[node name="body" type="Node2D" parent="machinegun_turret/Pig"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 1 )
+
+[node name="Sprite" type="Sprite" parent="machinegun_turret/Pig/body"]
+
+transform/pos = Vector2( 0, 1 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="barrel" type="Sprite" parent="machinegun_turret/Pig/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 19, 1 )
+z/z = -1
+texture = ExtResource( 4 )
+centered = false
+
+[node name="mod" type="Sprite" parent="machinegun_turret/Pig/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 8, 1 )
+z/z = -1
+centered = false
+
+[node name="melee" type="Sprite" parent="machinegun_turret/Pig/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 14, 4 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="clip" type="Sprite" parent="machinegun_turret/Pig/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 9, 5 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="special" type="Sprite" parent="machinegun_turret/Pig/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 11, 2 )
+transform/rot = 180.0
+texture = ExtResource( 7 )
+centered = false
+
+[node name="RayCast2D" type="RayCast2D" parent="machinegun_turret/Pig/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 20, 1 )
+enabled = true
+cast_to = Vector2( 1, 0 )
+layer_mask = 1
+type_mask = 15
+
+[node name="lazer_sight" type="Sprite" parent="machinegun_turret/Pig/body/RayCast2D"]
+
+visibility/opacity = 0.2
+texture = ExtResource( 8 )
+centered = false
+
+[node name="barrel_tip" type="Position2D" parent="machinegun_turret/Pig/body"]
+
+transform/pos = Vector2( 20, 1 )
+
+[node name="special_tip" type="Position2D" parent="machinegun_turret/Pig/body"]
+
+transform/pos = Vector2( 25, -3 )
+
+[node name="Sprite 2" type="Sprite" parent="machinegun_turret/Pig/body"]
+
+texture = ExtResource( 9 )
+
+[node name="RayCast2D 2" type="RayCast2D" parent="machinegun_turret/Pig/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 20, 0 )
+enabled = true
+cast_to = Vector2( 1, 0 )
+layer_mask = 1
+type_mask = 15
+
+[node name="lazer_sight" type="Sprite" parent="machinegun_turret/Pig/body/RayCast2D 2"]
+
+visibility/opacity = 0.2
+texture = ExtResource( 8 )
+centered = false
+
+[node name="barrel_tip 2" type="Position2D" parent="machinegun_turret/Pig/body"]
+
+transform/pos = Vector2( 20, 0 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="machinegun_turret/Pig"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/Shoot = ExtResource( 10 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="Area2D" type="Area2D" parent="machinegun_turret/Pig"]
+
+transform/pos = Vector2( 0, 1 )
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 134, -3 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+collision/layers = 0
+collision/mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="machinegun_turret/Pig/Area2D"]
+
+transform/pos = Vector2( 134, -3 )
+transform/rot = 90.0
+shape = SubResource( 1 )
+trigger = true
+_update_shape_index = 0
+
+[node name="Timer" type="Timer" parent="machinegun_turret"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="Attack" type="Timer" parent="machinegun_turret"]
+
+process_mode = 1
+wait_time = 0.01
+one_shot = false
+autostart = true
+
+[node name="turret_pos" type="Position2D" parent="machinegun_turret"]
+
+transform/pos = Vector2( 20, -20 )
+
+[node name="operator_pos" type="Position2D" parent="machinegun_turret"]
+
+transform/pos = Vector2( 0, 10 )
+
+

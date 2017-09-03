@@ -1,4 +1,4 @@
-extends Sprite
+extends "res://Data/Weapons/Gun Parts/Barrel/Barrel.gd"
 var name = "Basic Barrel"
 var accuracy = rand_range(-.1, - .15 )
 var distance = rand_range(0.1, 0.15)

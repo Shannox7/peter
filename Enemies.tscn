@@ -14,8 +14,8 @@
 [ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=12]
 [ext_resource path="res://Data/Enemies/Zombie/Arm_r.png" type="Texture" id=13]
 [ext_resource path="res://Data/Enemies/Zombie/Zombie.gd" type="Script" id=14]
-[ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=15]
-[ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=16]
+[ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=15]
+[ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=16]
 [ext_resource path="res://Data/Enemies/Creep/creepidle.png" type="Texture" id=17]
 [ext_resource path="res://Data/Enemies/Creep/creeprun.png" type="Texture" id=18]
 [ext_resource path="res://Data/Enemies/Creep/Creep Head.png" type="Texture" id=19]
@@ -109,12 +109,12 @@ radius = 311.11
 animations = [ {
 "frames": [ ExtResource( 15 ) ],
 "loop": false,
-"name": "health_empty",
+"name": "health_full",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 16 ) ],
 "loop": false,
-"name": "health_full",
+"name": "health_empty",
 "speed": 5.0
 } ]
 
@@ -150,10 +150,9 @@ z/z = -2
 
 [node name="Zombie_movement" type="KinematicBody2D" parent="."]
 
-transform/pos = Vector2( 0, -1 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 19 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -6 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 1
@@ -176,14 +175,14 @@ autostart = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 0, 19 )
+transform/pos = Vector2( 0, -6 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
 [node name="jump_over" type="RayCast2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 2.8213e-07, 24 )
+transform/pos = Vector2( 2.98023e-06, -1 )
 transform/rot = 90.0
 enabled = true
 cast_to = Vector2( 0, 10 )
@@ -192,7 +191,7 @@ type_mask = 1
 
 [node name="jump_l" type="RayCast2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( -6, 24 )
+transform/pos = Vector2( -6, -1 )
 enabled = true
 cast_to = Vector2( 0, 1 )
 layer_mask = 1
@@ -200,7 +199,7 @@ type_mask = 1
 
 [node name="jump_r" type="RayCast2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 6, 24 )
+transform/pos = Vector2( 6, -1 )
 enabled = true
 cast_to = Vector2( 0, 1 )
 layer_mask = 1
@@ -225,7 +224,7 @@ autoplay = ""
 
 [node name="body" type="KinematicBody2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 0, 1 )
+transform/pos = Vector2( 0, -24 )
 input/pickable = false
 shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1.07604, 0, 0, 0.924514, 0, 4 )

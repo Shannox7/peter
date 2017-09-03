@@ -1,4 +1,4 @@
-extends Sprite
+extends "res://Data/Weapons/Gun Parts/Clip/Clip.gd"
 var name = "Small Clip"
 var clip_capacity = int(rand_range(2, 10))
 #con
@@ -13,8 +13,8 @@ var fire_rate = 0
 var fullauto
 
 func bullet(bullet):
-	bullet = get_parent().b.instance().get_node("Lazer").duplicate()
-	return bullet
+	return lazer()
+	
 func equip():
 	get_parent().clip_capacity += clip_capacity
 	get_parent().reload_speed += reload_speed

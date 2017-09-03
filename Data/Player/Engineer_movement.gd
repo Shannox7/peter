@@ -2,13 +2,12 @@ extends "res://Data/Builders.gd"
 var name = "Engineer"
 var cost = 10
 func _ready():
-	faction = get_parent()
-	level = get_parent().get_parent()
 	side()
 	name = "Engineer"
 	cost = 10
 	WALK_SPEED = 150
-	faction.builder_list.append(self)
+	myself = weakref(self)
+	faction.builder_list.append(myself)
 	set_fixed_process(true)
 	animNode = get_node("body/legs") 
 	armanimNode = get_node("AnimationPlayer") 
@@ -18,7 +17,7 @@ func _ready():
 	jump_l = get_node("jump_l")
 	jump_r = get_node("jump_r")
 	raycast = get_node("body/RayCast2D")
-	get_node("body/Area2D").connect("body_enter", self, "cast")
+	get_node("body/Area2D").connect("body_enter", self, "track")
 	get_node("body/Area2D").connect("body_exit", self, "untrack")
 	get_node("hit_timer").connect("timeout", self, "original_colour")
 	hold_range = hold_order * hold_range
@@ -26,10 +25,7 @@ func _ready():
 	health()
 	build()
 
-func cast(collider):
-	target_list.append(collider)
-func untrack(collider):
-	target_list.remove(target_list.find(collider))
+
 
 func original_colour():
 	hit = false
@@ -55,6 +51,7 @@ func hit(collider):
 	health -= collider.damage
 	get_node("body/head/health_meter/health").set_modulate(Color(255, 1, 1))
 	if health <= 0 and dead == false:
+		dead = true
 		death()
 	health()
 	
@@ -78,17 +75,15 @@ func die(delta):
 		holding = true
 		velocity = Vector2()
 	if deathTime <= 0:
-		queue_free()
+		call_deferred("queue_free")
 
 func _fixed_process(delta):
+
 	gravity_check(delta)
 	if dead == true:
 		die(delta)
 	elif target_list != []:
-		if target_list.front().get_parent().dead:
-			untrack(target_list.front())
-		else:
-			runaway()
+		runaway()
 	elif follow:
 		go_to(objective)
 	elif building:
@@ -105,3 +100,5 @@ func _fixed_process(delta):
 	the_movement(delta)
 	knockback()
 	animation()
+	if level.game_over:
+		set_fixed_process(false)

@@ -11,15 +11,22 @@ var total_point_time = 10
 var point_time = 10
 var points = 5
 
+var buildings = []
+var constructions = []
 var positions = []
 var background_full = false
 var foreground_full = false
 
+var level
+
 func _ready():
+	level = get_parent().get_parent()
 	positions = get_node("Position2D").get_children()
 	set_fixed_process(true)
 	get_node("Area2D").connect("body_enter", self, "control")
 	get_node("Area2D").connect("body_exit", self, "no_control")
+	get_node("Area2D").connect("area_enter", self, "control")
+	get_node("Area2D").connect("area_exit", self, "no_control")
 	pass
 
 func check_full():
@@ -38,21 +45,28 @@ func check_full():
 		
 
 func no_control(collider):
-	if collider.is_in_group("allies"):
-		if collider in ally_control:
-			ally_control.remove(ally_control.find(collider))
-	elif collider.is_in_group("enemies"):
-		if collider in enemy_control:
-			enemy_control.remove(enemy_control.find(collider))
-			
+	if collider in ally_control:
+		ally_control.remove(ally_control.find(collider))
+	elif collider in enemy_control:
+		enemy_control.remove(enemy_control.find(collider))
+	elif collider in buildings:
+		buildings.remove(buildings.find(collider))
+	elif collider in constructions:
+		constructions.remove(constructions.find(collider))
+		
 func control(collider):
-	if collider.is_in_group("allies"):
-		if not collider in ally_control:
-			ally_control.append(collider)
-	elif collider.is_in_group("enemies"):
-		if not collider in enemy_control:
-			enemy_control.append(collider)
-			
+	if collider.get_name() == "TileMap":
+		pass
+	elif collider.has_method("positioning"):
+		constructions.append(collider)
+	elif collider.get_parent().faction.side == "allies" and collider.get_parent().has_method("attack"):
+		ally_control.append(collider)
+	elif collider.get_parent().faction.side == "enemies" and collider.get_parent().has_method("attack"):
+		enemy_control.append(collider)
+	elif collider.get_parent().has_method("initialize"):
+		buildings.append(collider)
+
+		
 func set_controlled(fside):
 	side = fside
 	capturing = fside
@@ -69,16 +83,28 @@ func raise_flag(delta, control):
 	capture_time += delta
 	get_node("Flagpole/" + str(control) + "flag").set_pos(Vector2(0, 40.0 - (capture_time) * 10.0))
 	if capture_time >= capture_time_total:
-		side = control
+		if control != side:
+			if constructions != []:
+				for con in constructions:
+					con.destroy()
+			if ally_control != []:
+				ally_control.front().get_parent().faction.player_list[0].construct_outpost(self)
+		
+			elif enemy_control != []:
+				enemy_control.front().get_parent().faction.player_list[0].construct_outpost(self)
+			level.check_win()
+			side = control
 		capture_time = capture_time_total
 		
 func lower_flag(delta, control, enemyflag):
 	capture_time -= delta
 	get_node("Flagpole/" + str(enemyflag) + "flag").set_pos(Vector2(0, 40.0 - (capture_time) * 10.0))
 	if capture_time <= 0:
-		capturing(control, enemyflag)
-		side = ""
 		capture_time = 0
+		if buildings == []:
+			capturing(control, enemyflag)
+			side = ""
+
 
 func red():
 	red = true
@@ -96,7 +122,7 @@ func points(delta):
 	point_time -= delta
 	if point_time <= 0:
 		point_time = total_point_time
-		get_parent().get_parent().points(side, points)
+		level.points(side, points)
 		
 func _fixed_process(delta):
 	if side != "":
@@ -118,7 +144,7 @@ func _fixed_process(delta):
 			pass
 		elif side == "" and capturing != control:
 			lower_flag(delta, control, enemyflag)
-		elif capturing == control:
+		elif capturing == control and buildings == []:
 			raise_flag(delta, control)
 			get_node("Flagpole/Label").set_text(side + " Capturing: " + "%.2f" % capture_time)
 		elif capturing != control or side != control:

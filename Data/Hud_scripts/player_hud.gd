@@ -32,6 +32,7 @@ var tall_wall
 var sandbag_nest
 var foxhole
 
+var war_factory
 var barracks
 func _ready():
 	player = get_parent().get_parent()
@@ -42,20 +43,20 @@ func _ready():
 	walld = icons.instance().get_node("Buildables/steel_wall")
 	sandbag_nestd = icons.instance().get_node("Buildables/sandbags")
 	
-	sandbag_nest = build.instance().get_node("Defence/sandbag_bunker")
-	foxhole = build.instance().get_node("Defence/foxhole")
+	sandbag_nest = build.instance().get_node(player.faction.faction + "/Defence/sandbag_bunker")
+	foxhole = build.instance().get_node(player.faction.faction + "/Defence/foxhole")
 	infantry = allies.instance().get_node("Infantry")
 	engineer = allies.instance().get_node("Engineer")
 	turret = deploy.instance().get_node("machinegun_turret")
 	mine = deploy.instance().get_node("mine")
-	wall = build.instance().get_node("Barricades/steel_wall")
-	tall_wall = build.instance().get_node("Barricades/tall_steel_wall")
+	wall = build.instance().get_node(player.faction.faction + "/Barricades/steel_wall")
+	tall_wall = build.instance().get_node(player.faction.faction + "/Barricades/tall_steel_wall")
 #	building_build = build.instance().get_node("Build")
 	deploy_build = deploy.instance().get_node("Build")
-	barracks = build.instance().get_node("Spawn_buildings/infantry")
-	
-	hud_list = [[infantry, engineer],[turret.duplicate()],[wall, tall_wall, sandbag_nest, foxhole, barracks], [mine]]
-	hud_display_list = [[infantryd, infantryd.duplicate()],[turretd], [walld, walld.duplicate(), sandbag_nestd, walld.duplicate(), mined.duplicate()], [mined]]
+	barracks = build.instance().get_node(player.faction.faction + "/Spawn_buildings/infantry")
+	war_factory = build.instance().get_node(player.faction.faction + "/Spawn_buildings/war_factory")
+	hud_list = [[infantry, engineer],[turret.duplicate()],[wall, tall_wall, sandbag_nest, foxhole, barracks, war_factory], [mine]]
+	hud_display_list = [[infantryd, infantryd.duplicate()],[turretd], [walld, walld.duplicate(), sandbag_nestd, walld.duplicate(), mined.duplicate(), turretd.duplicate()], [mined]]
 
 	display()
 	display_column()

@@ -20,11 +20,13 @@ var structure_pos
 var delta
 var faction
 var level
-
+var myself
+var dead = false
 func _ready():
 	set_z(structure.get_z())
 	level = get_parent().get_parent()
 	faction = get_parent()
+	set_layer_mask_bit(structure.frontorback, true)
 	set_collision_mask_bit(structure.frontorback, true)
 	hide_animations()
 	set_fixed_process(true)
@@ -41,7 +43,7 @@ func occupency():
 
 func activate():
 	placed = true
-	if faction.AI:
+	if faction.AI or structure.cost == null:
 		pass
 	else:
 		defence_zone.front().get_parent().red = true
@@ -49,7 +51,8 @@ func activate():
 	build_time = structure.build_time
 	structure.hide()
 	structure_pos = structure.get_pos()
-	faction.build_list.append(self)
+	myself = weakref(self)
+	faction.build_list.append(myself)
 	show_animations()
 	get_node("collider").set_layer_mask_bit(structure.frontorback, true)
 	build()
@@ -68,26 +71,26 @@ func positioning():
 		if structure.foreground:
 			defence_zone.front().get_parent().positions[number + place].foreground = true
 		place += 1
-		
+
 func remove(builder):
-	builders.remove(builders.find(builder))
+	builders.remove(builders.find(builder.myself))
 	occupency()
-	build()
-	
+
 func close():
-	faction.build_list.remove(faction.build_list.find(self))
+	set_fixed_process(false)
+	faction.build_list.remove(faction.build_list.find(myself))
 	for engineers in builders:
-		engineers.orders("waiting")
-		engineers.build()
-	queue_free()
+		engineers.get_ref().orders("waiting")
+		engineers.get_ref().build()
+	call_deferred("queue_free")
 	
 func build():
 	if not full:
 		for npc in faction.builder_list:
-			if not npc.move_to_build and not full:
-				npc.orders("build")
-				npc.objective = self
-				builders.append(npc)
+			if not npc.get_ref().building:
+				npc.get_ref().orders("build")
+				npc.get_ref().objective = self
+				builders.append(npc.get_ref().myself)
 				occupency()
 
 func non_buildable(collider):
@@ -96,20 +99,29 @@ func non_buildable(collider):
 func buildable(collider):
 	obstructions.pop_front()
 func defence_area(area):
-	if area.is_in_group("defence_zone") and area.get_parent().side == faction.side and not faction.AI:
+	if area.is_in_group("defence_zone") and area.get_parent().side == faction.side and not faction.AI and structure.cost != null:
 		defence_zone.append(area)
 		area.get_parent().green()
 
 func defence_area_exit(area):
-	if area.is_in_group("defence_zone") and not faction.AI:
+	if area.is_in_group("defence_zone") and not faction.AI and structure.cost != null:
 		defence_zone.pop_front()
 		area.get_parent().red()
+
+func destroy():
+	faction.build_list.remove(faction.build_list.find(myself))
+	for b in builders:
+		if not b.get_ref().dead:
+			b.get_ref().building = false
+			b.get_ref().build()
+	structure.call_deferred("queue_free")
+	call_deferred("queue_free")
 
 func _fixed_process(delta):
 	placeable()
 	if placeable == true and not faction.AI:
 		structure.original_colour()
-	elif not faction.AI:
+	elif not faction.AI and structure.cost != null:
 		structure.red()
 	if placed == true:
 		if build_time <= built_animation_time:
@@ -120,5 +132,5 @@ func _fixed_process(delta):
 				structure.set_pos(structure_pos) 
 				structure.set_z(1)
 				structure.defence_zone = defence_zone.front().get_parent()
-				structure.activate()
+				structure.initialize()
 				close()

@@ -6,14 +6,14 @@
 [ext_resource path="res://Data/Effects/speech_bubble.png" type="Texture" id=4]
 [ext_resource path="res://Data/Player/body.gd" type="Script" id=5]
 [ext_resource path="res://Data/Player/Idle_R.png" type="Texture" id=6]
-[ext_resource path="res://Data/Player/Walk_Crouch_R2.png" type="Texture" id=7]
-[ext_resource path="res://Data/Player/Crawl_Prone_R1.png" type="Texture" id=8]
-[ext_resource path="res://Data/Player/Crawl_Prone_R2.png" type="Texture" id=9]
-[ext_resource path="res://Data/Player/Run_R2.png" type="Texture" id=10]
-[ext_resource path="res://Data/Player/Run_R1.png" type="Texture" id=11]
-[ext_resource path="res://Data/Player/Idle_Prone_R.png" type="Texture" id=12]
-[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=13]
-[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=14]
+[ext_resource path="res://Data/Player/Crawl_Prone_R1.png" type="Texture" id=7]
+[ext_resource path="res://Data/Player/Crawl_Prone_R2.png" type="Texture" id=8]
+[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=9]
+[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=10]
+[ext_resource path="res://Data/Player/Run_R2.png" type="Texture" id=11]
+[ext_resource path="res://Data/Player/Run_R1.png" type="Texture" id=12]
+[ext_resource path="res://Data/Player/Walk_Crouch_R2.png" type="Texture" id=13]
+[ext_resource path="res://Data/Player/Idle_Prone_R.png" type="Texture" id=14]
 [ext_resource path="res://Data/Player/Head.png" type="Texture" id=15]
 [ext_resource path="res://Data/Player/newArm.png" type="Texture" id=16]
 [ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=17]
@@ -46,34 +46,34 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 7 ) ],
-"loop": false,
-"name": "jump",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "prone_crawl",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 10 ), ExtResource( 6 ), ExtResource( 11 ) ],
-"loop": true,
-"name": "run",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 12 ) ],
-"loop": true,
-"name": "prone_idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 13 ), ExtResource( 14 ) ],
+"frames": [ ExtResource( 9 ), ExtResource( 10 ) ],
 "loop": true,
 "name": "crouch_walk_r",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 14 ) ],
+"frames": [ ExtResource( 10 ) ],
 "loop": true,
 "name": "crouch_idle_r",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 6 ), ExtResource( 12 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 13 ) ],
+"loop": false,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 14 ) ],
+"loop": true,
+"name": "prone_idle",
 "speed": 5.0
 } ]
 
@@ -86,28 +86,54 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="Movement" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D" groups=[
+"player",
+]]
 
 z/z = -2
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 11 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -5 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 1
 collision/margin = 0.01
 script/script = ExtResource( 1 )
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
+transform/pos = Vector2( -1, -35 )
+anchor_mode = 1
+rotating = true
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[node name="target" type="Position2D" parent="."]
+
+transform/pos = Vector2( -1, -13 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
-transform/pos = Vector2( 0, 11 )
+transform/pos = Vector2( 0, -5 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
 [node name="jump_l" type="RayCast2D" parent="."]
 
-transform/pos = Vector2( -6, 16 )
+transform/pos = Vector2( -6, 0 )
 enabled = true
 cast_to = Vector2( 0, 1 )
 layer_mask = 1
@@ -115,7 +141,7 @@ type_mask = 1
 
 [node name="jump_r" type="RayCast2D" parent="."]
 
-transform/pos = Vector2( 5, 16 )
+transform/pos = Vector2( 5, 0 )
 enabled = true
 cast_to = Vector2( 0, 1 )
 layer_mask = 1
@@ -151,7 +177,7 @@ autostart = false
 
 editor/display_folded = true
 visibility/opacity = 0.8
-transform/pos = Vector2( 15, -58 )
+transform/pos = Vector2( 14, -74 )
 transform/scale = Vector2( 4, 4 )
 z/z = -2
 texture = ExtResource( 4 )
@@ -173,11 +199,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="body" type="KinematicBody2D" parent="." groups=[
-"players",
-]]
+[node name="body" type="KinematicBody2D" parent="."]
 
-editor/display_folded = true
+transform/pos = Vector2( 0, -17 )
 z/z = 1
 input/pickable = false
 shapes/0/shape = SubResource( 2 )
@@ -269,24 +293,5 @@ margin/bottom = -35.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-
-[node name="Camera2D" type="Camera2D" parent="."]
-
-anchor_mode = 1
-rotating = true
-current = true
-zoom = Vector2( 1, 1 )
-limit/left = -10000000
-limit/top = -10000000
-limit/right = 10000000
-limit/bottom = 10000000
-drag_margin/h_enabled = true
-drag_margin/v_enabled = true
-smoothing/enable = false
-smoothing/speed = 5.0
-drag_margin/left = 0.2
-drag_margin/top = 0.2
-drag_margin/right = 0.2
-drag_margin/bottom = 0.2
 
 

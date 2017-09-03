@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=1]
+[gd_scene load_steps=26 format=1]
 
 [ext_resource path="res://Data/Attacks/Attacks.gd" type="Script" id=1]
 [ext_resource path="res://Data/Attacks/bullet.gd" type="Script" id=2]
@@ -8,13 +8,15 @@
 [ext_resource path="res://Data/Attacks/Unicorn_bullet.png" type="Texture" id=6]
 [ext_resource path="res://Data/Attacks/Lazer.gd" type="Script" id=7]
 [ext_resource path="res://Data/Attacks/Lazer.png" type="Texture" id=8]
-[ext_resource path="res://Data/Attacks/explosion.gd" type="Script" id=9]
-[ext_resource path="res://Data/Tiles/SpaceTiles/16X16 space cover.png" type="Texture" id=10]
-[ext_resource path="res://Data/Attacks/CreepBlast.gd" type="Script" id=11]
-[ext_resource path="res://Data/Attacks/CreepBlast.png" type="Texture" id=12]
-[ext_resource path="res://Data/Attacks/Bite.gd" type="Script" id=13]
-[ext_resource path="res://Data/Attacks/Bite.png" type="Texture" id=14]
-[ext_resource path="res://Data/Attacks/Gun_melee.gd" type="Script" id=15]
+[ext_resource path="res://Data/Attacks/CreepBlast.gd" type="Script" id=9]
+[ext_resource path="res://Data/Attacks/CreepBlast.png" type="Texture" id=10]
+[ext_resource path="res://Data/Attacks/Bite.gd" type="Script" id=11]
+[ext_resource path="res://Data/Attacks/Bite.png" type="Texture" id=12]
+[ext_resource path="res://Data/Attacks/Gun_melee.gd" type="Script" id=13]
+[ext_resource path="res://Data/Attacks/tank_shell.gd" type="Script" id=14]
+[ext_resource path="res://Data/Attacks/Tank Shell.png" type="Texture" id=15]
+[ext_resource path="res://Grenade.gd" type="Script" id=16]
+[ext_resource path="res://Data/Attacks/Grenade.png" type="Texture" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -24,7 +26,7 @@ extents = Vector2( 2, 4 )
 [sub_resource type="CircleShape2D" id=2]
 
 custom_solver_bias = 0.0
-radius = 3.0
+radius = 2.0
 
 [sub_resource type="CapsuleShape2D" id=3]
 
@@ -41,14 +43,20 @@ height = 2.0
 [sub_resource type="CircleShape2D" id=5]
 
 custom_solver_bias = 0.0
-radius = 43.2897
+radius = 5.09902
 
 [sub_resource type="CircleShape2D" id=6]
 
 custom_solver_bias = 0.0
-radius = 5.09902
+radius = 5.0
 
-[sub_resource type="CircleShape2D" id=7]
+[sub_resource type="CapsuleShape2D" id=7]
+
+custom_solver_bias = 0.0
+radius = 3.0
+height = 9.96793
+
+[sub_resource type="CircleShape2D" id=8]
 
 custom_solver_bias = 0.0
 radius = 5.0
@@ -72,7 +80,7 @@ shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 4, 2 )
 shapes/0/trigger = false
 collision/layers = 0
-collision/mask = 0
+collision/mask = 524288
 collision/margin = 0.08
 script/script = ExtResource( 2 )
 
@@ -89,32 +97,25 @@ shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Distance" type="Timer" parent="Bullet"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
-
 [node name="Pellets" type="KinematicBody2D" parent="." groups=[
 "bullets",
 ]]
 
 editor/display_folded = true
-visibility/visible = false
 z/z = -1
 input/pickable = false
 shapes/0/shape = SubResource( 2 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 2, 2 )
 shapes/0/trigger = false
-collision/layers = 2
-collision/mask = 2
+collision/layers = 0
+collision/mask = 0
 collision/margin = 0.08
 script/script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Pellets"]
 
 texture = ExtResource( 5 )
+centered = false
 
 [node name="Distance" type="Timer" parent="Pellets"]
 
@@ -125,6 +126,7 @@ autostart = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Pellets"]
 
+transform/pos = Vector2( 2, 2 )
 shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
@@ -139,8 +141,8 @@ input/pickable = false
 shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 0, 0 )
 shapes/0/trigger = true
-collision/layers = 2
-collision/mask = 2
+collision/layers = 0
+collision/mask = 0
 collision/margin = 0.08
 script/script = ExtResource( 2 )
 
@@ -169,65 +171,60 @@ autostart = false
 editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 0, 0 )
+shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 6, 5 )
 shapes/0/trigger = false
-collision/layers = 2
-collision/mask = 2
+collision/layers = 0
+collision/mask = 0
 collision/margin = 0.08
 script/script = ExtResource( 7 )
 
 [node name="Sprite" type="Sprite" parent="Lazer"]
 
 texture = ExtResource( 8 )
+centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Lazer"]
 
+transform/pos = Vector2( 6, 5 )
 transform/rot = 90.0
 shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Distance" type="Timer" parent="Lazer"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
-
-[node name="explosion" type="Area2D" parent="."]
+[node name="CreepBlast" type="KinematicBody2D" parent="."]
 
 editor/display_folded = true
 visibility/visible = false
-input/pickable = true
+input/pickable = false
 shapes/0/shape = SubResource( 5 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-collision/layers = 32770
-collision/mask = 32770
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
 script/script = ExtResource( 9 )
+ATTACKSPEED = 60
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="explosion"]
+[node name="Sprite" type="Sprite" parent="CreepBlast"]
+
+texture = ExtResource( 10 )
+
+[node name="Range" type="Timer" parent="CreepBlast"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CreepBlast"]
 
 shape = SubResource( 5 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Sprite" type="Sprite" parent="explosion"]
-
-texture = ExtResource( 10 )
-
-[node name="Distance" type="Timer" parent="explosion"]
-
-process_mode = 1
-wait_time = 0.1
-one_shot = true
-autostart = false
-
-[node name="CreepBlast" type="KinematicBody2D" parent="."]
+[node name="Bite" type="KinematicBody2D" parent="." groups=[
+"bullets",
+]]
 
 editor/display_folded = true
 visibility/visible = false
@@ -241,41 +238,9 @@ collision/margin = 0.08
 script/script = ExtResource( 11 )
 ATTACKSPEED = 60
 
-[node name="Sprite" type="Sprite" parent="CreepBlast"]
-
-texture = ExtResource( 12 )
-
-[node name="Range" type="Timer" parent="CreepBlast"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CreepBlast"]
-
-shape = SubResource( 6 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Bite" type="KinematicBody2D" parent="." groups=[
-"bullets",
-]]
-
-editor/display_folded = true
-input/pickable = false
-shapes/0/shape = SubResource( 7 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
-shapes/0/trigger = false
-collision/layers = 1
-collision/mask = 1
-collision/margin = 0.08
-script/script = ExtResource( 13 )
-ATTACKSPEED = 60
-
 [node name="Sprite" type="Sprite" parent="Bite"]
 
-texture = ExtResource( 14 )
+texture = ExtResource( 12 )
 
 [node name="Range" type="Timer" parent="Bite"]
 
@@ -286,22 +251,72 @@ autostart = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bite"]
 
-shape = SubResource( 7 )
+shape = SubResource( 6 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Gun_melee" type="RayCast2D" parent="."]
 
+editor/display_folded = true
 z/z = -1
 enabled = true
 cast_to = Vector2( 40, 0 )
-layer_mask = 2
+layer_mask = 0
 type_mask = 15
-script/script = ExtResource( 15 )
+script/script = ExtResource( 13 )
 
 [node name="Sprite" type="Sprite" parent="Gun_melee"]
 
 transform/pos = Vector2( 43, 0 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
+
+[node name="Tank_bullet" type="KinematicBody2D" parent="."]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 7 )
+shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 8, 3 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 0
+collision/margin = 0.08
+script/script = ExtResource( 14 )
+
+[node name="Sprite" type="Sprite" parent="Tank_bullet"]
+
+texture = ExtResource( 15 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tank_bullet"]
+
+transform/pos = Vector2( 8, 3 )
+transform/rot = 90.0
+shape = SubResource( 7 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Grenade" type="KinematicBody2D" parent="."]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 8 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 0
+collision/margin = 0.08
+script/script = ExtResource( 16 )
+
+[node name="Sprite" type="Sprite" parent="Grenade"]
+
+texture = ExtResource( 17 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grenade"]
+
+shape = SubResource( 8 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Blow_up" type="Position2D" parent="Grenade"]
 
 

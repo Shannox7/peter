@@ -1,7 +1,9 @@
 extends "res://Characters.gd"
 var attacks = preload("res://Attacks.tscn")
-var defending = false
 var in_defence= false
+var bomb_time = 3
+var total_bomb_time = 3
+var bomb_damage = 25
 
 func orders(commands):
 	attack = false
@@ -16,12 +18,12 @@ func orders(commands):
 			if faction.side == "allies":
 				for obj in level.objective_list:
 					if obj.side != faction.side:
-						objective = obj
+						objective = obj.positions[obj.positions.size() - 1]
 						break
 			elif faction.side == "enemies":
 				for obj in level.objective_list:
 					if obj.side != faction.side:
-						objective = obj
+						objective = obj.positions[0]
 		elif commands == "hold":
 			hold = true
 		elif commands == "follow":
@@ -31,211 +33,147 @@ func orders(commands):
 			if faction.side == "allies":
 				for obj in level.objective_list:
 					if obj.side == faction.side:
-						objective = obj
+						objective = obj.positions[0]
 			elif faction.side == "enemies":
 				for obj in level.objective_list:
 					if obj.side == faction.side:
-						objective = obj
+						objective = obj.positions[obj.positions.size() - 1]
 						break
 
-func melee():
-	attack_ready = false
-	melee = true
-	fire_ready.stop()
-
-#	var Aimrot = arm_r.get_rot() * flip_mod
-#	var pos = Vector2(cos(Aimrot), -sin(Aimrot)) * flip_mod
-	var spawn_point = arm_r.get_global_pos()
-	var m = attacks.instance().get_node("Gun_melee").duplicate()
-#	m.set_pos(spawn_point)
-	m.attacker = self
-	m.set_collision_mask_bit(faction.enemynumber, true)
-#	m.enemyside = enemyside
-	if primaryGun != []:
-		m.damage = primaryGun[0].melee_damage
-		fire_ready.set_wait_time(.5)
-		m.stopping_power = primaryGun[0].melee_stopping_power + melee_stopping_power
+func blowup_building(delta):
+	holding = false
+	var target = building_list.front()
+	if !target.get_ref():
+		untrack(target.get_ref().get_node("body"))
+	elif target.get_ref().dead:
+		untrack(target.get_ref().get_node("body"))
 	else:
-		m.stopping_power = melee_stopping_power
-		fire_ready.set_wait_time(.5)
-	fire_ready.start()
-	arm_r.add_child(m)
-	armanim = "Melee"
-	
-func fire():
-	attack_ready = false
-	fire_ready.stop()
-#	h.get_node("Player1").shoot(self)
-	var Aimrot = arm_r.get_rot() * flip_mod
-	var pos = Vector2(cos(Aimrot), -sin(Aimrot)) * flip_mod
-	var spawn_point = pos + primaryGun[0].get_node("barrel_tip").get_global_pos()
-
-	for bullets in range(primaryGun[0].bullets_inbullets):
-		bullets = primaryGun[0].bullettype()
-		if flip_mod == -1:
-			bullets.get_node("Sprite").set_flip_h(true)  
-			bullets.flip_mod = -1
-		bullets.set_rotd(rad2deg(Aimrot) + rand_range(primaryGun[0].accuracy, -primaryGun[0].accuracy))
-		bullets.set_collision_mask_bit(faction.enemynumber, true)
-		bullets.set_pos(spawn_point)
-		bullets.side = side
-		level.add_child(bullets)
-	primaryGun[0].shoot()
-	armanim = "Shoot"
-	fire_ready.set_wait_time(primaryGun[0].fire_rate)
-	fire_ready.start()
-	if primaryGun[0].current_clip <= 0 and primaryGun[0].current_ammo > 0:
-		reload()
-		
-func dropGun():
-	primaryGun[0].level.remove_child(primaryGun[0])
-	fire_ready.stop()
-	level.add_child(primaryGun[0])
-	primaryGun[0].set_global_pos(get_node("body/arm_r/Gun").get_global_pos())
-	primaryGun[0].unlock()
-	primaryGun.remove(0)
-	
-		
-func unequip(itemvar):
-	itemvar[0].named = str(itemvar[0].name)
-	itemvar[0].is_equipped = false
-	itemvar[0].queue_free()
-	itemvar.pop_front()
-
-func equip(item, pickedup, slot):
-	if pickedup == true:
-		pack.append(item)
-	if item.is_in_group("weapons") and slot == "primaryGun":
-		if primaryGun != [] and secondaryGun != []:
-			unequip(primaryGun)
-			arm_r.add_child(item)
-			primaryGun.append(item)
-		elif primaryGun != [] and secondaryGun == []:
-			primaryGun[0].level.remove_child(primaryGun[0])
-			get_node("body/legs").add_child(primaryGun[0])
-			arm_r.add_child(item)
-			primaryGun.append(item)
-			secondaryGun.append(primaryGun[0])
-			primaryGun.pop_front()
+		var targeting = target.get_ref().get_node("body")
+#		look(target)
+		raycast.set_rot(get_angle_to(targeting.get_global_pos()) - 3.14159/2)
+		if get_pos().distance_to(targeting.get_global_pos()) <= 30:
+			holding = true
+			bomb_time -= delta
+			if bomb_time <= 0:
+				bomb_time = total_bomb_time
+				targeting.get_parent().health -= bomb_damage
+				if targeting.get_parent().health <= 0:
+					targeting.get_parent().death()
 		else:
-			primaryGun.append(item)
-			arm_r.add_child(item)
+			bomb_time = total_bomb_time
+			
+			
+					
+func original_colour():
+	hit = false
+	arm_r.set_modulate(Color(1, 1, 1))
+	head.set_modulate(Color(1, 1, 1))
+	get_node("body/legs").set_modulate(Color(1, 1, 1))
+	
+func red():
+	arm_r.set_modulate(Color(255,0, 0))
+	head.set_modulate(Color(255,0, 0))
+	get_node("body/legs").set_modulate(Color(255,0, 0))
+	
+func die(delta):
+	deathTime -= delta
+	if get_rotd() > -90 and get_rotd() < 90:  
+		rotate(.05 * flip_mod)
+		holding = true
+	if deathTime <= 0:
+		call_deferred("queue_free")
+	
+func health():
+	var scale = 3
+	if health > 0.0:
+		get_node("body/head/health_meter/health").set_scale(Vector2(1, (health/total_health) * scale)) 
+		if health/total_health > 0.25:
+			get_node("body/head/health_meter/health").set_modulate(Color(0, 255, 0))
+		elif health/total_health <= 0.25:
+			get_node("body/head/health_meter/health").set_modulate(Color(255, 0, 0))
+	else:
+		get_node("body/head/health_meter/health").set_scale(Vector2(1, 0))
+		get_node("body/head/health_meter/health").set_modulate(Color(255, 0, 0))
+
+func death():
+	var hold_order = 1
+	var hold_range = 30
+
+	get_node("body").set_layer_mask_bit(faction.sidenumber, false)
+	if defending and not objective.dead:
+		objective.op_dead(self)
+	faction.attacker_list.remove(faction.attacker_list.find(myself))
+#	for allys in faction.attacker_list:
+#		allys.hold_range = hold_range * hold_order
+#		hold_order += 1
+		
+func defend():
+	for vehicle in faction.vehicle_list:
+		if !vehicle.get_ref():
+			pass
+		elif not vehicle.get_ref().full and not vehicle.get_ref().dead:
+			objective = vehicle.get_ref()
+			orders("defend")
+			vehicle.call_deferred("add_operator", self)
+			break
+	if not defending:
+		for building in faction.defence_list:
+			if !building.get_ref():
+				pass
+			elif not building.get_ref().full:
+				objective = building.get_ref()
+				orders("defend")
+				building.get_ref().add_operator(self)
+				break
+			
+func defending():
+	holding = false
+	if get_pos().distance_to(objective.get_global_pos()) <= 10:
+		objective.call_deferred("place", self)
+		in_defence = true
+		holding = true
+	else:
+		raycast.set_rot(get_angle_to(objective.get_global_pos()) - 3.14159/2)
+
+func prone(proned):
+	if proned:
+		get_node("body").set_pos(Vector2(0, 14))
+		get_node("body/prone").set_trigger(false)
+		get_node("body/standing").set_trigger(true)
+		get_node("body/prone").set_pos(get_node("body/legs").get_pos())
+	else:
+		get_node("body").set_pos(Vector2(0, 0))
+		get_node("body/standing").set_trigger(false)
+		get_node("body/prone").set_trigger(true)
+		get_node("body/standing").set_pos(get_node("body/legs").get_pos())
+		
+	if is_prone != true:
+		head.set_pos(Vector2(0, -13))
+		get_node("body/legs").set_pos(Vector2(0, 5))
+		get_node("body/legs/secondaryEquip").set_pos(Vector2(-5, -20))
+		arm_r.set_pos(Vector2(-5, -3))
+		if headArmour != []:
+			headArmour[0].set_pos(Vector2(0 , -4))
+		if bodyArmour != []:
+			bodyArmour[0].set_rotd(0)
+			bodyArmour[0].set_pos(Vector2(0, -4))
+		if secondaryGun != []:
+			secondaryGun[0].set_pos(Vector2(get_node("body/legs/secondaryEquip").get_pos()))
+			secondaryGun[0].set_rotd(-90)
+
+	elif is_prone == true:
+		get_node("body/legs").set_pos(Vector2(-4, -2))
+		get_node("body/legs/secondaryEquip").set_pos(Vector2(14, - 2))
+		head.set_pos(Vector2(12, -6))
+		arm_r.set_pos(Vector2(-1, -1))
+		if headArmour != []:
+			headArmour[0].set_pos(Vector2(0, -4))
+		if bodyArmour != []:
+			bodyArmour[0].set_rotd(-90)
+			bodyArmour[0].set_pos(Vector2(2, 0))
 		if primaryGun != []:
 			primaryGun[0].set_pos(get_node("body/arm_r/Gun").get_pos())
-			primaryGun[0].set_rotd(get_node("body/arm_r/Gun").get_rotd())
 		if secondaryGun != []:
-			secondaryGun[0].set_pos(get_node("body/legs/secondaryEquip").get_pos())
-			secondaryGun[0].set_rot(get_node("body/legs/secondaryEquip").get_rot())
-	elif item.is_in_group("weapons") and slot == "secondaryGun":
-		if secondaryGun != []:
-			unequip(secondaryGun)
-		secondaryGun.append(item)
-		secondaryGun[0].set_pos(get_node("body/legs/secondaryEquip").get_pos())
-		secondaryGun[0].set_rotd(get_node("body/legs/secondaryEquip").get_rotd())
-		get_node("body/legs").add_child(secondaryGun[0])
-	elif item.is_in_group("armour"):
-		if item.is_in_group("head"):
-			if headArmour != []:
-				headArmour[0].level.remove_child(headArmour[0])
-				headArmour[0].unequip(self)
-				headArmour.pop_front()
-			headArmour.append(item)
-			get_node("body/Head").add_child(item)
-			item.set_pos(Vector2(get_node("body/Head").get_pos().x, -4))
-			item.set_rot(0)
-			headArmour[0].equip(self)
-		elif item.is_in_group("body"):
-			if bodyArmour != []:
-				bodyArmour[0].level.remove_child(bodyArmour[0])
-				bodyArmour[0].unequip(self)
-				bodyArmour.pop_front()
-			bodyArmour.append(item)
-			get_node("body/legs").add_child(item)
-			item.set_pos(Vector2(get_node("body/legs").get_pos().x, -4))
-			item.set_rot(get_node("body/legs").get_rot())
-			item.set_rot(0)
-			bodyArmour[0].equip(self)
-			
-func swap():
-	if reloading == true:
-		stop_reload()
-	if primaryGun != [] and secondaryGun != []:
-		secondaryGun.append(primaryGun[0])
-		primaryGun.append(secondaryGun[0])
-		secondaryGun.pop_front()
-		primaryGun.pop_front()
-	elif primaryGun == [] and secondaryGun !=[]:
-		primaryGun.append(secondaryGun[0])
-		secondaryGun.pop_front()
-	elif primaryGun != [] and secondaryGun == []:
-		secondaryGun.append(primaryGun[0])
-		primaryGun.pop_front()
-	if primaryGun != []:
-		primaryGun[0].level.remove_child(primaryGun[0])
-		primaryGun[0].set_pos(get_node("body/arm_r/Gun").get_pos())
-		primaryGun[0].set_rotd(get_node("body/arm_r/Gun").get_rotd())
-		get_node("body/arm_r").add_child(primaryGun[0])
-	if secondaryGun != []:
-		secondaryGun[0].level.remove_child(secondaryGun[0])
-		secondaryGun[0].set_pos(get_node("body/legs/secondaryEquip").get_pos())
-		secondaryGun[0].set_rotd(get_node("body/legs/secondaryEquip").get_rotd())
-		get_node("body/legs").add_child(secondaryGun[0])
-	
-func fireready():
-	melee = false
-	if primaryGun != []:
-		if reloading == true:
-			reloading = false
-			primaryGun[0].reload()
-		attack_ready = true
-		fire_ready.set_wait_time(primaryGun[0].fire_rate)
-		fire_ready.start()
-		
-func stop_reload():
-	reloading = false
-	fire_ready.set_wait_time(primaryGun[0].reload_speed)
-	fire_ready.set_wait_time(primaryGun[0].fire_rate)
-	fire_ready.start()
-	
-func reload():
-	reloading = true
-	fire_ready.stop()
-	fire_ready.set_wait_time(primaryGun[0].reload_speed)
-	fire_ready.start()
-	
-func cast(collider):
-#	print("working")
-	if collider.get_parent().get_parent().side != faction.side:
-#		print ("collider is in allies")
-#		target_list.append(collider)
-		track(collider)
-#		var position = Vector2(Collider.get_global_pos().x, Collider.get_global_pos().y - Collider.get_global_pos().y)
-#		print (collider.get_name())
-#		raycast.set_cast_to(position)
-#		print("casting")
-#		collider = Collider
-#		raycast.add_exception(collider)
-#		cast = true
-#		print (raycast.get_cast_to())
-#		if raycast.is_colliding():
-#			print ("colliding")
-#			print (raycast.get_collider())
-#			if raycast.get_collider().is_in_group("players") or raycast.get_collider().is_in_group("allies"):
-#				target_list.append(collider)
-#				print(target_list)
-				
-#		player = collider
-		
-func track(collider):
-#	raycast.add_exception(collider)
-	if collider in target_list:
-		pass
-	else:
-		target_list.append(collider)
-
-
-
-func untrack(collider):
-	if collider.get_parent().get_parent().side != faction.side:
-		if collider in target_list:
-			target_list.remove(target_list.find(collider))
+			secondaryGun[0].set_rotd(180)
+			secondaryGun[0].set_pos(Vector2(get_node("body/legs/secondaryEquip").get_pos()))
+	flip(flipped)

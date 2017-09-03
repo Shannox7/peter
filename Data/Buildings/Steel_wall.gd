@@ -12,6 +12,6 @@ func builder():
 	return builder.get_node("one_tile/Build")
 	
 func red():
-	get_node("body").set_modulate(Color(255, 1, 1))
+	get_node("body 1").set_modulate(Color(255, 1, 1))
 func original_colour():
-	get_node("body").set_modulate(Color(1, 1, 1))
+	get_node("body 1").set_modulate(Color(1, 1, 1))

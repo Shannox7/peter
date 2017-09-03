@@ -1,4 +1,5 @@
-extends "res://Data/Basic_infantry.gd"
+extends "res://Characters.gd"
+var attacks = preload("res://Attacks.tscn")
 var I = preload("res://Inventory_hud.tscn").instance()
 var h = preload("res://HUD.tscn").instance()
 var c = preload("res://Commands.tscn").instance()
@@ -34,8 +35,8 @@ func _ready():
 	set_process_input(true)
 	level = get_parent().get_parent()
 	faction = get_parent()
-	get_node("body").set_layer_mask_bit(get_parent().sidenumber, true)
-	get_node("body").add_to_group(faction.side)
+#	get_node("body").set_layer_mask_bit(get_parent().sidenumber, true)
+#	get_node("body").add_to_group(faction.side)
 	faction.player_list.append(self)
 	arm_r = get_node("body/arm_r")
 	head = get_node("body/Head")
@@ -54,8 +55,7 @@ func _ready():
 	health = total_health
 	orders = c.get_node("Commands")
 	call_deferred("hud", h)
-
-	basic_gun = Guns.instance().get_node("Tier_1/M14").duplicate()
+	basic_gun = Guns.instance().get_node("Tier_1/Shotgun").duplicate()
 	basic_gun.generate("Tier_1")
 	if primaryGun == []:
 		equip(basic_gun, false, "primaryGun")
@@ -107,16 +107,26 @@ func player_health():
 	else:
 		h.get_node("Player1/health_meter/health").set_scale(Vector2(1, 1))
 		h.get_node("Player1/health_meter/health").set_modulate(Color(255, 0, 0))
+
+func construct_outpost(zone):
+	var struct = level.buildings.get_node(faction.faction + "/Spawn_buildings/outpost").duplicate()
+	var builder = struct.builder().duplicate()
+	builder.structure = struct
+	faction.add_child(struct)
+	faction.add_child(builder)
+	builder.defence_zone.append(zone.get_node("Area2D"))
+	struct.flip(faction.flipped)
+	struct.set_pos(zone.positions[round((zone.positions.size() - 1)/ 2)].get_global_pos())
+	builder.set_pos(zone.positions[round((zone.positions.size() - 1)/ 2)].get_global_pos())
+	builder.activate()
 	
 func update_hud():
 	if primaryGun != []:
 		total_ammo = primaryGun[0].ammo_capacity
 		current_ammo = primaryGun[0].current_ammo
-		bullet_list = primaryGun[0].bullet_list
 	else:
 		total_ammo = 0
 		current_ammo = 0
-		bullet_list = []
 	h.get_node("Player1").update_hud()
 		
 func command(command):
@@ -130,11 +140,6 @@ func recruit(object):
 	windows = false
 	object.set_pos(level.get_node("player_1_spawn").get_pos())
 	faction.add_child(object)
-	
-#	if object.is_in_group("engineers"):
-#		get_parent().ally_engineer_list.append(object)
-#	else:
-#		get_parent().ally_list.append(object)
 	object.hold_order("add")
 
 func building(object, build):
@@ -143,18 +148,6 @@ func building(object, build):
 	build.structure = selected
 	faction.add_child(selected)
 	faction.add_child(Build)
-	place = true
-
-func deploy(object, build):
-	selected = object
-	Build = build
-	var mouse_pos = get_global_mouse_pos()
-	var coords = level.get_node("TileMap").world_to_map(get_global_mouse_pos())
-	var revert = level.get_node("TileMap").map_to_world(coords)
-	level.add_child(Build)
-	level.add_child(selected)
-	selected.set_global_pos(coords)
-	Build.set_global_pos(coords)
 	place = true
 	
 func flip(flipped):
@@ -168,12 +161,12 @@ func flip(flipped):
 	
 func prone(proned):
 	if proned:
-		get_node("body").set_pos(Vector2(0, 14))
+		get_node("body").set_pos(Vector2(0, -3))
 		get_node("body/prone").set_trigger(false)
 		get_node("body/standing").set_trigger(true)
 #		get_node("body/prone").set_pos(get_node("body/legs").get_pos())
 	else:
-		get_node("body").set_pos(Vector2(0, 0))
+		get_node("body").set_pos(Vector2(0, -17))
 		get_node("body/standing").set_trigger(false)
 		get_node("body/prone").set_trigger(true)
 #		get_node("body/standing").set_pos(get_node("body/legs").get_pos())
@@ -212,24 +205,10 @@ func prone(proned):
 	
 		
 func _input(event):
-	if event.is_action_pressed("grenade"):
-		var grenade = g.get_node("grenade").duplicate()
-		var Aimrot = arm_r.get_rot()
-		var pos = Vector2(cos(Aimrot), -sin(Aimrot))
-		var spawn_point = pos + head.get_global_pos()
-		spawn_point.y - 10
-#		grenade.set_rot(Aimrot)
-		grenade.throwx = max(min(abs(45 + rad2deg(Aimrot)) * 5, 200), 100)
-		grenade.throwy =  max(min(abs(45 + rad2deg(Aimrot)) * -6, -350), -500)
-		print(grenade.throwy)
-#		if grenade.throwy > 0:
-#			grenade.throwy *= -1
-#		if grenade.throwx > 0 and flip_mod == -1:
-#			grenade.throwx *= -1
-		grenade.set_pos(spawn_point) 
-		grenade.flip_mod = flip_mod
-		level.add_child(grenade)
-		grenade.activate(side)
+	if event.is_action_pressed("grenade") and primaryGun != [] and melee == false: 
+		if attack_ready == true and (primaryGun[0].current_ammo - (primaryGun[0].ammo_capacity * primaryGun[0].special_ammo_cost)) >= 0:
+			special()
+	
 
 	
 	if event.is_action_pressed("inventory"):
@@ -242,6 +221,7 @@ func _input(event):
 
 		
 	elif event.is_action_pressed("command"):
+#		print(faction.attacker_list)
 		if command == false and windows == false:
 			command = true
 			orders.set_pos(Vector2(0, -100))
@@ -316,12 +296,18 @@ func _fixed_process(delta):
 	remove_comment(delta)
 	gravity_check(delta)
 	grounded_check()
+	
 	if Input.is_action_pressed("fire") and primaryGun != [] and melee == false: 
 		if attack_ready == true and primaryGun[0].fullauto == true and primaryGun[0].current_clip > 0:
 			fire()
-			
+#	if Input.get_joy_axis(0, 1):
+#	arm_r.look_at(Vector2(JOY_ANALOG_0_X, JOY_ANALOG_0_Y))
+#	print (JOY_AXIS_1)
+		
+#		
 	if Input.is_action_pressed("ui_lookup") and head.get_rotd() <= 45:
 		arm_r.rotate(AIMSPEED)
+		
 	elif Input.is_action_pressed("ui_lookdown") and head.get_rotd() > -45:
 		arm_r.rotate(-AIMSPEED)
 	if not melee:
@@ -330,7 +316,7 @@ func _fixed_process(delta):
 	if Input.is_action_pressed("ui_ctrl"):
 		WALK_SPEED = 100
 		PRONE_SPEED = 50
-		primaryGun[0].aiming(true, 4)
+		primaryGun[0].aiming(true, faction.enemynumberval)
 		aim = true
 		AIMSPEED = .01
 	elif aim == true:
@@ -338,12 +324,16 @@ func _fixed_process(delta):
 		PRONE_SPEED = 50
 		AIMSPEED = .05
 		aim = false
-		primaryGun[0].aiming(false, 1)
+		primaryGun[0].aiming(false, faction.enemynumberval)
 
 
 	if place == true:
-		var mouse_pos = get_global_mouse_pos()
-		var coords = level.get_node("TileMap").world_to_map(get_global_mouse_pos())
+		var pos
+		if flipped:
+			pos = Vector2(get_global_pos().x - 40 - (20 * (selected.size - 1)), get_global_pos().y)
+		else:
+			pos = Vector2(get_global_pos().x + 40, get_global_pos().y)
+		var coords = level.get_node("TileMap").world_to_map(pos)
 		var revert = level.get_node("TileMap").map_to_world(coords)
 		var tilesize = level.get_node("TileMap").get_cell_size()
 		Build.set_pos(revert + Vector2(tilesize.x / 2, tilesize.y))

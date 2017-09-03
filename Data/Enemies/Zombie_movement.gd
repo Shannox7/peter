@@ -13,12 +13,11 @@ func _ready():
 	legs = get_node("body/AnimatedSprite")
 	raycast = get_node("body/direction")
 #	rayNode = get_node("body/head/cast")
-	viewarea = get_node("body/head/ViewArea")
-	viewarea.connect("body_enter", self, "cast")
 	fire_ready = get_node("body/Attack")
 	fire_ready.set_wait_time(.5)
 	fire_ready.connect("timeout", self, "fireready")
 	get_node("hit_timer").connect("timeout", self, "original_colour")
+	get_node("body/Area2D").connect("body_enter", self, "track")
 	get_node("body/Area2D").connect("body_exit", self, "untrack")
 	health_display = get_node("body/head/health_meter/health")
 	armanimNode = get_node("AnimationPlayer")
@@ -39,7 +38,7 @@ func _fixed_process(delta):
 		die(delta)
 	elif retreat:
 		go_to(objective)
-	elif target_list != []:
+	elif target_list != [] or priority_list != []:
 		attack()
 	elif follow:
 		go_to(objective)

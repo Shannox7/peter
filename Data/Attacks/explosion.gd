@@ -1,20 +1,20 @@
-extends Node2D
+extends Area2D
 #var BULLETSPEED = 500
 var shrapnel = []
 var shrapnelnumber = 0
 var damage = 0
-var stopping_power = 0
+var stopping_power = 8
 var distance = .5
 var distance_timer
 var velocity = Vector2()
 var bh = preload("res://effects.tscn")
 var targets = [] 
+var time = 1
+
 func _ready():
-	connect("body_enter", self, "find")
-#	distance_timer = get_node("Distance")
-#	distance_timer.set_wait_time(distance)
-#	distance_timer.connect("timeout", self, "hurt")
-#	distance_timer.start()
+	set_fixed_process(true)
+	pass
+
 func hit(collider):
 	pass
 
@@ -31,6 +31,12 @@ func find(collider):
 #			velocity = Vector2(cos(get_angle_to(enemies.get_pos())), -sin(get_angle_to(enemies.get_pos())))
 #			enemies.hit(self)
 #	queue_free()
-
-
+func _fixed_process(delta):
+	time -= 1
+	if time <= 0:
+		for bodies in get_overlapping_bodies():
+			print(get_overlapping_bodies())
+			if not bodies.get_name() == "TileMap":
+				bodies.hit(self)
+		queue_free()
 

@@ -13,17 +13,20 @@ var deathTime = 2
 var flip_mod = 1
 var hold_order = 1
 var hold_range = 30
-var health = 10.0
-var total_health = 10.0
+var health = 3.0
+var total_health = 3.0
 var armour = 0
 var melee_stopping_power = 3
 var remove_comment_time = 0
 var velocity = Vector2()
 var knockback_velocity = Vector2()
+var random_hold = int(rand_range(50, 100))
+var random_attack_hold = rand_range(1, .80)
 
 #orders
 var objective
 var attacking = false
+var defending = false
 var attack = false
 var follow = false
 var hold = false
@@ -31,6 +34,7 @@ var retreat = false
 var hold_order_remove = false
 
 #bools
+var spawned = false
 var reloading = false
 var hit = false
 var cast = false
@@ -78,13 +82,18 @@ var fire_ready
 var health_display
 
 #lists
+var myself
 var pack = []
 var primaryGun = []
 var secondaryGun = []
 var headArmour = []
 var bodyArmour = []
+#target lists
 var target_list = []
-
+var building_list = []
+var low_priority_list = []
+var base_priority_list = []
+var high_priority_list = []
 #side
 var side
 var holding
@@ -113,66 +122,240 @@ func flip(flipped):
 	
 #side
 func side():
-
+	if defending:
+		faction = get_parent().get_parent().get_parent()
+		level = get_parent().get_parent().get_parent().get_parent()
+	else:
+		faction = get_parent()
+		level = get_parent().get_parent()
+	
 	get_node("body").set_layer_mask_bit(faction.sidenumber, true)
 	get_node("body").add_to_group(faction.side)
 	get_node("body/head/Area2D").set_collision_mask_bit(faction.enemynumber, true)
 	get_node("body/Area2D").set_collision_mask_bit(faction.enemynumber, true)
+	get_node("body/Area2D").set_collision_mask_bit(faction.enemynumber * 3, true)
+#melee
+func melee():
+	attack_ready = false
+	melee = true
+	fire_ready.stop()
+	var m
+	var spawn_point = arm_r.get_global_pos()
+	if primaryGun != []:
+		m = primaryGun[0].melee[0].melee()
+		armanim = primaryGun[0].melee_type
+		m.damage = primaryGun[0].melee_damage
+		m.stopping_power = primaryGun[0].melee_stopping_power + melee_stopping_power
+	else:
+		m = preload("res://Attacks.tscn").instance().get_node("Gun_melee").duplicate()
+		m.stopping_power = melee_stopping_power
+		m.damage = 1
+		armanim = "Melee"
+	fire_ready.set_wait_time(.5)
+	m.attacker = self
+	m.set_layer_mask(faction.enemynumberval)
+	print(faction.enemynumberval)
+	fire_ready.start()
+	arm_r.add_child(m)
+
 	
-#func side(choice):
-#	if choice == "enemies":
-#		enemynumber = 2
-#		sidenumber = 4
-#		enemyside = "allies"
-#		side = "enemies"
-#		if is_in_group("engineers"):
-#			sidelist = get_parent().enemy_engineer_list
-#		elif is_in_group("engineers"):
-#			sidelist = get_parent().enemy_list
-#		sidelist.append(self)
-#		sidebuildlist = get_parent().enemy_build_list
-#		sidedefencelist = get_parent().enemy_defence_list
-#		get_node("body").add_to_group("enemies")
-#		get_node("body").set_collision_mask(sidenumber)
-#
-#
-#	elif choice == "allies":
-#		enemynumber = 4
-#		sidenumber = 2
-#		enemyside = "enemies"
-#		side = "allies"
-#		if self.is_in_group("engineers"):
-#			sidelist = get_parent().ally_engineer_list
-#		else:
-#			sidelist = get_parent().ally_list
-#		sidelist.append(self)
-#		sidebuildlist = get_parent().ally_build_list
-#		sidedefencelist = get_parent().ally_defence_list
-#		get_node("body").add_to_group("allies")
-#		get_node("body").set_collision_mask(sidenumber)
+func special():
+	attack_ready = false
+	fire_ready.stop()
+#	h.get_node("Player1").shoot(self)
+	var Aimrot = arm_r.get_rot() * flip_mod
+	var pos = Vector2(cos(Aimrot), -sin(Aimrot)) * flip_mod
+	var spawn_point = pos + primaryGun[0].get_node("body/special_tip").get_global_pos()
+
+	var bullets = primaryGun[0].special[0].special()
+	bullets.damage = primaryGun[0].special_damage
+	bullets.stopping_power = primaryGun[0].stopping_power
+	if flip_mod == -1:
+		bullets.get_node("Sprite").set_flip_h(true)  
+		bullets.flip_mod = -1
+	bullets.set_rotd(rad2deg(Aimrot) + rand_range(primaryGun[0].accuracy, -primaryGun[0].accuracy))
+	bullets.set_collision_mask_bit(faction.enemynumber, true)
+	bullets.set_pos(spawn_point)
+	bullets.side = faction.side
+	level.add_child(bullets)
+	
+	primaryGun[0].special_shoot()
+	armanim = "Shoot"
+	fire_ready.set_wait_time(primaryGun[0].special_fire_rate)
+	fire_ready.start()
+	if primaryGun[0].current_clip <= 0 and primaryGun[0].current_ammo > 0:
+		reload()
+
+#fire
+func fire():
+	attack_ready = false
+	fire_ready.stop()
+#	h.get_node("Player1").shoot(self)
+	var Aimrot = arm_r.get_rot() * flip_mod
+	var pos = Vector2(cos(Aimrot), -sin(Aimrot)) * flip_mod
+	var spawn_point = pos + primaryGun[0].get_node("body/barrel_tip").get_global_pos()
+
+	for bullets in range(primaryGun[0].bullets_inbullets):
+		bullets = primaryGun[0].bullettype()
+		if flip_mod == -1:
+			bullets.get_node("Sprite").set_flip_h(true)  
+			bullets.flip_mod = -1
+		bullets.set_rotd(rad2deg(Aimrot) + rand_range(primaryGun[0].accuracy, -primaryGun[0].accuracy))
+		bullets.set_collision_mask_bit(faction.enemynumber, true)
+		bullets.set_pos(spawn_point)
+		bullets.side = faction.side
+		level.add_child(bullets)
+	primaryGun[0].shoot()
+	armanim = "Shoot"
+	fire_ready.set_wait_time(primaryGun[0].fire_rate)
+	fire_ready.start()
+	if primaryGun[0].current_clip <= 0 and primaryGun[0].current_ammo > 0:
+		reload()
+ #swap, equip, unequip and drop
+func dropGun():
+	primaryGun[0].level.remove_child(primaryGun[0])
+	fire_ready.stop()
+	level.add_child(primaryGun[0])
+	primaryGun[0].set_global_pos(get_node("body/arm_r/Gun").get_global_pos())
+	primaryGun[0].unlock()
+	primaryGun.remove(0)
+	
+		
+func unequip(itemvar):
+	itemvar[0].named = str(itemvar[0].name)
+	itemvar[0].is_equipped = false
+	itemvar[0].queue_free()
+	itemvar.pop_front()
+
+func equip(item, pickedup, slot):
+	if pickedup == true:
+		pack.append(item)
+	if item.is_in_group("weapons") and slot == "primaryGun":
+		if primaryGun != [] and secondaryGun != []:
+			unequip(primaryGun)
+			arm_r.add_child(item)
+			primaryGun.append(item)
+		elif primaryGun != [] and secondaryGun == []:
+			primaryGun[0].level.remove_child(primaryGun[0])
+			get_node("body/legs").add_child(primaryGun[0])
+			arm_r.add_child(item)
+			primaryGun.append(item)
+			secondaryGun.append(primaryGun[0])
+			primaryGun.pop_front()
+		else:
+			primaryGun.append(item)
+			arm_r.add_child(item)
+		if primaryGun != []:
+			primaryGun[0].set_pos(get_node("body/arm_r/Gun").get_pos())
+			primaryGun[0].set_rotd(get_node("body/arm_r/Gun").get_rotd())
+		if secondaryGun != []:
+			secondaryGun[0].set_pos(get_node("body/legs/secondaryEquip").get_pos())
+			secondaryGun[0].set_rot(get_node("body/legs/secondaryEquip").get_rot())
+	elif item.is_in_group("weapons") and slot == "secondaryGun":
+		if secondaryGun != []:
+			unequip(secondaryGun)
+		secondaryGun.append(item)
+		secondaryGun[0].set_pos(get_node("body/legs/secondaryEquip").get_pos())
+		secondaryGun[0].set_rotd(get_node("body/legs/secondaryEquip").get_rotd())
+		get_node("body/legs").add_child(secondaryGun[0])
+	elif item.is_in_group("armour"):
+		if item.is_in_group("head"):
+			if headArmour != []:
+				headArmour[0].level.remove_child(headArmour[0])
+				headArmour[0].unequip(self)
+				headArmour.pop_front()
+			headArmour.append(item)
+			get_node("body/Head").add_child(item)
+			item.set_pos(Vector2(get_node("body/Head").get_pos().x, -4))
+			item.set_rot(0)
+			headArmour[0].equip(self)
+		elif item.is_in_group("body"):
+			if bodyArmour != []:
+				bodyArmour[0].level.remove_child(bodyArmour[0])
+				bodyArmour[0].unequip(self)
+				bodyArmour.pop_front()
+			bodyArmour.append(item)
+			get_node("body/legs").add_child(item)
+			item.set_pos(Vector2(get_node("body/legs").get_pos().x, -4))
+			item.set_rot(get_node("body/legs").get_rot())
+			item.set_rot(0)
+			bodyArmour[0].equip(self)
+			
+func swap():
+	if reloading == true:
+		stop_reload()
+	if primaryGun != [] and secondaryGun != []:
+		secondaryGun.append(primaryGun[0])
+		primaryGun.append(secondaryGun[0])
+		secondaryGun.pop_front()
+		primaryGun.pop_front()
+	elif primaryGun == [] and secondaryGun !=[]:
+		primaryGun.append(secondaryGun[0])
+		secondaryGun.pop_front()
+	elif primaryGun != [] and secondaryGun == []:
+		secondaryGun.append(primaryGun[0])
+		primaryGun.pop_front()
+	if primaryGun != []:
+		primaryGun[0].get_parent().remove_child(primaryGun[0])
+		primaryGun[0].set_pos(get_node("body/arm_r/Gun").get_pos())
+		primaryGun[0].set_rotd(get_node("body/arm_r/Gun").get_rotd())
+		get_node("body/arm_r").add_child(primaryGun[0])
+	if secondaryGun != []:
+		secondaryGun[0].get_parent().remove_child(secondaryGun[0])
+		secondaryGun[0].set_pos(get_node("body/legs/secondaryEquip").get_pos())
+		secondaryGun[0].set_rotd(get_node("body/legs/secondaryEquip").get_rotd())
+		get_node("body/legs").add_child(secondaryGun[0])
+		
+#reload, stop reloading and fireready
+func fireready():
+	if melee == true:
+		attack_ready = true
+		fire_ready.set_wait_time(.5)
+		fire_ready.start()
+		melee = false
+	elif primaryGun != []:
+		if reloading == true:
+			reloading = false
+			primaryGun[0].reload()
+		attack_ready = true
+		fire_ready.set_wait_time(primaryGun[0].fire_rate)
+		fire_ready.start()
+		
+func stop_reload():
+	reloading = false
+	fire_ready.set_wait_time(primaryGun[0].reload_speed)
+	fire_ready.set_wait_time(primaryGun[0].fire_rate)
+	fire_ready.start()
+	
+func reload():
+	reloading = true
+	fire_ready.stop()
+	fire_ready.set_wait_time(primaryGun[0].reload_speed)
+	fire_ready.start()
 
 #que ordering
 func hold_order(state):
-	if state == "remove":
-		hold_order_remove = true
-		var hold_order = 1
-		var hold_range = 30
-		for enemy in faction.attacker_list:
-			if enemy.hold_order_remove:
-				pass
-			else:
-				enemy.hold_range = hold_range * hold_order
-				hold_order += 1
-	elif state == "add":
-		hold_order_remove = false
-		var hold_order = 1
-		var hold_range = 30
-		for enemy in faction.attacker_list:
-			if enemy.hold_order_remove:
-				pass
-			else:
-				enemy.hold_range = hold_range * hold_order
-				hold_order += 1
+	pass
+#	if state == "remove":
+#		hold_order_remove = true
+#		var hold_order = 1
+#		var hold_range = 30
+#		for enemy in faction.attacker_list:
+#			if enemy.hold_order_remove:
+#				pass
+#			else:
+#				enemy.hold_range = hold_range * hold_order
+#				hold_order += 1
+#	elif state == "add":
+#		hold_order_remove = false
+#		var hold_order = 1
+#		var hold_range = 30
+#		for enemy in faction.attacker_list:
+#			if enemy.hold_order_remove:
+#				pass
+#			else:
+#				enemy.hold_range = hold_range * hold_order
+#				hold_order += 1
 
 #movement
 func Jump():
@@ -189,7 +372,7 @@ func prone(proned):
 	if proned:
 		is_prone = true
 		anim = "prone_idle"
-		get_node("body").set_pos(Vector2(0, 14))
+		get_node("body").set_pos(Vector2(0, -3))
 		get_node("body/prone").set_trigger(false)
 		get_node("body/standing").set_trigger(true)
 		get_node("body/prone").set_pos(get_node("body/legs").get_pos())
@@ -211,7 +394,7 @@ func prone(proned):
 	else:
 		is_prone = false
 		anim = "idle"
-		get_node("body").set_pos(Vector2(0, 0))
+		get_node("body").set_pos(Vector2(0, -17))
 		get_node("body/standing").set_trigger(false)
 		get_node("body/prone").set_trigger(true)
 		get_node("body/standing").set_pos(get_node("body/legs").get_pos())
@@ -228,8 +411,6 @@ func prone(proned):
 		if secondaryGun != []:
 			secondaryGun[0].set_pos(Vector2(get_node("body/legs/secondaryEquip").get_pos()))
 			secondaryGun[0].set_rotd(-90)
-
-
 	flip(flipped)
 ################################################################################
 #fixed processes
@@ -241,18 +422,26 @@ func go_to(object):
 		prone(false)
 	holding = false
 	raycast.set_rot(get_angle_to(object.get_global_pos()) - 3.14159/2)
-	if abs(object.get_global_pos().x - get_pos().x) <= hold_range:
+	if get_pos().distance_to(object.get_global_pos()) <= random_hold :
 		holding = true
 
 func look(object):
-	var obj = object.get_global_pos()
+	if object == null:
+		holding = true
+	else:
+		var obj = object.get_global_pos()
+#		head.set_rot(head.get_angle_to(obj) - 3.14159/2)
+		raycast.set_rot(get_angle_to(obj) - 3.14159/2)
+#		head.set_rotd(head.get_rotd() * flip_mod)
+		arm_r.set_rot(get_node("body").get_angle_to(obj) - 3.14159/2)
+#			arm_r.set_rotd(head.get_rotd())
+		holding = true
+
+func turret_look(obj):
 	head.set_rot(get_angle_to(obj) - 3.14159/2 * flip_mod)
-	raycast.set_rot(get_angle_to(obj) - 3.14159/2)
 	head.set_rotd(head.get_rotd() * flip_mod)
-	if not right_arm_gone:
-		arm_r.set_rotd(head.get_rotd())
-	holding = true
-	
+	arm_r.set_rotd(head.get_rotd() * -1)
+
 #movement checks
 func gravity_check(delta):
 	if grounded:
@@ -279,30 +468,59 @@ func flip_check():
 		jump_over.set_rotd(90)
 		
 #targeting and attacking
-func attack():
-#		if str(target_list.front()) == "[Deleted Object]":
-#			target_list.pop_front()
-#		elif not get_parent().get_parent().has_node(target_list.front().get_path()):
-#			target_list.pop_front()
-#		if target_list.front().is_in_group("enemies") != true:
-#			print ("why you no in enemies?" )
-#			target_list.pop_front()
-	if target_list.front().get_parent().dead:
-		untrack(target_list.front())
+func attack(target):
+	target = target.get_ref()
+	if !target:
+		untrack(target.get_node("body"))
+	elif target.dead:
+		untrack(target.get_node("body"))
 	else:
-		var target = (target_list.front())
-		look(target)
-		go_to(target)
+		var targeting = target.get_node("body")
+		look(targeting)
+		raycast.set_rot(get_angle_to(targeting.get_global_pos()) - 3.14159/2)
+		holding = false
 		if primaryGun != []:
-			if get_pos().distance_to(target.get_global_pos()) <= (primaryGun[0].bulletspeed * primaryGun[0].distance) * .95:
+			if get_pos().distance_to(targeting.get_global_pos()) <= (primaryGun[0].bulletspeed * primaryGun[0].distance) * random_attack_hold:
 				holding = true
-				primaryGun[0].aiming(true, faction.enemynumber)
+				primaryGun[0].aiming(true, faction.enemynumberval)
 				if attack_ready == true and primaryGun[0].current_clip > 0:
 					fire()
-		if get_pos().distance_to(target.get_global_pos()) <= 20:
+					
+		if get_pos().distance_to(targeting.get_global_pos()) < 20:
 			holding = true
 			if attack_ready == true:
 				melee()
+
+func track_closest(targetlist):
+	for targets in targetlist:
+		if !targets.get_ref():
+			target_list.remove(target_list.find(targets.get_ref().myself))
+		elif get_global_pos().distance_to(targets.get_ref().get_global_pos()) < get_global_pos().distance_to(target_list.front().get_ref().get_global_pos()):
+			target_list.remove(target_list.find(targets.get_ref().myself))
+			target_list.push_front(targets.get_ref().myself)
+			break
+
+func track(collider):
+	if collider.get_parent().myself in target_list or collider.get_parent().myself in building_list or collider.get_parent().myself in low_priority_list:
+		pass
+	elif collider.get_parent().has_method("initialize"):
+		if collider.get_parent().background == true:
+			building_list.append(collider.get_parent().myself)
+		else:
+			target_list.append(collider.get_parent().myself)
+	elif collider.get_parent().has_method("repairing"):
+		low_priority_list.append(collider.get_parent().myself)
+	else:
+		target_list.append(collider.get_parent().myself)
+		
+func untrack(collider):
+	if collider.get_parent().myself in target_list:
+		target_list.remove(target_list.find(collider.get_parent().myself))
+	elif collider.get_parent().myself in building_list:
+		building_list.remove(building_list.find(collider.get_parent().myself))
+	elif collider.get_parent().myself in low_priority_list:
+		low_priority_list.remove(low_priority_list.find(collider.get_parent().myself))
+		
 
 #movement and animations
 func animation():

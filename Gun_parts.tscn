@@ -1,13 +1,20 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=16 format=1]
 
 [ext_resource path="res://Data/Weapons/Gun Parts/Weapon_Tier.gd" type="Script" id=1]
-[ext_resource path="res://Data/Weapons/Gun Parts/Barrel/basic_barrel.png" type="Texture" id=2]
-[ext_resource path="res://Data/Weapons/Gun Parts/part_scripts/tier1_basic_rifle_barrel.gd" type="Script" id=3]
-[ext_resource path="res://Data/Weapons/Gun Parts/Sight/basic iron sight.png" type="Texture" id=4]
-[ext_resource path="res://Data/Weapons/Gun Parts/part_scripts/basic_iron_sight.gd" type="Script" id=5]
+[ext_resource path="res://Data/Weapons/Gun Parts/Barrel/Barrel.gd" type="Script" id=2]
+[ext_resource path="res://Data/Weapons/Gun Parts/Barrel/basic_barrel.png" type="Texture" id=3]
+[ext_resource path="res://Data/Weapons/Gun Parts/part_scripts/tier1_basic_rifle_barrel.gd" type="Script" id=4]
+[ext_resource path="res://Data/Weapons/Gun Parts/Clip/Clip.gd" type="Script" id=5]
 [ext_resource path="res://Data/Weapons/Gun Parts/Clip/small clip.png" type="Texture" id=6]
 [ext_resource path="res://Data/Weapons/Gun Parts/part_scripts/small_clip.gd" type="Script" id=7]
-[ext_resource path="res://Data/Weapons/Gun Parts/part_scripts/auto_fire_trigger.gd" type="Script" id=8]
+[ext_resource path="res://Data/Weapons/Gun Parts/Special/Mod.gd" type="Script" id=8]
+[ext_resource path="res://Data/Weapons/Gun Parts/part_scripts/auto_fire_trigger.gd" type="Script" id=9]
+[ext_resource path="res://Data/Weapons/Gun Parts/Melee/Melee.gd" type="Script" id=10]
+[ext_resource path="res://Data/Weapons/Gun Parts/Melee/bayanette.png" type="Texture" id=11]
+[ext_resource path="res://Data/Weapons/Gun Parts/Melee/Bayonet.gd" type="Script" id=12]
+[ext_resource path="res://Data/Weapons/Gun Parts/Special_attatchments/Special.gd" type="Script" id=13]
+[ext_resource path="res://Data/Weapons/Gun Parts/Special_attatchments/grenade_launcher.png" type="Texture" id=14]
+[ext_resource path="res://Data/Weapons/Gun Parts/Special_attatchments/Grenade_launcher.gd" type="Script" id=15]
 
 [node name="Gun_parts" type="Node2D"]
 
@@ -17,28 +24,23 @@ script/script = ExtResource( 1 )
 
 [node name="barrel" type="Node2D" parent="Tier_1"]
 
+editor/display_folded = true
+script/script = ExtResource( 2 )
+
 [node name="basic_rifle_barrel" type="Sprite" parent="Tier_1/barrel" groups=[
 "guns and parts",
 "part",
 ]]
 
 visibility/behind_parent = true
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 centered = false
-script/script = ExtResource( 3 )
-
-[node name="sight" type="Node2D" parent="Tier_1"]
-
-[node name="basic_iron_sight" type="Sprite" parent="Tier_1/sight" groups=[
-"guns and parts",
-"part",
-]]
-
-visibility/behind_parent = true
-texture = ExtResource( 4 )
-script/script = ExtResource( 5 )
+script/script = ExtResource( 4 )
 
 [node name="clip" type="Node2D" parent="Tier_1"]
+
+editor/display_folded = true
+script/script = ExtResource( 5 )
 
 [node name="small_clip" type="Sprite" parent="Tier_1/clip" groups=[
 "guns and parts",
@@ -50,13 +52,42 @@ texture = ExtResource( 6 )
 centered = false
 script/script = ExtResource( 7 )
 
-[node name="special" type="Node2D" parent="Tier_1"]
+[node name="mod" type="Node2D" parent="Tier_1"]
 
-[node name="auto_fire_trigger" type="Sprite" parent="Tier_1/special" groups=[
+editor/display_folded = true
+script/script = ExtResource( 8 )
+
+[node name="auto_fire_trigger" type="Sprite" parent="Tier_1/mod" groups=[
 "guns and parts",
 "part",
 ]]
 
-script/script = ExtResource( 8 )
+script/script = ExtResource( 9 )
+
+[node name="melee" type="Node2D" parent="Tier_1"]
+
+script/script = ExtResource( 10 )
+
+[node name="bayonet" type="Sprite" parent="Tier_1/melee" groups=[
+"guns and parts",
+"part",
+]]
+
+texture = ExtResource( 11 )
+centered = false
+script/script = ExtResource( 12 )
+
+[node name="special" type="Node2D" parent="Tier_1"]
+
+script/script = ExtResource( 13 )
+
+[node name="grenade_launcher" type="Sprite" parent="Tier_1/special" groups=[
+"guns and parts",
+"part",
+]]
+
+texture = ExtResource( 14 )
+centered = false
+script/script = ExtResource( 15 )
 
 

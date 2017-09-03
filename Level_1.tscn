@@ -1,34 +1,12 @@
-[gd_scene load_steps=17 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://Level_1.gd" type="Script" id=1]
 [ext_resource path="res://Data/Tiles/dirt.xml" type="TileSet" id=2]
 [ext_resource path="res://defence_zone.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Data/Buildings/Tall_Steel_wall.gd" type="Script" id=4]
-[ext_resource path="res://Data/Buildings/Tall_Steel_Gate.png" type="Texture" id=5]
-[ext_resource path="res://Data/Buildings/HQ.gd" type="Script" id=6]
-[ext_resource path="res://Data/Buildings/HQ.png" type="Texture" id=7]
-[ext_resource path="res://Data/Buildings/sandbag_nest.gd" type="Script" id=8]
-[ext_resource path="res://Data/Buildings/Sand_bags_small.png" type="Texture" id=9]
-[ext_resource path="res://Data/Buildings/Sand_bags.png" type="Texture" id=10]
-[ext_resource path="res://Data/Buildings/infantry.gd" type="Script" id=11]
-[ext_resource path="res://Data/Buildings/Barracks.png" type="Texture" id=12]
-
-[sub_resource type="RectangleShape2D" id=6]
-
-custom_solver_bias = 0.0
-extents = Vector2( 8, 20 )
+[ext_resource path="res://Data/Buildings/infantry.gd" type="Script" id=4]
+[ext_resource path="res://Data/Buildings/Barracks.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=4]
-
-custom_solver_bias = 0.0
-extents = Vector2( 30, 40 )
-
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 8 )
-
-[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 40, 20 )
@@ -59,7 +37,7 @@ tile_data = IntArray( -524352, 1, -458816, 1, -524236, 1, -393280, 1, -458700, 1
 
 [node name="player_1_spawn" type="Position2D" parent="."]
 
-transform/pos = Vector2( -940, -40 )
+transform/pos = Vector2( -1010, -40 )
 
 [node name="player_2_spawn" type="Position2D" parent="."]
 
@@ -85,517 +63,173 @@ transform/pos = Vector2( 790, 0 )
 
 [node name="enemy_defence_1" type="Node2D" parent="."]
 
-editor/display_folded = true
-
-[node name="tall_steel_wall" type="StaticBody2D" parent="enemy_defence_1" groups=[
-"foreground",
-"walls",
+[node name="infantry" type="Node2D" parent="enemy_defence_1" groups=[
+"defence",
 ]]
 
 editor/display_folded = true
 transform/pos = Vector2( 550, 0 )
-z/z = -1
-input/pickable = false
-shapes/0/shape = SubResource( 6 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -20 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
+z/z = -3
 script/script = ExtResource( 4 )
 
-[node name="body" type="Sprite" parent="enemy_defence_1/tall_steel_wall"]
+[node name="body 1" type="Sprite" parent="enemy_defence_1/infantry"]
 
-transform/pos = Vector2( -8, -40 )
+transform/pos = Vector2( 30, -20 )
 texture = ExtResource( 5 )
-centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/tall_steel_wall"]
-
-transform/pos = Vector2( 0, -20 )
-shape = SubResource( 6 )
-trigger = false
-_update_shape_index = 0
-
-[node name="HQ" type="StaticBody2D" parent="enemy_defence_1"]
+[node name="body" type="KinematicBody2D" parent="enemy_defence_1/infantry"]
 
 editor/display_folded = true
-transform/pos = Vector2( 770, 0 )
-z/z = -3
+transform/pos = Vector2( 30, -20 )
 input/pickable = false
 shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 20, -40 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 6 )
+collision/margin = 0.08
 
-[node name="body" type="Sprite" parent="enemy_defence_1/HQ"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/infantry/body"]
 
-transform/pos = Vector2( 20, -40 )
-texture = ExtResource( 7 )
-
-[node name="Position2D" type="Position2D" parent="enemy_defence_1/HQ"]
-
-transform/pos = Vector2( 20, -20 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/HQ"]
-
-transform/pos = Vector2( 20, -40 )
 shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
-[node name="sandbag_bunker1" type="StaticBody2D" parent="enemy_defence_1" groups=[
-"foreground",
-"defendable",
+[node name="Position2D" type="Position2D" parent="enemy_defence_1/infantry/body"]
+
+transform/pos = Vector2( -10, 20 )
+
+[node name="infantry2" type="Node2D" parent="enemy_defence_1" groups=[
+"defence",
 ]]
 
 editor/display_folded = true
-transform/pos = Vector2( 570, 0 )
-z/z = -1
-input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 36, -8 )
-shapes/0/trigger = false
-shapes/1/shape = SubResource( 1 )
-shapes/1/transform = Matrix32( 1, 0, 0, 1, 0, -8 )
-shapes/1/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 8 )
+transform/pos = Vector2( 630, 0 )
+z/z = -3
+script/script = ExtResource( 4 )
 
-[node name="body 2" type="Sprite" parent="enemy_defence_1/sandbag_bunker1"]
+[node name="body 1" type="Sprite" parent="enemy_defence_1/infantry2"]
 
-transform/pos = Vector2( 8, -8 )
-texture = ExtResource( 9 )
-centered = false
+transform/pos = Vector2( 30, -20 )
+texture = ExtResource( 5 )
 
-[node name="body" type="Sprite" parent="enemy_defence_1/sandbag_bunker1"]
-
-transform/pos = Vector2( 26, -16 )
-texture = ExtResource( 10 )
-centered = false
-
-[node name="body 3" type="Sprite" parent="enemy_defence_1/sandbag_bunker1"]
-
-transform/pos = Vector2( -10, -16 )
-texture = ExtResource( 10 )
-centered = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/sandbag_bunker1"]
-
-transform/pos = Vector2( 36, -8 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
-
-[node name="CollisionShape2D1" type="CollisionShape2D" parent="enemy_defence_1/sandbag_bunker1"]
-
-transform/pos = Vector2( 0, -8 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 1
-
-[node name="defend_pos" type="Position2D" parent="enemy_defence_1/sandbag_bunker1"]
-
-transform/pos = Vector2( 18, -27 )
-
-[node name="infantry" type="StaticBody2D" parent="enemy_defence_1"]
+[node name="body" type="KinematicBody2D" parent="enemy_defence_1/infantry2"]
 
 editor/display_folded = true
-transform/pos = Vector2( 970, 0 )
-z/z = -3
+transform/pos = Vector2( 30, -20 )
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 30, -21 )
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 11 )
+collision/margin = 0.08
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/infantry"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/infantry2/body"]
 
-transform/pos = Vector2( 30, -21 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
-[node name="body" type="Sprite" parent="enemy_defence_1/infantry"]
+[node name="Position2D" type="Position2D" parent="enemy_defence_1/infantry2/body"]
 
-transform/pos = Vector2( 30, -21 )
-texture = ExtResource( 12 )
-
-[node name="Position2D" type="Position2D" parent="enemy_defence_1/infantry"]
-
-transform/pos = Vector2( 29, -21 )
-
-[node name="infantry2" type="StaticBody2D" parent="enemy_defence_1"]
-
-editor/display_folded = true
-transform/pos = Vector2( 690, 0 )
-z/z = -3
-input/pickable = false
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 30, -21 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 11 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/infantry2"]
-
-transform/pos = Vector2( 30, -21 )
-shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
-
-[node name="body" type="Sprite" parent="enemy_defence_1/infantry2"]
-
-transform/pos = Vector2( 30, -21 )
-texture = ExtResource( 12 )
-
-[node name="Position2D" type="Position2D" parent="enemy_defence_1/infantry2"]
-
-transform/pos = Vector2( 29, -21 )
-
-[node name="infantry1" type="StaticBody2D" parent="enemy_defence_1"]
-
-editor/display_folded = true
-transform/pos = Vector2( 890, 0 )
-z/z = -3
-input/pickable = false
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 30, -21 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 11 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_1/infantry1"]
-
-transform/pos = Vector2( 30, -21 )
-shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
-
-[node name="body" type="Sprite" parent="enemy_defence_1/infantry1"]
-
-transform/pos = Vector2( 30, -21 )
-texture = ExtResource( 12 )
-
-[node name="Position2D" type="Position2D" parent="enemy_defence_1/infantry1"]
-
-transform/pos = Vector2( 29, -21 )
+transform/pos = Vector2( -10, 20 )
 
 [node name="enemy_defence_2" type="Node2D" parent="."]
 
-[node name="tall_steel_wall1" type="StaticBody2D" parent="enemy_defence_2" groups=[
-"foreground",
-"walls",
-]]
-
-editor/display_folded = true
-transform/pos = Vector2( -250, 0 )
-z/z = -1
-input/pickable = false
-shapes/0/shape = SubResource( 6 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -20 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 4 )
-
-[node name="body" type="Sprite" parent="enemy_defence_2/tall_steel_wall1"]
-
-transform/pos = Vector2( -8, -40 )
-texture = ExtResource( 5 )
-centered = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_2/tall_steel_wall1"]
-
-transform/pos = Vector2( 0, -20 )
-shape = SubResource( 6 )
-trigger = false
-_update_shape_index = 0
-
-[node name="sandbag_bunker" type="StaticBody2D" parent="enemy_defence_2" groups=[
-"foreground",
-"defendable",
-]]
-
-editor/display_folded = true
-transform/pos = Vector2( -230, 0 )
-z/z = -1
-input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 36, -8 )
-shapes/0/trigger = false
-shapes/1/shape = SubResource( 1 )
-shapes/1/transform = Matrix32( 1, 0, 0, 1, 0, -8 )
-shapes/1/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 8 )
-
-[node name="body 2" type="Sprite" parent="enemy_defence_2/sandbag_bunker"]
-
-transform/pos = Vector2( 8, -8 )
-texture = ExtResource( 9 )
-centered = false
-
-[node name="body" type="Sprite" parent="enemy_defence_2/sandbag_bunker"]
-
-transform/pos = Vector2( 26, -16 )
-texture = ExtResource( 10 )
-centered = false
-
-[node name="body 3" type="Sprite" parent="enemy_defence_2/sandbag_bunker"]
-
-transform/pos = Vector2( -10, -16 )
-texture = ExtResource( 10 )
-centered = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_2/sandbag_bunker"]
-
-transform/pos = Vector2( 36, -8 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 0
-
-[node name="CollisionShape2D1" type="CollisionShape2D" parent="enemy_defence_2/sandbag_bunker"]
-
-transform/pos = Vector2( 0, -8 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 1
-
-[node name="defend_pos" type="Position2D" parent="enemy_defence_2/sandbag_bunker"]
-
-transform/pos = Vector2( 18, -27 )
-
-[node name="infantry3" type="StaticBody2D" parent="enemy_defence_2"]
-
-editor/display_folded = true
-transform/pos = Vector2( 170, 0 )
-z/z = -3
-input/pickable = false
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 30, -21 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 11 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_defence_2/infantry3"]
-
-transform/pos = Vector2( 30, -21 )
-shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
-
-[node name="body" type="Sprite" parent="enemy_defence_2/infantry3"]
-
-transform/pos = Vector2( 30, -21 )
-texture = ExtResource( 12 )
-
-[node name="Position2D" type="Position2D" parent="enemy_defence_2/infantry3"]
-
-transform/pos = Vector2( 29, -21 )
-
 [node name="ally_defence" type="Node2D" parent="."]
 
-[node name="tall_steel_wall" type="StaticBody2D" parent="ally_defence" groups=[
-"foreground",
-"walls",
+[node name="infantry3" type="Node2D" parent="ally_defence" groups=[
+"defence",
 ]]
 
 editor/display_folded = true
-transform/pos = Vector2( -650, 0 )
-z/z = -1
-input/pickable = false
-shapes/0/shape = SubResource( 6 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -20 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
+transform/pos = Vector2( -790, 0 )
+z/z = -3
 script/script = ExtResource( 4 )
 
-[node name="body" type="Sprite" parent="ally_defence/tall_steel_wall"]
+[node name="body 1" type="Sprite" parent="ally_defence/infantry3"]
 
-transform/pos = Vector2( -8, -40 )
+transform/pos = Vector2( 30, -20 )
 texture = ExtResource( 5 )
-centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ally_defence/tall_steel_wall"]
-
-transform/pos = Vector2( 0, -20 )
-shape = SubResource( 6 )
-trigger = false
-_update_shape_index = 0
-
-[node name="infantry" type="StaticBody2D" parent="ally_defence"]
+[node name="body" type="KinematicBody2D" parent="ally_defence/infantry3"]
 
 editor/display_folded = true
-transform/pos = Vector2( -1130, 0 )
-z/z = -3
-input/pickable = false
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 30, -21 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 11 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ally_defence/infantry"]
-
-transform/pos = Vector2( 30, -21 )
-shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
-
-[node name="body" type="Sprite" parent="ally_defence/infantry"]
-
-transform/pos = Vector2( 30, -21 )
-texture = ExtResource( 12 )
-
-[node name="Position2D" type="Position2D" parent="ally_defence/infantry"]
-
-transform/pos = Vector2( 29, -21 )
-
-[node name="HQ" type="StaticBody2D" parent="ally_defence"]
-
-editor/display_folded = true
-transform/pos = Vector2( -950, 10 )
-z/z = -3
+transform/pos = Vector2( 30, -20 )
 input/pickable = false
 shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 20, -40 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 6 )
+collision/margin = 0.08
 
-[node name="body" type="Sprite" parent="ally_defence/HQ"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ally_defence/infantry3/body"]
 
-transform/pos = Vector2( 20, -40 )
-texture = ExtResource( 7 )
-
-[node name="Position2D" type="Position2D" parent="ally_defence/HQ"]
-
-transform/pos = Vector2( 20, -20 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ally_defence/HQ"]
-
-transform/pos = Vector2( 20, -40 )
 shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
-[node name="sandbag_bunker" type="StaticBody2D" parent="ally_defence" groups=[
-"foreground",
-"defendable",
+[node name="Position2D" type="Position2D" parent="ally_defence/infantry3/body"]
+
+transform/pos = Vector2( -10, 20 )
+
+[node name="infantry1" type="Node2D" parent="ally_defence" groups=[
+"defence",
 ]]
 
 editor/display_folded = true
 transform/pos = Vector2( -710, 0 )
-z/z = -1
+z/z = -3
+script/script = ExtResource( 4 )
+
+[node name="body 1" type="Sprite" parent="ally_defence/infantry1"]
+
+transform/pos = Vector2( 30, -20 )
+texture = ExtResource( 5 )
+
+[node name="body" type="KinematicBody2D" parent="ally_defence/infantry1"]
+
+editor/display_folded = true
+transform/pos = Vector2( 30, -20 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 36, -8 )
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
-shapes/1/shape = SubResource( 1 )
-shapes/1/transform = Matrix32( 1, 0, 0, 1, 0, -8 )
-shapes/1/trigger = false
 collision/layers = 0
 collision/mask = 0
-constant_linear_velocity = Vector2( 0, 0 )
-constant_angular_velocity = 0.0
-friction = 1.0
-bounce = 0.0
-script/script = ExtResource( 8 )
+collision/margin = 0.08
 
-[node name="body 2" type="Sprite" parent="ally_defence/sandbag_bunker"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ally_defence/infantry1/body"]
 
-transform/pos = Vector2( 8, -8 )
-texture = ExtResource( 9 )
-centered = false
-
-[node name="body" type="Sprite" parent="ally_defence/sandbag_bunker"]
-
-transform/pos = Vector2( 26, -16 )
-texture = ExtResource( 10 )
-centered = false
-
-[node name="body 3" type="Sprite" parent="ally_defence/sandbag_bunker"]
-
-transform/pos = Vector2( -10, -16 )
-texture = ExtResource( 10 )
-centered = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ally_defence/sandbag_bunker"]
-
-transform/pos = Vector2( 36, -8 )
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
-[node name="CollisionShape2D1" type="CollisionShape2D" parent="ally_defence/sandbag_bunker"]
+[node name="Position2D" type="Position2D" parent="ally_defence/infantry1/body"]
 
-transform/pos = Vector2( 0, -8 )
-shape = SubResource( 1 )
-trigger = false
-_update_shape_index = 1
+transform/pos = Vector2( -10, 20 )
 
-[node name="defend_pos" type="Position2D" parent="ally_defence/sandbag_bunker"]
+[node name="Label" type="Label" parent="."]
 
-transform/pos = Vector2( 18, -27 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -100.0
+margin/right = 200.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 5.0
+one_shot = true
+autostart = false
 
 
