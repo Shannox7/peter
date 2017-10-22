@@ -1,6 +1,5 @@
 extends "res://Characters.gd"
 var attacks = preload("res://Attacks.tscn")
-var in_defence= false
 var bomb_time = 3
 var total_bomb_time = 3
 var bomb_damage = 25
@@ -10,6 +9,8 @@ func orders(commands):
 	follow = false
 	hold = false
 	retreat = false
+	patrol = false
+	occupy = false
 	if commands == "defend":
 		defending = true
 	if not defending:
@@ -17,41 +18,45 @@ func orders(commands):
 			attack = true
 			if faction.side == "allies":
 				for obj in level.objective_list:
-					if obj.side != faction.side:
-						objective = obj.positions[obj.positions.size() - 1]
+					if obj.get_ref().side != faction.side:
+						objective = obj.get_ref().positions[obj.get_ref().positions.size() - 1]
 						break
 			elif faction.side == "enemies":
 				for obj in level.objective_list:
-					if obj.side != faction.side:
-						objective = obj.positions[0]
+					if obj.get_ref().side != faction.side:
+						objective = obj.get_ref().positions[0]
 		elif commands == "hold":
 			hold = true
 		elif commands == "follow":
 			follow = true
+		elif commands == "patrol":
+			patrol = true
+		elif commands == "occupy":
+			occupy = true
 		elif commands == "retreat":
 			retreat = true
 			if faction.side == "allies":
 				for obj in level.objective_list:
-					if obj.side == faction.side:
-						objective = obj.positions[0]
+					if obj.get_ref().side == faction.side:
+						objective = obj.get_ref().positions[0]
 			elif faction.side == "enemies":
 				for obj in level.objective_list:
-					if obj.side == faction.side:
-						objective = obj.positions[obj.positions.size() - 1]
+					if obj.get_ref().side == faction.side:
+						objective = obj.get_ref().positions[obj.get_ref().positions.size() - 1]
 						break
 
 func blowup_building(delta):
 	holding = false
 	var target = building_list.front()
 	if !target.get_ref():
-		untrack(target.get_ref().get_node("body"))
+		building_list.pop_front()
 	elif target.get_ref().dead:
-		untrack(target.get_ref().get_node("body"))
+		building_list.pop_front()
 	else:
 		var targeting = target.get_ref().get_node("body")
 #		look(target)
 		raycast.set_rot(get_angle_to(targeting.get_global_pos()) - 3.14159/2)
-		if get_pos().distance_to(targeting.get_global_pos()) <= 30:
+		if abs(get_global_pos().x - targeting.get_global_pos().x) <= 30:
 			holding = true
 			bomb_time -= delta
 			if bomb_time <= 0:
@@ -82,7 +87,33 @@ func die(delta):
 		holding = true
 	if deathTime <= 0:
 		call_deferred("queue_free")
-	
+
+func injure():
+	injured = true
+	if occupy:
+		if !objective.get_ref():
+			pass
+		elif not objective.get_ref().dead:
+			objective.get_ref().remove_occupent(objective.get_ref().occupents.find(myself))
+	job = "Injured"
+#	faction.attacker_list.remove(faction.attacker_list.find(myself))
+	get_node("body").set_layer_mask_bit(faction.sidenumber, false)
+
+func injured(delta):
+#	deathTime -= delta
+	if get_rotd() > -90 and get_rotd() < 90:  
+		rotate(.05 * flip_mod)
+		holding = true
+	else:
+		set_rotd(90 * flip_mod)
+#		set_fixed_process(false)
+#	if deathTime <= 0:
+#		call_deferred("queue_free")
+func healthy():
+	set_rotd(0)
+	set_layer_mask_bit(faction.sidenumber, true)
+	health = total_health
+	set_fixed_process(true)
 func health():
 	var scale = 3
 	if health > 0.0:
@@ -94,46 +125,60 @@ func health():
 	else:
 		get_node("body/head/health_meter/health").set_scale(Vector2(1, 0))
 		get_node("body/head/health_meter/health").set_modulate(Color(255, 0, 0))
-
-func death():
-	var hold_order = 1
-	var hold_range = 30
-
-	get_node("body").set_layer_mask_bit(faction.sidenumber, false)
-	if defending and not objective.dead:
-		objective.op_dead(self)
+		
+func zombified():
+	pass
+	
+func die_on_mission():
+	if occupy:
+		if !objective.get_ref():
+			pass
+		elif not objective.get_ref().dead:
+			objective.get_ref().remove_occupent(objective.get_ref().occupents.find(myself))
 	faction.attacker_list.remove(faction.attacker_list.find(myself))
-#	for allys in faction.attacker_list:
-#		allys.hold_range = hold_range * hold_order
-#		hold_order += 1
+	call_deferred("queue_free")
+	
+func death():
+	dead = true
+	if occupy:
+		if !objective.get_ref():
+			pass
+		elif not objective.get_ref().dead:
+			objective.get_ref().remove_occupent(objective.get_ref().occupents.find(myself))
+	faction.attacker_list.remove(faction.attacker_list.find(myself))
+	get_node("body").set_layer_mask_bit(faction.sidenumber, false)
+
 		
 func defend():
 	for vehicle in faction.vehicle_list:
 		if !vehicle.get_ref():
 			pass
 		elif not vehicle.get_ref().full and not vehicle.get_ref().dead:
-			objective = vehicle.get_ref()
+			objective = vehicle.get_ref().myself
 			orders("defend")
-			vehicle.call_deferred("add_operator", self)
+			vehicle.get_ref().add_operator(self)
 			break
 	if not defending:
 		for building in faction.defence_list:
 			if !building.get_ref():
 				pass
 			elif not building.get_ref().full:
-				objective = building.get_ref()
+				objective = building.get_ref().myself
 				orders("defend")
 				building.get_ref().add_operator(self)
 				break
 			
 func defending():
 	holding = false
-	if get_pos().distance_to(objective.get_global_pos()) <= 10:
-		objective.call_deferred("place", self)
-		in_defence = true
+	if !objective.get_ref():
+		orders("patrol")
+	elif get_pos().distance_to(objective.get_ref().get_global_pos()) <= 20:
+		primaryGun[0].aiming(false, faction.enemynumberval)
+		objective.get_ref().call_deferred("place", self)
+		placed = true
 		holding = true
 	else:
-		raycast.set_rot(get_angle_to(objective.get_global_pos()) - 3.14159/2)
+		raycast.set_rot(get_angle_to(objective.get_ref().get_global_pos()) - 3.14159/2)
 
 func prone(proned):
 	if proned:

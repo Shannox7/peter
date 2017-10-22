@@ -1,5 +1,8 @@
 extends "res://Data/Attacks/Attacks.gd"
 
+func _ready():
+	initialize()
+	
 func effect(collider, hit):
 	if hit:
 		collider.hit(self)

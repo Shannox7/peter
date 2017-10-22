@@ -24,12 +24,11 @@ script/script = ExtResource( 1 )
 
 [node name="barrel" type="Node2D" parent="Tier_1"]
 
-editor/display_folded = true
 script/script = ExtResource( 2 )
 
 [node name="basic_rifle_barrel" type="Sprite" parent="Tier_1/barrel" groups=[
-"guns and parts",
 "part",
+"guns and parts",
 ]]
 
 visibility/behind_parent = true
@@ -39,12 +38,11 @@ script/script = ExtResource( 4 )
 
 [node name="clip" type="Node2D" parent="Tier_1"]
 
-editor/display_folded = true
 script/script = ExtResource( 5 )
 
 [node name="small_clip" type="Sprite" parent="Tier_1/clip" groups=[
-"guns and parts",
 "part",
+"guns and parts",
 ]]
 
 visibility/behind_parent = true
@@ -58,8 +56,8 @@ editor/display_folded = true
 script/script = ExtResource( 8 )
 
 [node name="auto_fire_trigger" type="Sprite" parent="Tier_1/mod" groups=[
-"guns and parts",
 "part",
+"guns and parts",
 ]]
 
 script/script = ExtResource( 9 )
@@ -69,8 +67,8 @@ script/script = ExtResource( 9 )
 script/script = ExtResource( 10 )
 
 [node name="bayonet" type="Sprite" parent="Tier_1/melee" groups=[
-"guns and parts",
 "part",
+"guns and parts",
 ]]
 
 texture = ExtResource( 11 )
@@ -82,8 +80,8 @@ script/script = ExtResource( 12 )
 script/script = ExtResource( 13 )
 
 [node name="grenade_launcher" type="Sprite" parent="Tier_1/special" groups=[
-"guns and parts",
 "part",
+"guns and parts",
 ]]
 
 texture = ExtResource( 14 )

@@ -100,8 +100,8 @@ max_lines_visible = -1
 [node name="head" type="Node2D" parent="Tier_1"]
 
 [node name="combathelmet" type="KinematicBody2D" parent="Tier_1/head" groups=[
-"armour",
 "head",
+"armour",
 ]]
 
 editor/display_folded = true

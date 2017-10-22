@@ -21,7 +21,8 @@ func _ready():
 	get_node("body").set_layer_mask_bit(faction.sidenumber, true)
 	get_node("body").add_to_group(faction.side)
 	Gun.get_node("Area2D").set_collision_mask_bit(faction.enemynumber, true)
-	faction.vehicle_list.append(self)
+	myself = weakref(self)
+	faction.vehicle_list.append(myself)
 	animNode = get_node("body/legs")
 	armanimNode = get_node("AnimationPlayer") 
 	raycast = get_node("body/RayCast2D")
@@ -46,38 +47,43 @@ func deactivate():
 	
 func op_dead(op):
 	if op.get_parent() == get_node("body"):
-		if operators[0] == op:
+		if operators[0] == op.myself:
 			set_fixed_process(false)
+			op.get_parent().remove_child(op)
 			op.defending = false
 			op.in_defence = false
-			op.get_parent().remove_child(op)
 			faction.add_child(op)
-			op.set_fixed_process(true)
+			op.set_global_pos(get_node("body/driver_pos").get_global_pos())
+			op.call_deferred("set_fixed_process", true)
 			operators[0] = null
 			if operators[1] != null:
-				operators[0] = operators[1]
-				operators[1] = null
-				get_node("body/machinegun_turret").deactivate()
-				get_node("body/machinegun_turret").operator = null
-				operators[0].set_pos(get_node("body/driver_pos").get_pos())
-				activate(op)
-			else:
-				deactivate()
-		elif operators[1] == op:
+				if !operators[1].get_ref():
+					operators[1] = null
+				elif operators[1].get_ref().get_parent() == get_node("body"):
+					operators[0] = operators[1]
+					operators[1] = null
+					get_node("body/machinegun_turret").deactivate()
+					get_node("body/machinegun_turret").operator = null
+					operators[0].get_ref().set_pos(get_node("body/driver_pos").get_pos())
+					activate(operators[0].get_ref())
+				else:
+					deactivate()
+		elif operators[1] == op.myself:
 			get_node("body/machinegun_turret").deactivate()
 			get_node("body/machinegun_turret").operator = null
 			op.defending = false
 			op.in_defence = false
 			op.get_parent().remove_child(op)
 			faction.add_child(op)
+			op.set_global_pos(get_node("body/gunner_pos").get_global_pos())
 			op.set_fixed_process(true)
 			operators[1] = null
 	else:
-		if operators[0] == op:
+		if operators[0] == op.myself:
 			operators[0] = null
 			op.defending = false
 			op.in_defence = false
-		elif operators[1] == op:
+		elif operators[1] == op.myself:
 			operators[1] = null
 			op.defending = false
 			op.in_defence = false
@@ -85,21 +91,21 @@ func op_dead(op):
 
 func add_operator(op):
 	if operators[0] == null:
-		operators[0] = op
+		operators[0] = op.myself
 	else:
-		operators[1] = op
+		operators[1] = op.myself
 	occupency()
-		
+
 func place(op):
 	op.set_fixed_process(false)
-	if operators[0] == op:
+	if operators[0] == op.myself:
 		op.get_parent().remove_child(op)
 		get_node("body").add_child(op)
 		op.set_pos(get_node("body/driver_pos").get_pos())
 		op.swap()
 		op.arm_r.set_rotd(Gun.get_rotd())
 		activate(op)
-	elif operators[1] == op:
+	elif operators[1] == op.myself:
 		op.get_parent().remove_child(op)
 		get_node("body").add_child(op)
 		op.set_pos(get_node("body/gunner_pos").get_pos())
@@ -137,16 +143,16 @@ func _fixed_process(delta):
 #	elif high_priority_list != [] or base_priority_list != [] or low_priority_list != []:
 	elif high_priority_list != []:
 #		track_closest(high_priority_list)
-		tank_attack(high_priority_list.front())
+		tank_attack(high_priority_list)
 	elif target_list != []:
 #		track_closest(target_list)
-		tank_attack(target_list.front())
+		tank_attack(target_list)
 	elif low_priority_list != []:
 #		track_closest(low_priority_list)
-		tank_attack(low_priority_list.front())
+		tank_attack(low_priority_list)
 	elif attack:
 		go_to(objective)
-		if objective.side == faction.side:
+		if objective.get_parent().get_parent().side == faction.side:
 			orders("attack")
 			
 #	grounded_check()

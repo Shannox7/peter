@@ -3,7 +3,8 @@ var side = ""
 var capturing = ""
 var ally_control = []
 var enemy_control = []
-var opacity = .5
+var opacity = .3
+var time_down = .5
 var red
 var capture_time_total = 10.0
 var capture_time = 0.0
@@ -19,9 +20,11 @@ var foreground_full = false
 
 var level
 
-func _ready():
+var myself
+func init():
 	level = get_parent().get_parent()
 	positions = get_node("Position2D").get_children()
+	myself = weakref(self)
 	set_fixed_process(true)
 	get_node("Area2D").connect("body_enter", self, "control")
 	get_node("Area2D").connect("body_exit", self, "no_control")
@@ -151,10 +154,13 @@ func _fixed_process(delta):
 			lower_flag(delta, control, enemyflag)
 	
 	if red == true: 
-		opacity -= delta
-		get_node("Area2D/Sprite").set_self_opacity(opacity)
-		if opacity <= 0:
-			opacity = .5
-			red = false
+		time_down -= delta
+		if time_down <= 0:
+			opacity -= delta
+			get_node("Area2D/Sprite").set_self_opacity(opacity)
+			if opacity <= 0:
+				opacity = .5
+				time_down = .5
+				red = false
 
 

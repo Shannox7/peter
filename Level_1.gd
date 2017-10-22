@@ -2,8 +2,13 @@ extends Node2D
 var faction = preload("res://Faction.tscn").instance()
 var game_over = false
 #var buildings = preload("res://Buildings.tscn").instance()
-var AI = preload("res://AI.tscn").instance().duplicate()
+var AI = preload("res://AI.tscn").instance()
 var buildings = preload("res://buildings.tscn").instance()
+var guns = preload("res://Guns.tscn")
+var armour = preload("res://armour.tscn")
+#var player = preload("res://Peter.tscn").instance()
+#var player_1 = player
+#var player_2
 var objective_list = []
 var fact1
 var fact2
@@ -12,7 +17,8 @@ var fact3
 func _ready():
 	var AI_2 = AI.duplicate()
 	get_node("Timer").connect("timeout", self, "close")
-	objective_list = get_node("dzones").get_children()
+	for children in get_node("dzones").get_children():
+		objective_list.append(children.myself)
 #	objective_list.front().set_controlled("allies")
 #	objective_list.back().set_controlled("enemies")
 #	objective_list[1].set_controlled("enemies")
@@ -38,7 +44,8 @@ func _ready():
 	add_child(fact1)
 	add_child(fact2)
 	fact2.AI = true
-	fact1.AI = true
+#	fact1.AI = true
+
 #	fact3 = fact2.duplicate()
 #	fact3.side = "enemies"
 #	fact3.enemyside = "allies"
@@ -63,17 +70,22 @@ func _ready():
 	call_deferred("positioning", fact1, get_node("ally_defence"), get_node("dzones/defence_zone"), false)
 	
 	fact2.call_deferred("add_child", AI)
-	fact1.call_deferred("add_child", AI_2)
+#	fact1.call_deferred("add_child", AI_2)
 
 #	fact3.call_deferred("add_child", AI_2)
 	
-	if get_parent().player_2 != null:
-		get_parent().player_2.set_pos(get_node("player_2_spawn").get_pos())
-		fact1.add_child(get_parent().player_2)
-		
-	get_parent().player_1.set_pos(get_node("player_1_spawn").get_pos())
-	fact1.call_deferred("add_child", get_parent().player_1)
+#	if player_2 != null:
+#		player_2.set_pos(get_node("player_2_spawn").get_pos())
+#		fact1.add_child(player_2)
+
+	Global.player.level = self
+	Global.player.faction = fact1
+	Global.player.set_pos(get_node("player_1_spawn").get_pos())
+	Global.player.get_parent().remove_child(Global.player)
+	Global.player.combat = true
+	fact1.call_deferred("add_child", Global.player)
 	
+#	
 func positioning(faction, node, zone, flipped):
 	zone.set_controlled(faction.side)
 	for buildings in node.get_children():
@@ -88,35 +100,38 @@ func positioning(faction, node, zone, flipped):
 func check_win():
 	var win = true
 	for obj in objective_list:
-		if obj.side == fact2.side:
+		if obj.get_ref().side == fact2.side:
 			win = false
 			break
 	if win == true:
 		for players in fact1.player_list:
 			var lab = get_node("Label").duplicate()
-			lab.set_text("You Win! Good for you!")
-			players.add_child(lab)
-			lab.set_pos(Vector2(0, -50))
+			players.comment("yeeehaw!")
 			get_node("Timer").start()
 			game_over = true
+
 	else:
 		check_lose()
 func check_lose():
 	var lose = true
 	for obj in objective_list:
-		if obj.side == fact1.side:
+		if obj.get_ref().side == fact1.side:
 			lose = false
 			break
 	if lose == true:
 		for players in fact1.player_list:
 			var lab = get_node("Label").duplicate()
-			lab.set_text("aww you lose! That sucks bud!")
-			players.add_child(lab)
-			lab.set_pos(Vector2(0, -50))
+			players.comment("fuccccck!")
 			get_node("Timer").start()
 			game_over = true
 func close():
-	get_tree().change_scene("res://World.tscn")
+	if not fact1.AI:
+		for players in fact1.player_list:
+			players.get_parent().remove_child(players)
+	if not fact2.AI:
+		for players in fact2.player_list:
+			players.get_parent().remove_child(players)
+	get_node("/root/Global").goto_scene("res://Base.tscn")
 	
 
 func points(side, points):

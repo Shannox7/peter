@@ -13,12 +13,11 @@
 [ext_resource path="res://Data/Health bar/health_meter.png" type="Texture" id=11]
 [ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=12]
 [ext_resource path="res://Data/Enemies/Zombie/Arm_r.png" type="Texture" id=13]
-[ext_resource path="res://Data/Enemies/Zombie/Zombie.gd" type="Script" id=14]
-[ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=15]
+[ext_resource path="res://Data/Enemies/Creep/creepidle.png" type="Texture" id=14]
+[ext_resource path="res://Data/Enemies/Creep/creeprun.png" type="Texture" id=15]
 [ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=16]
-[ext_resource path="res://Data/Enemies/Creep/creepidle.png" type="Texture" id=17]
-[ext_resource path="res://Data/Enemies/Creep/creeprun.png" type="Texture" id=18]
-[ext_resource path="res://Data/Enemies/Creep/Creep Head.png" type="Texture" id=19]
+[ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=17]
+[ext_resource path="res://Data/Enemies/Creep/Creep Head.png" type="Texture" id=18]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -30,6 +29,23 @@ extents = Vector2( 6, 5 )
 length = 1.0
 loop = false
 step = 0.5
+
+[sub_resource type="Animation" id=14]
+
+resource/name = "Bite"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/head:offset")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.3, 0.5 ),
+"transitions": FloatArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 5, 0 ), Vector2( 0, 0 ) ]
+}
 
 [sub_resource type="Animation" id=3]
 
@@ -104,25 +120,6 @@ height = 231.0
 custom_solver_bias = 0.0
 radius = 311.11
 
-[sub_resource type="SpriteFrames" id=10]
-
-animations = [ {
-"frames": [ ExtResource( 15 ) ],
-"loop": false,
-"name": "health_full",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 16 ) ],
-"loop": false,
-"name": "health_empty",
-"speed": 5.0
-} ]
-
-[sub_resource type="RectangleShape2D" id=11]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 3 )
-
 [sub_resource type="RectangleShape2D" id=12]
 
 custom_solver_bias = 0.0
@@ -131,16 +128,35 @@ extents = Vector2( 10, 26 )
 [sub_resource type="SpriteFrames" id=13]
 
 animations = [ {
-"frames": [ ExtResource( 17 ) ],
+"frames": [ ExtResource( 14 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 18 ) ],
+"frames": [ ExtResource( 15 ) ],
 "loop": true,
 "name": "run",
 "speed": 5.0
 } ]
+
+[sub_resource type="SpriteFrames" id=10]
+
+animations = [ {
+"frames": [ ExtResource( 16 ) ],
+"loop": false,
+"name": "health_empty",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ) ],
+"loop": false,
+"name": "health_full",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=11]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 3 )
 
 [node name="Enemies" type="Node2D" groups=[
 "enemies",
@@ -155,7 +171,7 @@ shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -6 )
 shapes/0/trigger = false
 collision/layers = 0
-collision/mask = 1
+collision/mask = 513
 collision/margin = 0.08
 script/script = ExtResource( 1 )
 
@@ -211,6 +227,7 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/Attack = SubResource( 2 )
+anims/Bite = SubResource( 14 )
 anims/Melee = ExtResource( 2 )
 anims/armRun = ExtResource( 3 )
 anims/armWalk = ExtResource( 4 )
@@ -247,7 +264,7 @@ transform/rot = -8.89976
 texture = ExtResource( 5 )
 centered = false
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Zombie_movement/body"]
+[node name="legs" type="AnimatedSprite" parent="Zombie_movement/body"]
 
 transform/pos = Vector2( 0, 18 )
 frames = SubResource( 7 )
@@ -270,7 +287,7 @@ cast_to = Vector2( 0, 0 )
 layer_mask = 1025
 type_mask = 15
 
-[node name="ViewArea" type="Area2D" parent="Zombie_movement/body/head"]
+[node name="Area2D" type="Area2D" parent="Zombie_movement/body/head"]
 
 editor/display_folded = true
 transform/pos = Vector2( 2.5, -0.45397 )
@@ -286,7 +303,7 @@ monitorable = false
 collision/layers = 0
 collision/mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement/body/head/ViewArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement/body/head/Area2D"]
 
 transform/pos = Vector2( 156.5, 2.45397 )
 transform/rot = 90.0
@@ -294,7 +311,7 @@ shape = SubResource( 8 )
 trigger = true
 _update_shape_index = 0
 
-[node name="Sprite" type="Sprite" parent="Zombie_movement/body/head/ViewArea/CollisionShape2D"]
+[node name="Sprite" type="Sprite" parent="Zombie_movement/body/head/Area2D/CollisionShape2D"]
 
 [node name="health_meter" type="Sprite" parent="Zombie_movement/body/head"]
 
@@ -309,6 +326,10 @@ transform/pos = Vector2( 2, 1 )
 transform/scale = Vector2( 1, 3 )
 texture = ExtResource( 12 )
 centered = false
+
+[node name="bite" type="Position2D" parent="Zombie_movement/body/head"]
+
+transform/pos = Vector2( 5, 0 )
 
 [node name="direction" type="RayCast2D" parent="Zombie_movement/body"]
 
@@ -349,6 +370,7 @@ centered = false
 [node name="Area2D" type="Area2D" parent="Zombie_movement/body"]
 
 editor/display_folded = true
+visibility/visible = false
 input/pickable = false
 shapes/0/shape = SubResource( 9 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -365,150 +387,6 @@ collision/mask = 2
 
 shape = SubResource( 9 )
 trigger = true
-_update_shape_index = 0
-
-[node name="Zombie" type="KinematicBody2D" parent="." groups=[
-"enemies",
-]]
-
-editor/display_folded = true
-visibility/visible = false
-input/pickable = false
-shapes/0/shape = SubResource( 6 )
-shapes/0/transform = Matrix32( 1.07604, 0, 0, 0.924514, 0, 4 )
-shapes/0/trigger = false
-collision/layers = 2
-collision/mask = 2
-collision/margin = 0.08
-script/script = ExtResource( 14 )
-RUN_SPEED = 120
-WALK_SPEED = 50
-ACCELERATION = 5
-acceleration_modifier = 1
-total_health = 10
-
-[node name="Timer" type="Timer" parent="Zombie"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
-
-[node name="arm_l" type="Sprite" parent="Zombie"]
-
-transform/pos = Vector2( -5, 5 )
-transform/rot = -8.89976
-texture = ExtResource( 5 )
-
-[node name="AnimatedSprite" type="AnimatedSprite" parent="Zombie"]
-
-transform/pos = Vector2( 0, 18 )
-frames = SubResource( 7 )
-animation = "idle"
-
-[node name="torso" type="Sprite" parent="Zombie"]
-
-transform/pos = Vector2( 0, 7 )
-texture = ExtResource( 9 )
-
-[node name="head" type="Sprite" parent="Zombie"]
-
-transform/pos = Vector2( 0, -6 )
-texture = ExtResource( 10 )
-
-[node name="arm_r" type="Sprite" parent="Zombie"]
-
-transform/pos = Vector2( -5, 5 )
-transform/rot = 8.89976
-texture = ExtResource( 13 )
-
-[node name="Vision" type="RayCast2D" parent="Zombie"]
-
-enabled = false
-cast_to = Vector2( 0, 100 )
-layer_mask = 1
-type_mask = 15
-
-[node name="arms" type="AnimationPlayer" parent="Zombie"]
-
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/Attack = SubResource( 2 )
-anims/armRun = ExtResource( 3 )
-anims/armWalk = ExtResource( 4 )
-anims/fliparmWalk = SubResource( 3 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = ""
-
-[node name="death" type="Timer" parent="Zombie"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
-
-[node name="healthBar" type="AnimatedSprite" parent="Zombie"]
-
-transform/pos = Vector2( -16, -30 )
-frames = SubResource( 10 )
-animation = "health_full"
-
-[node name="ViewArea" type="Area2D" parent="Zombie"]
-
-transform/pos = Vector2( 2.5, -6.45397 )
-input/pickable = true
-shapes/0/shape = SubResource( 8 )
-shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 143.5, -0.54603 )
-shapes/0/trigger = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie/ViewArea"]
-
-visibility/visible = false
-transform/pos = Vector2( 143.5, -0.54603 )
-transform/rot = 90.0
-shape = SubResource( 8 )
-trigger = true
-_update_shape_index = 0
-
-[node name="Attack" type="Timer" parent="Zombie"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = true
-
-[node name="Area2D" type="Area2D" parent="Zombie"]
-
-editor/display_folded = true
-input/pickable = true
-shapes/0/shape = SubResource( 11 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 25 )
-shapes/0/trigger = true
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie/Area2D"]
-
-transform/pos = Vector2( 0, 25 )
-shape = SubResource( 11 )
-trigger = true
-_update_shape_index = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie"]
-
-transform/pos = Vector2( 0, 4 )
-transform/scale = Vector2( 1.07604, 0.924514 )
-shape = SubResource( 6 )
-trigger = false
 _update_shape_index = 0
 
 [node name="Creep" type="KinematicBody2D" parent="."]
@@ -613,6 +491,6 @@ _update_shape_index = 0
 [node name="head" type="Sprite" parent="Creep"]
 
 transform/pos = Vector2( 0, -16 )
-texture = ExtResource( 19 )
+texture = ExtResource( 18 )
 
 

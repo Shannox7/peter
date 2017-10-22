@@ -12,16 +12,16 @@ func start():
 	connect("body_exit", self, "no_shop")
 	
 func shop(collider):
-	if collider.is_in_group("players"):
-		set_process_input(true)
-		collider.display("interact: ", "Enter shop")
-		player = collider
+#	if collider.is_in_group("players"):
+	set_process_input(true)
+	collider.comment("interact: Enter shop")
+	player = collider
 
 
 func no_shop(collider):
-	if collider.is_in_group("players"):
-		collider.display(null, null)
-		set_process_input(false)
+#	if collider.is_in_group("players"):
+	collider.comment("")
+	set_process_input(false)
 	
 
 func _input(event):

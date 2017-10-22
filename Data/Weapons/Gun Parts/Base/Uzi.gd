@@ -1,7 +1,7 @@
 extends "res://Guns.gd"
 
 func _ready():
-	name = "M14"
+	name = "Uzi"
 	damage = 1
-	fire_rate = .2
+	fire_rate = .1
 	distance = 1

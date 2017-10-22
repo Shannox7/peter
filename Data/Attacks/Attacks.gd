@@ -1,9 +1,9 @@
 extends KinematicBody2D
 var bulletspeed = 0
-var Gravity = 20
+var Gravity = 60
 var gravitycounter = 20
 var bullet
-var countdown = 2
+var countdown = rand_range(1, 2)
 var flip_mod = 1
 var damage = 0
 var stopping_power = 0
@@ -11,7 +11,7 @@ var accuracy = 0
 var distance = 1
 #var distance_timer
 var velocity
-var bh = preload("res://effects.tscn")
+var bh = preload("res://effects.tscn").instance()
 var bullet_humanoid
 var flip_effect
 var drop = false
@@ -27,6 +27,7 @@ var pierce_chance
 var richochet_chance
 #query space instead of collider
 
+var faction
 
 func initialize():
 	set_fixed_process(true)
@@ -61,11 +62,27 @@ func hit_and_explode_effect(collider, hit):
 		
 func hit_effect(collider, hit):
 	if hit:
+		blood()
 		collider.hit(self)
 		queue_free()
 	else:
 		queue_free()
 		
+func blood():
+	var blood = bh.get_node("Blood_splatter").duplicate()
+	blood.set_pos(get_collision_pos())
+#	blood.set_scale(Vector2(1 * flip_mod, 1))
+
+	get_parent().add_child(blood)
+	blood.set_rot(blood.get_angle_to(get_pos()) - 3.14159/2)
+#	blood.set_rotd(blood.get_rotd() * - 1)
+	blood.set_emitting(true)
+
+func loop(delta):
+	velocity += Vector2(0, Gravity) * delta # Where gravity is some decently large number ( I use 600)
+	set_rot(velocity.angle() - (3.14 / 2))
+	move(velocity * delta)
+	
 func hit_pierce_effect(collider, hit):
 	if hit:
 		collider.hit(self)
@@ -85,7 +102,10 @@ func explode():
 	var explosion = load("res://Explosives.tscn").instance().get_node("explosion").duplicate()
 	explosion.damage = explode_damage
 	explosion.shrapnelnumber = shrapnel
-	explosion.set_pos(get_global_pos())
+	explosion.faction = faction
+	explosion.set_collision_mask_bit(faction.enemynumber, true)
+	explosion.set_collision_mask_bit(faction.enemynumber * 3, true)
+	explosion.set_pos(get_collision_pos())
 	get_parent().add_child(explosion)
 
 #func grenade():
@@ -97,7 +117,35 @@ func explode():
 #	grenade.set_pos(spawn_point) 
 #	grenade.flip_mod = flip_mod
 #	level.add_child(grenade)
+func ballistic_range(speed, gravity, initial_height):
+#         Handling these cases is up to your project's coding standards
 
+#        // Derivation
+#        //   (1) x = speed * time * cos O
+#        //   (2) y = initial_height + (speed * time * sin O) - (.5 * gravity*time*time)
+#        //   (3) via quadratic:     [ignore smaller root]
+#        //   (4) solution: range = x = (speed*cos O)/gravity * sqrt(speed*speed*sin O + 2*gravity*initial_height)    [plug t back into x=speed*time*cos O]
+
+        var angle = get_rot()
+# // no air resistence, so 45 degrees provides maximum range
+        var cos_ang = cos(angle)
+        var sin_ang = sin(angle)
+        var t = (bulletspeed*sin_ang)/gravity + sqrt(bulletspeed*bulletspeed*sin_ang + 2*gravity*initial_height)/gravity
+        var fire_range = (speed*cos_ang/gravity) * (speed*sin_ang + sqrt(speed*speed*sin_ang*sin_ang + 2*gravity*initial_height))
+        print (" bullet_range time: " + str(t))
+        return fire_range
+
+
+
+#func canon_shot():
+#	var t = bulletspeed*sin(45) + sqrt((bulletspeed * bulletspeed) * 45 + 2 * Gravity * -10)
+#	var endvector = -10 + bulletspeed * t *sin(45) - .5 * Gravity * (t * t)
+#	
+#	print (t)
+#	print (endvector)
+#	pass
+#func cannon_traj():
+#	−0.4x2 + 10 == 0
 
 func drop(delta):
 	get_node("Sprite").set_offset(Vector2(0, 2))
@@ -111,6 +159,7 @@ func drop(delta):
 	else:
 		bulletspeed -= bulletspeed_fraction
 	drop_stat_reduction()
+	countdown -= delta
 	if countdown <= 0:
 		queue_free()
 
@@ -123,7 +172,7 @@ func fade():
 
 func colliding():
 	if is_colliding():
-		if get_collider().is_in_group("inanimate") or get_collider().is_in_group(side):
+		if get_collider().is_in_group("inanimate"):
 			effect("no_hit", false)
 		else:
 			if flip_mod == -1:

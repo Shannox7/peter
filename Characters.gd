@@ -1,5 +1,7 @@
 extends KinematicBody2D
-
+#var name = ''
+var description = ''
+var job = ''
 #values
 var WALK_SPEED = 200
 var PRONE_SPEED = 100
@@ -22,18 +24,27 @@ var velocity = Vector2()
 var knockback_velocity = Vector2()
 var random_hold = int(rand_range(50, 100))
 var random_attack_hold = rand_range(1, .80)
+var fight_skill = 0
+var labour_skill = 0
+var doctor_skill = 0
 
 #orders
 var objective
 var attacking = false
 var defending = false
+var placed = false
 var attack = false
 var follow = false
 var hold = false
 var retreat = false
 var hold_order_remove = false
+var patrol = false
+var occupy = false
 
 #bools
+var equipped
+var AI = true
+var airborne = false
 var spawned = false
 var reloading = false
 var hit = false
@@ -44,9 +55,9 @@ var is_prone = false
 var left_arm_gone = false
 var right_arm_gone = false
 var dead = false
+var injured = false
 var melee = false
 var attack_ready = true
-var patrol
 var grounded
 var jumping
 
@@ -80,6 +91,7 @@ var raycast
 var viewarea
 var fire_ready
 var health_display
+var building = null
 
 #lists
 var myself
@@ -99,6 +111,44 @@ var side
 var holding
 
 #############################################################################
+#creating a character
+func survivor_creator():
+	var name_list = ["Dan", "George", "Norman", "Shannon", "Johnathan", "Patrick", "Mathew", "Alexander"]
+	self.name = name_list[int(rand_range(0, name_list.size()))]
+	# need male/female
+	var random  = int(rand_range(0, 25))
+	if random in range(1, 10):
+		fighter()
+	elif random in range(11, 20):
+		labourer()
+	elif random in range(21, 25):
+		doctor()
+	else:
+		unskilled()
+	
+	total_health += fight_skill
+#	print (self.name + ", Fight: " +str(fight_skill))
+#	print (self.name + ", Labour: " +str(labour_skill))
+#	print (self.name + ", Doctor: " +str(doctor_skill))
+func fighter():
+	fight_skill = int(rand_range(3, 6))
+	labour_skill = int(rand_range(1, 4))
+	doctor_skill = int(rand_range(1, 4))
+	pass
+func doctor():
+	fight_skill = int(rand_range(1, 4))
+	labour_skill = int(rand_range(1, 4))
+	doctor_skill = int(rand_range(3, 6))
+	pass
+func labourer():
+	fight_skill = int(rand_range(1, 4))
+	labour_skill = int(rand_range(3, 6))
+	doctor_skill = int(rand_range(1, 4))
+	pass
+func unskilled():
+	fight_skill = int(rand_range(1, 3))
+	labour_skill = int(rand_range(1, 3))
+	doctor_skill = int(rand_range(1, 3))
 #comments
 func comment(say):
 	comment_box.show()
@@ -122,41 +172,50 @@ func flip(flipped):
 	
 #side
 func side():
-	if defending:
-		faction = get_parent().get_parent().get_parent()
-		level = get_parent().get_parent().get_parent().get_parent()
-	else:
-		faction = get_parent()
-		level = get_parent().get_parent()
-	
 	get_node("body").set_layer_mask_bit(faction.sidenumber, true)
 	get_node("body").add_to_group(faction.side)
 	get_node("body/head/Area2D").set_collision_mask_bit(faction.enemynumber, true)
 	get_node("body/Area2D").set_collision_mask_bit(faction.enemynumber, true)
 	get_node("body/Area2D").set_collision_mask_bit(faction.enemynumber * 3, true)
+#hit
+func hit(collider):
+#	if collider.get_global_pos().y < collider.get_global_pos().y:
+#		print ("critical")
+#		collider.damage = collider.damage * 2
+	get_node("hit_timer").start()
+	red()
+	if hit == false and not placed:
+		knockback_velocity.x = collider.velocity.x * collider.stopping_power
+		knockback_velocity.y = collider.velocity.y * collider.stopping_power
+	hit = true
+	health -= collider.damage
+	if health <= 0 and dead == false:
+		dead = true
+		death()
+	health()
+	
 #melee
 func melee():
 	attack_ready = false
 	melee = true
 	fire_ready.stop()
 	var m
-	var spawn_point = arm_r.get_global_pos()
+
 	if primaryGun != []:
+		var spawn_point = arm_r.get_global_pos()
 		m = primaryGun[0].melee[0].melee()
 		armanim = primaryGun[0].melee_type
 		m.damage = primaryGun[0].melee_damage
 		m.stopping_power = primaryGun[0].melee_stopping_power + melee_stopping_power
+		fire_ready.set_wait_time(.5)
+		m.attacker = self
+		m.set_layer_mask(faction.enemynumberval)
+		fire_ready.start()
+		arm_r.add_child(m)
 	else:
-		m = preload("res://Attacks.tscn").instance().get_node("Gun_melee").duplicate()
-		m.stopping_power = melee_stopping_power
-		m.damage = 1
-		armanim = "Melee"
-	fire_ready.set_wait_time(.5)
-	m.attacker = self
-	m.set_layer_mask(faction.enemynumberval)
-	print(faction.enemynumberval)
-	fire_ready.start()
-	arm_r.add_child(m)
+		melee_attack(m)
+
+
 
 	
 func special():
@@ -170,6 +229,7 @@ func special():
 	var bullets = primaryGun[0].special[0].special()
 	bullets.damage = primaryGun[0].special_damage
 	bullets.stopping_power = primaryGun[0].stopping_power
+	bullets.faction = faction
 	if flip_mod == -1:
 		bullets.get_node("Sprite").set_flip_h(true)  
 		bullets.flip_mod = -1
@@ -197,6 +257,7 @@ func fire():
 
 	for bullets in range(primaryGun[0].bullets_inbullets):
 		bullets = primaryGun[0].bullettype()
+		bullets.faction = faction
 		if flip_mod == -1:
 			bullets.get_node("Sprite").set_flip_h(true)  
 			bullets.flip_mod = -1
@@ -213,7 +274,7 @@ func fire():
 		reload()
  #swap, equip, unequip and drop
 func dropGun():
-	primaryGun[0].level.remove_child(primaryGun[0])
+	primaryGun[0].get_parent().remove_child(primaryGun[0])
 	fire_ready.stop()
 	level.add_child(primaryGun[0])
 	primaryGun[0].set_global_pos(get_node("body/arm_r/Gun").get_global_pos())
@@ -236,7 +297,7 @@ func equip(item, pickedup, slot):
 			arm_r.add_child(item)
 			primaryGun.append(item)
 		elif primaryGun != [] and secondaryGun == []:
-			primaryGun[0].level.remove_child(primaryGun[0])
+			primaryGun[0].get_parent().remove_child(primaryGun[0])
 			get_node("body/legs").add_child(primaryGun[0])
 			arm_r.add_child(item)
 			primaryGun.append(item)
@@ -265,8 +326,8 @@ func equip(item, pickedup, slot):
 				headArmour[0].unequip(self)
 				headArmour.pop_front()
 			headArmour.append(item)
-			get_node("body/Head").add_child(item)
-			item.set_pos(Vector2(get_node("body/Head").get_pos().x, -4))
+			get_node("body/head").add_child(item)
+			item.set_pos(Vector2(get_node("body/head").get_pos().x, -4))
 			item.set_rot(0)
 			headArmour[0].equip(self)
 		elif item.is_in_group("body"):
@@ -280,7 +341,8 @@ func equip(item, pickedup, slot):
 			item.set_rot(get_node("body/legs").get_rot())
 			item.set_rot(0)
 			bodyArmour[0].equip(self)
-			
+#	if AI:
+#		get_node("body/Area2D").set_shape_transform(0, Matrix32( Vector2(300, 300), Vector2(300, 300), Vector2(300, 300) ))
 func swap():
 	if reloading == true:
 		stop_reload()
@@ -305,7 +367,6 @@ func swap():
 		secondaryGun[0].set_pos(get_node("body/legs/secondaryEquip").get_pos())
 		secondaryGun[0].set_rotd(get_node("body/legs/secondaryEquip").get_rotd())
 		get_node("body/legs").add_child(secondaryGun[0])
-		
 #reload, stop reloading and fireready
 func fireready():
 	if melee == true:
@@ -375,10 +436,10 @@ func prone(proned):
 		get_node("body").set_pos(Vector2(0, -3))
 		get_node("body/prone").set_trigger(false)
 		get_node("body/standing").set_trigger(true)
-		get_node("body/prone").set_pos(get_node("body/legs").get_pos())
-		
+
 		get_node("body/legs").set_pos(Vector2(-4, -2))
 		get_node("body/legs/secondaryEquip").set_pos(Vector2(14, - 2))
+		get_node("body/legs/secondaryEquip").set_rotd(180)
 		head.set_pos(Vector2(12, -6))
 		arm_r.set_pos(Vector2(-1, -1))
 		if headArmour != []:
@@ -389,7 +450,7 @@ func prone(proned):
 		if primaryGun != []:
 			primaryGun[0].set_pos(get_node("body/arm_r/Gun").get_pos())
 		if secondaryGun != []:
-			secondaryGun[0].set_rotd(180)
+			secondaryGun[0].set_rotd(get_node("body/legs/secondaryEquip").get_rotd())
 			secondaryGun[0].set_pos(Vector2(get_node("body/legs/secondaryEquip").get_pos()))
 	else:
 		is_prone = false
@@ -402,6 +463,7 @@ func prone(proned):
 		head.set_pos(Vector2(0, -13))
 		get_node("body/legs").set_pos(Vector2(0, 5))
 		get_node("body/legs/secondaryEquip").set_pos(Vector2(-5, -20))
+		get_node("body/legs/secondaryEquip").set_rotd(-90)
 		arm_r.set_pos(Vector2(-5, -3))
 		if headArmour != []:
 			headArmour[0].set_pos(Vector2(0 , -4))
@@ -410,7 +472,9 @@ func prone(proned):
 			bodyArmour[0].set_pos(Vector2(0, -4))
 		if secondaryGun != []:
 			secondaryGun[0].set_pos(Vector2(get_node("body/legs/secondaryEquip").get_pos()))
-			secondaryGun[0].set_rotd(-90)
+			secondaryGun[0].set_rotd(get_node("body/legs/secondaryEquip").get_rotd())
+	get_node("body/prone").set_pos(Vector2(0, -2))
+	get_node("body/headcollision").set_pos(head.get_pos())
 	flip(flipped)
 ################################################################################
 #fixed processes
@@ -422,7 +486,7 @@ func go_to(object):
 		prone(false)
 	holding = false
 	raycast.set_rot(get_angle_to(object.get_global_pos()) - 3.14159/2)
-	if get_pos().distance_to(object.get_global_pos()) <= random_hold :
+	if get_pos().distance_to(object.get_global_pos()) < random_hold :
 		holding = true
 
 func look(object):
@@ -430,8 +494,8 @@ func look(object):
 		holding = true
 	else:
 		var obj = object.get_global_pos()
-#		head.set_rot(head.get_angle_to(obj) - 3.14159/2)
-		raycast.set_rot(get_angle_to(obj) - 3.14159/2)
+		head.set_rot(get_node("body").get_angle_to(obj) - 3.14159/2)
+#		raycast.set_rot(get_angle_to(obj) - 3.14159/2)
 #		head.set_rotd(head.get_rotd() * flip_mod)
 		arm_r.set_rot(get_node("body").get_angle_to(obj) - 3.14159/2)
 #			arm_r.set_rotd(head.get_rotd())
@@ -458,7 +522,7 @@ func grounded_check():
 		acceleration_modifier = 0.5
 		
 func flip_check():
-	if raycast.get_rotd() < -90  and flipped == false:
+	if raycast.get_rotd() <= -90  and flipped == false:
 		flipped = true
 		flip(true)
 		jump_over.set_rotd(-90)
@@ -468,16 +532,19 @@ func flip_check():
 		jump_over.set_rotd(90)
 		
 #targeting and attacking
-func attack(target):
-	target = target.get_ref()
+func attack(targetlist):
+	var target = targetlist.front().get_ref()
 	if !target:
-		untrack(target.get_node("body"))
+		targetlist.pop_front()
 	elif target.dead:
-		untrack(target.get_node("body"))
+		targetlist.pop_front()
+
 	else:
 		var targeting = target.get_node("body")
-		look(targeting)
 		raycast.set_rot(get_angle_to(targeting.get_global_pos()) - 3.14159/2)
+		flip_check()
+		look(targeting)
+
 		holding = false
 		if primaryGun != []:
 			if get_pos().distance_to(targeting.get_global_pos()) <= (primaryGun[0].bulletspeed * primaryGun[0].distance) * random_attack_hold:
@@ -485,8 +552,9 @@ func attack(target):
 				primaryGun[0].aiming(true, faction.enemynumberval)
 				if attack_ready == true and primaryGun[0].current_clip > 0:
 					fire()
-					
-		if get_pos().distance_to(targeting.get_global_pos()) < 20:
+			elif targeting.get_global_pos().y < (primaryGun[0].bulletspeed * primaryGun[0].distance) * -random_attack_hold:
+				targetlist.pop_front()
+		if get_pos().distance_to(targeting.get_global_pos()) < 30:
 			holding = true
 			if attack_ready == true:
 				melee()
@@ -494,10 +562,10 @@ func attack(target):
 func track_closest(targetlist):
 	for targets in targetlist:
 		if !targets.get_ref():
-			target_list.remove(target_list.find(targets.get_ref().myself))
-		elif get_global_pos().distance_to(targets.get_ref().get_global_pos()) < get_global_pos().distance_to(target_list.front().get_ref().get_global_pos()):
-			target_list.remove(target_list.find(targets.get_ref().myself))
-			target_list.push_front(targets.get_ref().myself)
+			targetlist.remove(targetlist.find(targets.get_ref().myself))
+		elif get_global_pos().distance_to(targets.get_ref().get_global_pos()) < get_global_pos().distance_to(targetlist.front().get_ref().get_global_pos()):
+			targetlist.remove(targetlist.find(targets.get_ref().myself))
+			targetlist.push_front(targets.get_ref().myself)
 			break
 
 func track(collider):
@@ -508,7 +576,7 @@ func track(collider):
 			building_list.append(collider.get_parent().myself)
 		else:
 			target_list.append(collider.get_parent().myself)
-	elif collider.get_parent().has_method("repairing"):
+	elif collider.get_parent().has_method("repairing") or collider.get_parent().has_method("add_operator"):
 		low_priority_list.append(collider.get_parent().myself)
 	else:
 		target_list.append(collider.get_parent().myself)
@@ -593,6 +661,7 @@ func knockback():
 		
 func the_movement(delta):
 	var motion = velocity * delta + knockback_velocity
+#	var motion = velocity * delta
 	motion = move(motion)
 	if (is_colliding()):
 		var n = get_collision_normal()

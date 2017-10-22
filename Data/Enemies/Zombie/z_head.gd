@@ -1,12 +1,11 @@
-extends KinematicBody2D
+extends RigidBody2D
 var GRAVITY = 10
 var velocity = Vector2()
 var flip_mod = 1
 var acceleration_modifier = 1
 var stopping_power = 0
 var flipbullet = 1
-var knockbacky = 1
-var knockbackx = 1
+var knockback = Vector2()
 var random1
 var random2
 #var random2
@@ -14,7 +13,7 @@ var timer
 #var random2
 func _ready():
 #	random1 = int(rand_range(1, 10)) * -10
-	knockbackx = stopping_power * flipbullet
+	knockback.x = stopping_power * flipbullet
 	timer= get_node("Timer")
 	timer.connect("timeout", self, "queue_free")
 #	knockbacky *= stopping_power * random1
@@ -31,13 +30,13 @@ func _fixed_process(delta):
 #		acceleration_modifier = 0.5
 #	else:
 #		acceleration_modifier = 1
-	velocity.x = knockbackx
+	velocity.x = knockback.x
 	velocity.y += delta * GRAVITY
-	if knockbackx <= 1 and knockbackx >= -1:
-		velocity.x = 0
+	if abs(knockback.x) < 1:
+		pass
 	else:
-		velocity.x += delta * knockbackx
-		knockbackx -= 1 * flipbullet
-
-
-	move(velocity)
+#		velocity.x += delt
+		knockback.x -= 1 * flipbullet
+		apply_impulse(Vector2(), velocity)
+	print (str(velocity))
+	

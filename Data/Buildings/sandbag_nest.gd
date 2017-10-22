@@ -8,7 +8,7 @@ func AI_recount(AI):
 	AI.bunkers -= 1
 	
 func _ready():
-	operators_size = 1
+	occupency = 1
 	total_health = 100
 	health = total_health
 	for i in range(operators_size):
@@ -21,22 +21,23 @@ func builder():
 #func activate(op):
 #	operator = op
 #	set_fixed_process(true)
-func occupency():
-	if operators[0] == null:
-		full = false
-	else:
-		full = true
+#func occupency():
+#	if operators[0] == null:
+#		full = false
+#	else:
+#		full = true
 
 func op_dead(op):
 	if op.get_parent() == get_node("body"):
 		if operators[0] == op.myself:
 			get_node("body/machinegun_turret").deactivate()
-			op.set_global_pos(get_node("body/defence_pos").get_global_pos())
-			op.set_fixed_process(true)
-			op.defending = false
-			operators[0] = null
 			op.get_parent().remove_child(op)
+			op.defending = false
+			op.placed = false
 			faction.add_child(op)
+			operators[0] = null
+			op.set_global_pos(get_node("body/defence_pos").get_global_pos())
+			op.call_deferred("set_fixed_process", true)
 	else:
 		operators[0] = null
 		op.defending = false
@@ -49,7 +50,8 @@ func add_operator(op):
 
 func place(op):
 	op.set_fixed_process(false)
-	if operators[0].get_ref() == op:
+	if occupents[0].get_ref() == op:
+		op.placed = true
 		op.get_parent().call_deferred("remove_child", op)
 		get_node("body").call_deferred('add_child', op)
 		op.set_pos(get_node("body/defence_pos").get_pos())

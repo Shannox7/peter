@@ -17,6 +17,9 @@ var accuracy = 2
 var fullauto = true
 var bullets_inbullets = 1
 
+var shrapnel = 0
+var explode_damage = 0
+
 var melee_damage = 0
 var melee_stopping_power = 0
 #var melee_speed = .5
@@ -93,8 +96,9 @@ func ammo():
 #			lists.append(new_bullet)
 #	get_parent().bullet_list = bullet_list
 func reload():
-	if (current_ammo - current_clip) < clip_capacity:
+	if (current_ammo + current_clip) < clip_capacity:
 		current_clip = current_ammo
+		print(str(current_ammo))
 		current_ammo = 0
 	elif current_clip > 0:
 		current_ammo -= (clip_capacity - current_clip)

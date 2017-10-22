@@ -1,6 +1,7 @@
 extends Node2D
 var buildings = preload("res://Buildings.tscn").instance()
 var global_run = true 
+var AI = true
 
 var total_infantry = 3
 var infantry = 0
@@ -66,17 +67,15 @@ func check_build(object):
 			elif object.foreground:
 				position_ground = position.foreground
 			if not position_ground:
-				if size <= 0:
-					var number = 1
+				if size <= 1:
+					pos = build_zone.positions[tracking - object.size + 1].get_global_pos()
+					var number = 0
 					for build_size_number in range(object.size):
 						if object.background:
 							build_zone.positions[tracking - number].background = true
 						if object.foreground:
 							build_zone.positions[tracking - number].foreground = true
-						if number == object.size:
-							pos = build_zone.positions[tracking - number].get_global_pos()
-	#						build_zone.check_full()
-	#						zone_check()
+						if build_size_number == object.size:
 							break
 						number += 1
 					break
@@ -105,14 +104,7 @@ func check_build(object):
 							build_zone.positions[tracking + number].background = true
 						elif object.foreground:
 							build_zone.positions[tracking + number].foreground = true
-						if number == object.size:
-#							if object.background:
-#								build_zone.positions[tracking].background = true
-#							if object.foreground:
-#								build_zone.positions[tracking].foreground = true
-
-#							build_zone.check_full()
-	#						zone_check()
+						if build_size_number == object.size:
 							break
 						number += 1
 					break
@@ -133,7 +125,7 @@ func _fixed_process(delta):
 					call_deferred("building", inf, inf.builder().duplicate(), pos)
 					infantry += 1
 					faction.points -= buildings.get_node(faction.faction + "/Spawn_buildings/infantry").cost
-			elif faction.points >= buildings.get_node(faction.faction + "/Barricades/tall_steel_wall").cost and walls < total_walls:
+			if pos == null and faction.points >= buildings.get_node(faction.faction + "/Barricades/tall_steel_wall").cost and walls < total_walls:
 				check_build(buildings.get_node(faction.faction + "/Barricades/tall_steel_wall"))
 				if pos != null:
 					var inf = buildings.get_node(faction.faction + "/Barricades/tall_steel_wall").duplicate()
@@ -141,7 +133,7 @@ func _fixed_process(delta):
 					walls += 1
 					faction.points -= buildings.get_node(faction.faction + "/Barricades/tall_steel_wall").cost
 				
-			elif faction.points >= buildings.get_node(faction.faction + "/Defence/sandbag_bunker").cost and bunkers < total_bunkers:
+			if pos == null and faction.points >= buildings.get_node(faction.faction + "/Defence/sandbag_bunker").cost and bunkers < total_bunkers:
 				check_build(buildings.get_node(faction.faction + "/Defence/sandbag_bunker"))
 				if pos != null:
 					var inf = buildings.get_node(faction.faction + "/Defence/sandbag_bunker").duplicate()

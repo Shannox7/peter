@@ -12,7 +12,7 @@ var boxlist = [[],[],[],[],[],[],[],[],[],[]]
 var duplicatelist = [[],[]]
 var modding = [[],[],[],[],[]]
 var mod_with = [[],[],[],[],[]]
-var playerGun
+var primaryGun
 var secondaryGun
 var headArmour
 var bodyArmour
@@ -113,10 +113,10 @@ func equipped_display(group):
 	get_node("Label").clear()
 	get_node("Label1").clear()
 	get_node("Label2").clear()
-	if playerGun != null:
-		playerGun.get_parent().remove_child(playerGun)
-		playerGun.free()
-		playerGun = null
+	if primaryGun != null:
+		primaryGun.get_parent().remove_child(primaryGun)
+		primaryGun.free()
+		primaryGun = null
 	if secondaryGun != null:
 		secondaryGun.get_parent().remove_child(secondaryGun)
 		secondaryGun.free()
@@ -134,14 +134,14 @@ func equipped_display(group):
 	else:
 		get_node("boxes").set_opacity(0)
 	if group == "weapons":
-		if player.playerGun != []:
-			playerGun = player.playerGun[0].duplicate()
-			playerGun.set_pos(get_node("display_pos1").get_pos())
-			playerGun.set_rot(get_node("display_pos1").get_rot())
-	#		playerGun.flip(false)
-			add_child(playerGun)
-			get_node("Label1").append_bbcode(str(player.playerGun[0].name) + "\n")
-			for stats in player.playerGun[0].stats:
+		if player.primaryGun != []:
+			primaryGun = player.primaryGun[0].duplicate()
+			primaryGun.set_pos(get_node("display_pos1").get_pos())
+			primaryGun.set_rot(get_node("display_pos1").get_rot())
+	#		primaryGun.flip(false)
+			add_child(primaryGun)
+			get_node("Label1").append_bbcode(str(player.primaryGun[0].name) + "\n")
+			for stats in player.primaryGun[0].stats:
 				get_node("Label1").append_bbcode(str(stats) + "\n")
 		if player.secondaryGun != []:
 			secondaryGun = player.secondaryGun[0].duplicate()
@@ -157,7 +157,7 @@ func equipped_display(group):
 			headArmour = player.headArmour[0].duplicate()
 			headArmour.set_pos(get_node("display_pos1").get_pos())
 			headArmour.set_rot(get_node("display_pos1").get_rot())
-	#		playerGun.flip(false)
+	#		primaryGun.flip(false)
 			add_child(headArmour)
 			get_node("Label1").append_bbcode(str(player.headArmour[0].name) + "\n")
 			for stats in player.headArmour[0].stats:
@@ -363,16 +363,16 @@ func _input(event):
 				if player.secondaryGun != []:
 					if current_list[inventory_y] == player.secondaryGun[0]:
 						pass
-					elif player.playerGun != []:
-						if current_list[inventory_y] == player.playerGun[0]:
+					elif player.primaryGun != []:
+						if current_list[inventory_y] == player.primaryGun[0]:
 							player.swap()
 						else:
 							player.equip(current_list[inventory_y], false, "secondaryGun")
 					else:
 						player.equip(current_list[inventory_y], false, "secondaryGun")
 						
-				elif player.playerGun != []:
-					if current_list[inventory_y] == player.playerGun[0]:
+				elif player.primaryGun != []:
+					if current_list[inventory_y] == player.primaryGun[0]:
 						player.swap()
 					else:
 						player.equip(current_list[inventory_y], false, "secondaryGun")
@@ -394,7 +394,7 @@ func _input(event):
 				if modding != [[],[],[],[],[]]:
 					close_crafting(true, false)
 				if current_list[inventory_y].is_equipped:
-					player.unequip(player.playerGun)
+					player.unequip(player.primaryGun)
 				modding[0].append(current_list[inventory_y])
 				modding[1].append(modding[0][0].clip[0])
 				modding[2].append(modding[0][0].special[0])
@@ -436,24 +436,24 @@ func _input(event):
 				placing = true
 			elif itemlist_group == "weapons":
 #				var packsize = 0
-				if player.playerGun != []:
-					if current_list[inventory_y] == player.playerGun[0]:
+				if player.primaryGun != []:
+					if current_list[inventory_y] == player.primaryGun[0]:
 						pass
 					elif player.secondaryGun != []:
 						if current_list[inventory_y] == player.secondaryGun[0]:
 							player.swap()
 						else:
-							player.equip(current_list[inventory_y], false, "playerGun")
+							player.equip(current_list[inventory_y], false, "primaryGun")
 					else:
-						player.equip(current_list[inventory_y], false, "playerGun")
+						player.equip(current_list[inventory_y], false, "primaryGun")
 						
 				elif player.secondaryGun != []:
 					if current_list[inventory_y] == player.secondaryGun[0]:
 						player.swap()
 					else:
-						player.equip(current_list[inventory_y], false, "playerGun")
+						player.equip(current_list[inventory_y], false, "primaryGun")
 				else:
-					player.equip(current_list[inventory_y], false, "playerGun")
+					player.equip(current_list[inventory_y], false, "primaryGun")
 #				for item in player.pack:
 #					if item.get_instance_ID() == current_list[inventory_y].get_instance_ID():
 #						player.pack.equipped = true

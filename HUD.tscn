@@ -1,10 +1,8 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://Data/Hud_scripts/player_hud.gd" type="Script" id=1]
-[ext_resource path="res://Data/Deployables/deployable box.png" type="Texture" id=2]
-[ext_resource path="res://Data/Deployables/deployable box center.png" type="Texture" id=3]
-[ext_resource path="res://Data/Health bar/player_healthBar.png" type="Texture" id=4]
-[ext_resource path="res://Data/Health bar/player_healthBar_health.png" type="Texture" id=5]
+[ext_resource path="res://Data/Health bar/player_healthBar.png" type="Texture" id=2]
+[ext_resource path="res://Data/Health bar/player_healthBar_health.png" type="Texture" id=3]
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -59,166 +57,62 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="deploys" type="Sprite" parent="Player1"]
-
-transform/pos = Vector2( 22, -19 )
-
-[node name="box0" type="Sprite" parent="Player1/deploys"]
-
-transform/pos = Vector2( 17, -23 )
-texture = ExtResource( 2 )
-
-[node name="Label" type="Label" parent="Player1/deploys/box0"]
+[node name="Label 3" type="Label" parent="Player1"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 13.0
-margin/top = -12.0
-margin/right = 71.0
-margin/bottom = 2.0
-text = "Recruits"
+margin/left = 80.0
+margin/top = -20.0
+margin/right = 120.0
+margin/bottom = -6.0
+text = "1"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="description" type="Label" parent="Player1/deploys/box0"]
+[node name="Label 4" type="Label" parent="Player1"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = -70.0
-margin/top = -12.0
-margin/right = -12.0
-margin/bottom = 38.0
-autowrap = true
+margin/left = 80.0
+margin/top = 0.0
+margin/right = 120.0
+margin/bottom = 14.0
+text = "1"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="box1" type="Sprite" parent="Player1/deploys"]
-
-transform/pos = Vector2( 17, -47 )
-texture = ExtResource( 2 )
-
-[node name="Label" type="Label" parent="Player1/deploys/box1"]
+[node name="Label 5" type="Label" parent="Player1"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 12.0
-margin/top = -12.0
-margin/right = 70.0
-margin/bottom = 2.0
-text = "Defences"
+margin/left = 80.0
+margin/top = 20.0
+margin/right = 120.0
+margin/bottom = 34.0
+text = "1"
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-
-[node name="description" type="Label" parent="Player1/deploys/box1"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -70.0
-margin/top = -12.0
-margin/right = -12.0
-margin/bottom = 38.0
-autowrap = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="box2" type="Sprite" parent="Player1/deploys"]
-
-transform/pos = Vector2( 17, -71 )
-texture = ExtResource( 2 )
-
-[node name="Label" type="Label" parent="Player1/deploys/box2"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 12.0
-margin/top = -12.0
-margin/right = 70.0
-margin/bottom = 2.0
-text = "Buildings"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="description" type="Label" parent="Player1/deploys/box2"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -70.0
-margin/top = -12.0
-margin/right = -12.0
-margin/bottom = 38.0
-autowrap = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="box3" type="Sprite" parent="Player1/deploys"]
-
-transform/pos = Vector2( 17, -95 )
-texture = ExtResource( 2 )
-
-[node name="Label" type="Label" parent="Player1/deploys/box3"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 12.0
-margin/top = -12.0
-margin/right = 70.0
-margin/bottom = 2.0
-text = "Deployments"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="description" type="Label" parent="Player1/deploys/box3"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -70.0
-margin/top = -12.0
-margin/right = -12.0
-margin/bottom = 38.0
-autowrap = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="box9" type="Sprite" parent="Player1/deploys"]
-
-transform/pos = Vector2( 17, -23 )
-texture = ExtResource( 3 )
 
 [node name="health_meter" type="Sprite" parent="Player1"]
 
 editor/display_folded = true
 transform/pos = Vector2( -26, 2 )
-texture = ExtResource( 4 )
+texture = ExtResource( 2 )
 centered = false
 
 [node name="health" type="Sprite" parent="Player1/health_meter"]
 
 transform/pos = Vector2( 2, 2 )
-texture = ExtResource( 5 )
+texture = ExtResource( 3 )
 centered = false
 
 [node name="Points" type="Label" parent="Player1"]

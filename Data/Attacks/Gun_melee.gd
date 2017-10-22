@@ -9,18 +9,22 @@ var drop = false
 #var rotate = 45
 func _ready():
 	set_fixed_process(true)
-
+	
+func effect(collider, hit):
+	hit_pierce_effect(collider, hit)
+	
 func _fixed_process(delta):
-#	rotate -= 4
-#	stopping_power
-	velocity = Vector2(cos(get_parent().get_rot()) * 500 * delta  * attacker.flip_mod, -sin(get_parent().get_rot()) * delta * attacker.flip_mod)
-#	velocity = attacker.get_node("Arm").get_rotd()
-#	set_pos(spawn_point)
+	colliding()
 	time -= delta
 	if time <= 0:
 		queue_free()
+func hit_pierce_effect(collider, hit):
+	if hit:
+		collider.hit(self)
+		
+func colliding():
 	if is_colliding():
-#		print("colliding")
-		if not get_collider().is_in_group("inanimate"):
-			get_collider().get_parent().hit(self)
-			add_exception(get_collider())
+		if get_collider().is_in_group("inanimate"):
+			effect("no_hit", false)
+		else:
+			effect(get_collider().get_parent(), true)

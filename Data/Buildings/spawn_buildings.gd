@@ -7,14 +7,17 @@ var spawned = false
 var spawn_time
 var total_spawn_time
 
+
+var soldier = false
+
 var background = true
 var foreground = false
 
 var limited = false
-var spawn_limit
+var spawn_limit = 0
 var spawns = []
 func initialize():
-	set_z(-3)
+	init()
 	set_fixed_process(true)
 	get_node("body").set_layer_mask_bit(frontorback, true)
 	health = total_health
@@ -52,6 +55,8 @@ func death():
 func spawn(limited):
 	obj_dup = object.duplicate()
 	obj_dup.spawn_home = myself
+	obj_dup.faction = faction
+	obj_dup.level = level
 #	obj_dup.set_opacity(0)
 	faction.add_child(obj_dup)
 	obj_dup.set_global_pos(get_node("body/Position2D").get_global_pos())
@@ -70,11 +75,20 @@ func _ready():
 
 
 func _fixed_process(delta):
-	if not limited:
+	if soldier and faction.soldiers < faction.max_soldiers:
 		spawn_time -= delta
 		if spawn_time <= 0:
 			spawn(false)
 			spawn_time = total_spawn_time
+			faction.soldiers += 1
+#	elif not limited:
+#		if soldier and faction.attacker_list.size() >= faction.max_soldiers:
+#			pass
+#		else:
+#			spawn_time -= delta
+#		if spawn_time <= 0:
+#			spawn(false)
+#			spawn_time = total_spawn_time
 #		if spawned:
 #			fade += delta
 #			obj_dup.holding = true

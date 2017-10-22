@@ -3,8 +3,6 @@ extends "res://Data/Attacks/Attacks.gd"
 func effect(collider, hit):
 	hit_and_explode_effect(collider, hit)
 		
-
-
 func _fixed_process(delta):
 	distance -= delta
 	velocity = Vector2(cos(get_rot()) * delta * bulletspeed * flip_mod, -sin(get_rot()) * delta * bulletspeed * flip_mod)
@@ -17,5 +15,3 @@ func _fixed_process(delta):
 
 func _ready():
 	initialize()
-	shrapnel = 10
-	explode_damage = 10

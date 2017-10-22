@@ -140,22 +140,22 @@ func close():
 	get_parent().shop = false
 	
 func _input(event):
-	if event.is_action_released("menu_right"):
-		if menu == 1:
-			menu = 0
-		else:
-			menu += 1
-		x = 0
-		y = 0
-		selector(true)
-	elif event.is_action_released("menu_left"):
-		if menu == 0:
-			menu = 1
-		else:
-			menu -= 1
-		x = 0
-		y = 0
-		selector(true)
+#	if event.is_action_released("menu_right"):
+#		if menu == 1:
+#			menu = 0
+#		else:
+#			menu += 1
+#		x = 0
+#		y = 0
+#		selector(true)
+#	elif event.is_action_released("menu_left"):
+#		if menu == 0:
+#			menu = 1
+#		else:
+#			menu -= 1
+#		x = 0
+#		y = 0
+#		selector(true)
 	if menu == 0:
 		if event.is_action_released("select_right"):
 			if x == shoplist.size() - 1:

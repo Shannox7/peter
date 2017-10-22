@@ -3,9 +3,9 @@ extends "res://Guns.gd"
 func _ready():
 	name = "AK47"
 	damage = 1
-	fire_rate = .65
-	accuracy = 25
-	distance = rand_range(.3, .5)
+	fire_rate = .25
+	accuracy = 5
+	distance = .5
 	
 func bullettype():
 	var new_bullet = b.instance().get_node("Bullet").duplicate()

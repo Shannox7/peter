@@ -16,7 +16,7 @@ func AI_recount(AI):
 	
 func _ready():
 	full = true
-	total_health = 100
+	total_health = 500
 	health = total_health
 
 func builder():

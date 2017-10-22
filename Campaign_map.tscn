@@ -1,0 +1,229 @@
+[gd_scene load_steps=10 format=1]
+
+[ext_resource path="res://Data/Levels/Campaign.gd" type="Script" id=1]
+[ext_resource path="res://Data/Levels/North_America.gd" type="Script" id=2]
+[ext_resource path="res://Data/Levels/World_map/U.S.A. and Canada.png" type="Texture" id=3]
+[ext_resource path="res://Data/Levels/World_map/South America.png" type="Texture" id=4]
+[ext_resource path="res://Data/Levels/World_map/U.K..png" type="Texture" id=5]
+[ext_resource path="res://Data/Levels/World_map/Asia.png" type="Texture" id=6]
+[ext_resource path="res://Data/Levels/World_map/Austrailia.png" type="Texture" id=7]
+[ext_resource path="res://Data/Levels/World_map/Africa.png" type="Texture" id=8]
+[ext_resource path="res://Data/Levels/World_map/ocean.png" type="Texture" id=9]
+
+[node name="Campaign_map" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="Map" type="Node2D" parent="."]
+
+editor/display_folded = true
+
+[node name="US and Canada" type="Node2D" parent="Map"]
+
+editor/display_folded = true
+transform/pos = Vector2( -260, -140 )
+z/z = -30
+script/script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="Map/US and Canada"]
+
+texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="Map/US and Canada"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="South America" type="Node2D" parent="Map"]
+
+editor/display_folded = true
+transform/pos = Vector2( -220, 60 )
+z/z = -30
+
+[node name="Sprite" type="Sprite" parent="Map/South America"]
+
+texture = ExtResource( 4 )
+
+[node name="Label" type="Label" parent="Map/South America"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="UK" type="Node2D" parent="Map"]
+
+editor/display_folded = true
+transform/pos = Vector2( -40, -140 )
+z/z = -30
+
+[node name="Sprite" type="Sprite" parent="Map/UK"]
+
+texture = ExtResource( 5 )
+
+[node name="Label" type="Label" parent="Map/UK"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Asia and Europe" type="Node2D" parent="Map"]
+
+editor/display_folded = true
+transform/pos = Vector2( 240, -140 )
+z/z = -30
+
+[node name="Sprite" type="Sprite" parent="Map/Asia and Europe"]
+
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="Map/Asia and Europe"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Austrailia" type="Node2D" parent="Map"]
+
+editor/display_folded = true
+transform/pos = Vector2( 280, 60 )
+z/z = -30
+
+[node name="Sprite" type="Sprite" parent="Map/Austrailia"]
+
+texture = ExtResource( 7 )
+
+[node name="Label" type="Label" parent="Map/Austrailia"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Africa" type="Node2D" parent="Map"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 60 )
+z/z = -30
+
+[node name="Sprite" type="Sprite" parent="Map/Africa"]
+
+texture = ExtResource( 8 )
+
+[node name="Label" type="Label" parent="Map/Africa"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+editor/display_folded = true
+layer = -1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+scroll/offset = Vector2( 0, 0 )
+scroll/base_offset = Vector2( 0, 0 )
+scroll/base_scale = Vector2( 1, 0 )
+scroll/limit_begin = Vector2( 0, 0 )
+scroll/limit_end = Vector2( 0, 0 )
+scroll/ignore_camera_zoom = false
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+motion/scale = Vector2( 0.1, 1 )
+motion/offset = Vector2( 0, 0 )
+motion/mirroring = Vector2( 1020, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+
+transform/scale = Vector2( 1.5, 1 )
+texture = ExtResource( 9 )
+centered = false
+
+[node name="follow" type="Position2D" parent="."]
+
+editor/display_folded = true
+
+[node name="Camera2D" type="Camera2D" parent="follow"]
+
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = true
+drag_margin/v_enabled = true
+smoothing/enable = false
+smoothing/speed = 5.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
+
+[node name="Label" type="Label" parent="follow"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -20.0
+margin/top = -60.0
+margin/right = 20.0
+margin/bottom = -46.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+

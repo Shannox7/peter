@@ -8,10 +8,16 @@ var distance = .5
 var distance_timer
 var velocity = Vector2()
 var bh = preload("res://effects.tscn")
+var attacks = preload("res://Attacks.tscn")
 var targets = [] 
 var time = 1
+var frag_speed = 100
+var blown_up = false
 
+var faction
+var drop = false
 func _ready():
+	get_node("Particles2D").set_emitting(true)
 	set_fixed_process(true)
 	pass
 
@@ -33,10 +39,18 @@ func find(collider):
 #	queue_free()
 func _fixed_process(delta):
 	time -= 1
-	if time <= 0:
+	if time == 0:
+		for shrap in range(shrapnelnumber):
+			var frags = attacks.instance().get_node("Shrapnel").duplicate()
+			frags.damage = 1
+			frags.bulletspeed = frag_speed
+			frags.set_collision_mask_bit(faction.enemynumber, true)
+			frags.set_collision_mask_bit(faction.enemynumber * 3, true)
+			frags.set_rotd(rand_range(0, 360))
+			frags.set_global_pos(get_global_pos())
+			get_parent().add_child(frags)
 		for bodies in get_overlapping_bodies():
-			print(get_overlapping_bodies())
-			if not bodies.get_name() == "TileMap":
-				bodies.hit(self)
+			bodies.get_parent().hit(self)
+	if not get_node("Particles2D").is_emitting():
 		queue_free()
 
