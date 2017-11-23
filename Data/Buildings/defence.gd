@@ -5,6 +5,7 @@ var frontorback = 9
 var foreground = true
 var background = false
 var operator
+var skill = "fight"
 var job = "Defending"
 func initialize():
 	occupency()
@@ -63,35 +64,36 @@ func remove_occupent(slot):
 	occupents[slot].get_ref().objective = null
 	occupents[slot].get_ref().orders("patrol")
 	occupents[slot] = null
-func death():
-	faction.defence_list.remove(faction.defence_list.find(myself))
-	for npc in operators:
-		if npc == null:
-			pass
-		elif !npc.get_ref():
-			pass
-		elif operators[0] == npc.get_ref().myself:
-			if npc.get_ref().get_parent() == get_node("body"):
-				npc.get_ref().swap()
-				npc.get_ref().get_parent().remove_child(npc.get_ref())
+	
+#func death():
+#	faction.defence_list.remove(faction.defence_list.find(myself))
+#	for npc in operators:
+#		if npc == null:
+#			pass
+#		elif !npc.get_ref():
+#			pass
+#		elif operators[0] == npc.get_ref().myself:
+#			if npc.get_ref().get_parent() == get_node("body"):
+#				npc.get_ref().swap()
+#				npc.get_ref().get_parent().remove_child(npc.get_ref())
 #					npc.hold_order("add")
-				npc.get_ref().defending = false
-				npc.get_ref().placed = false
-				faction.add_child(npc.get_ref())
-				npc.get_ref().set_global_pos(get_node("body/defence_pos").get_global_pos())
-				npc.get_ref().set_fixed_process(true)
-				npc.get_ref().flip(flipped)
-				
-			else:
-				npc.get_ref().defending = false
-				npc.get_ref().orders("attack")
-	for builders in repair_list:
-		if !builders.get_ref():
-			pass
-		elif not builders.get_ref().dead:
-			builders.get_ref().build()
-	if faction.AI and not manual_placed:
-		AI_recount(faction.player_list[0])
-	call_deferred("remove_positioning")
-	call_deferred("queue_free")
+#				npc.get_ref().defending = false
+#				npc.get_ref().placed = false
+#				faction.add_child(npc.get_ref())
+#				npc.get_ref().set_global_pos(get_node("body/defence_pos").get_global_pos())
+#				npc.get_ref().set_fixed_process(true)
+#				npc.get_ref().flip(flipped)
+#				
+#			else:
+#				npc.get_ref().defending = false
+#				npc.get_ref().orders("attack")
+#	for builders in repair_list:
+#		if !builders.get_ref():
+#			pass
+#		elif not builders.get_ref().dead:
+#			builders.get_ref().build()
+#	if faction.AI and not manual_placed:
+#		AI_recount(faction.player_list[0])
+#	call_deferred("remove_positioning")
+#	call_deferred("queue_free")
 	

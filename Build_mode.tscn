@@ -20,22 +20,23 @@ collision/margin = 0.08
 
 [node name="Camera2D" type="Camera2D" parent="follow"]
 
+transform/pos = Vector2( 0, -200 )
 anchor_mode = 1
 rotating = false
 current = false
 zoom = Vector2( 1, 1 )
-limit/left = -10000000
+limit/left = 0
 limit/top = -10000000
 limit/right = 10000000
 limit/bottom = 10000000
 drag_margin/h_enabled = true
 drag_margin/v_enabled = true
-smoothing/enable = false
+smoothing/enable = true
 smoothing/speed = 5.0
 drag_margin/left = 0.0
-drag_margin/top = 0.0
+drag_margin/top = 100.0
 drag_margin/right = 0.0
-drag_margin/bottom = 0.0
+drag_margin/bottom = 1.0
 
 [node name="Sprite" type="Sprite" parent="follow"]
 
@@ -88,6 +89,265 @@ margin/bottom = 26.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="Label2" type="Label" parent="survivor_card"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 24.0
+margin/right = 80.0
+margin/bottom = 38.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="description" type="Control" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 0.0
+margin/right = 41.0
+margin/bottom = 40.0
+
+[node name="desc" type="RichTextLabel" parent="description"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 150.0
+margin/bottom = 150.0
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
+
+[node name="weapon" type="Control" parent="description"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 108.0
+margin/right = 41.0
+margin/bottom = 148.0
+
+[node name="Sprite" type="Sprite" parent="description/weapon"]
+
+transform/pos = Vector2( 12, 12 )
+texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="description/weapon"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 24.0
+margin/top = 0.0
+margin/right = 64.0
+margin/bottom = 14.0
+text = "empty"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label1" type="Label" parent="description/weapon"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 24.0
+margin/top = 12.0
+margin/right = 104.0
+margin/bottom = 26.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="headArmour" type="Control" parent="description"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 133.0
+margin/right = 41.0
+margin/bottom = 173.0
+
+[node name="Sprite" type="Sprite" parent="description/headArmour"]
+
+transform/pos = Vector2( 12, 12 )
+texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="description/headArmour"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 24.0
+margin/top = 0.0
+margin/right = 64.0
+margin/bottom = 14.0
+text = "empty"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label1" type="Label" parent="description/headArmour"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 24.0
+margin/top = 12.0
+margin/right = 104.0
+margin/bottom = 26.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="bodyArmour" type="Control" parent="description"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 158.0
+margin/right = 41.0
+margin/bottom = 198.0
+
+[node name="Sprite" type="Sprite" parent="description/bodyArmour"]
+
+transform/pos = Vector2( 12, 12 )
+texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="description/bodyArmour"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 24.0
+margin/top = 0.0
+margin/right = 64.0
+margin/bottom = 14.0
+text = "empty"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label1" type="Label" parent="description/bodyArmour"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 24.0
+margin/top = 12.0
+margin/right = 104.0
+margin/bottom = 26.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="build_description" type="Control" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 0.0
+margin/right = 41.0
+margin/bottom = 40.0
+
+[node name="desc" type="RichTextLabel" parent="build_description"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 150.0
+margin/bottom = 150.0
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
+
+[node name="supply_run_description" type="Control" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 0.0
+margin/right = 41.0
+margin/bottom = 40.0
+
+[node name="desc" type="RichTextLabel" parent="supply_run_description"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 150.0
+margin/bottom = 150.0
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
+
+[node name="upgrade_description" type="Control" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1.0
+margin/top = 0.0
+margin/right = 41.0
+margin/bottom = 40.0
+
+[node name="desc" type="RichTextLabel" parent="upgrade_description"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 150.0
+margin/bottom = 150.0
+bbcode/enabled = false
+bbcode/bbcode = ""
+visible_characters = -1
 
 [node name="build_upgrade" type="CanvasLayer" parent="."]
 
@@ -355,5 +615,97 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 40.0
 margin/bottom = 40.0
+
+[node name="yes_no" type="Control" parent="build_upgrade"]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="Label" type="Label" parent="build_upgrade/yes_no"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -146.0
+margin/top = 0.0
+margin/right = 146.0
+margin/bottom = 14.0
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="yes" type="Label" parent="build_upgrade/yes_no"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -48.0
+margin/top = 19.0
+margin/right = -8.0
+margin/bottom = 33.0
+text = "yes"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="no" type="Label" parent="build_upgrade/yes_no"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 26.0
+margin/top = 19.0
+margin/right = 66.0
+margin/bottom = 33.0
+text = "No"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="build_upgrade/yes_no"]
+
+texture = ExtResource( 5 )
+
+[node name="inventory_ui" type="Control" parent="build_upgrade"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+
+[node name="selector" type="Sprite" parent="build_upgrade/inventory_ui"]
+
+texture = ExtResource( 5 )
+centered = false
+
+[node name="carry_weight" type="Label" parent="build_upgrade/inventory_ui"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 

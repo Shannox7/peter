@@ -1,5 +1,5 @@
 extends Node2D
-
+var attacks = preload("res://Attacks.tscn").instance()
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"

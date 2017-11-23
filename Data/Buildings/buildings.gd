@@ -4,6 +4,8 @@ var repair_full = false
 var repair_list = []
 var repair_cap = 1
 
+var defence_pos = []
+
 var occupency = 0
 var occupents = []
 
@@ -23,7 +25,7 @@ var vehicle = false
 var myself
 var Global
 var resource = false
-
+var wall = false
 func turn():
 	pass
 
@@ -78,15 +80,14 @@ func remove_positioning():
 		
 func death():
 	faction.defence_list.remove(faction.defence_list.find(myself))
-	for builders in repair_list:
-		if !builders.get_ref():
+	for builders in occupents:
+		if builders == null:
+			pass
+		elif !builders.get_ref():
 			pass
 		elif not builders.get_ref().dead:
-			builders.get_ref().orders("waiting")
-			builders.get_ref().build()
+			occupents.remove_occupent(occupents.find(builders.get_ref().myself))
 	call_deferred("remove_positioning")
-	if faction.AI and not manual_placed:
-		AI_recount(faction.player_list[0])
 	call_deferred("queue_free")
 	
 func flip(flipping):
@@ -112,7 +113,6 @@ func occupency():
 	pass
 
 func place(npc):
-
 	npc.animNode.play("idle")
 	npc.placed = true
 	npc.set_global_pos(get_global_pos())

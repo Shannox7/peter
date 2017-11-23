@@ -1,5 +1,4 @@
 extends Node2D
-var points = 100
 
 var AI = false
 
@@ -24,10 +23,11 @@ var attacker_list = []
 var builder_list = []
 
 var building_list = []
-var side = ""
-var enemyside = ""
+var side = "allies"
+var enemyside = "enemies"
 var sidenumber = 1
 var enemynumber = 2
-var enemynumberval = 0
+var enemynumberval = 4
+var points = 300
 
 var flipped = false

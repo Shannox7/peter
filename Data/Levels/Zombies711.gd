@@ -5,6 +5,7 @@ var game_over = false
 var buildings = preload("res://buildings.tscn").instance()
 var guns = preload("res://Guns.tscn")
 var armour = preload("res://armour.tscn")
+var enemies = preload("res://Enemies.tscn").instance()
 
 var objective_list = []
 var fact1
@@ -13,9 +14,9 @@ var fact2
 func _ready():
 	Global = get_node("/root/Global")
 	get_node("Timer").connect("timeout", self, "close")
-	for zones in get_node("dzones").get_children():
-		zones.init()
-		objective_list.append(zones.myself)
+#	for zones in get_node("dzones").get_children():
+#		zones.init()
+#		objective_list.append(zones.myself)
 
 	fact1 = faction.duplicate()
 	fact2 = faction.duplicate() 
@@ -39,7 +40,7 @@ func _ready():
 	add_child(fact2)
 	
 	level_start()
-	win(fact1, fact2, true)
+#	win(fact1, fact2, true)
 
 func level_start():
 	fact1.player_list.append(Global.player)
@@ -65,38 +66,32 @@ func set_up(player, faction, flipped):
 		else:
 			if survivor.get_ref().get_parent() != null:
 				survivor.get_ref().get_parent().remove_child(survivor.get_ref())
-			faction.attacker_list.append(survivor.get_ref().myself)
-			survivor.get_ref().set_global_pos(Vector2(get_node(str(faction.side) + "_spawn").get_global_pos().x - seperate, get_node(str(faction.side) + "_spawn").get_global_pos().y))
-			survivor.get_ref().objective = Global.player
 			if survivor.get_ref().AI:
+				faction.attacker_list.append(survivor.get_ref().myself)
+				survivor.get_ref().objective = Global.player
 				survivor.get_ref().orders("follow")
+			survivor.get_ref().set_global_pos(Vector2(get_node(str(faction.side) + "_spawn").get_global_pos().x - seperate, get_node(str(faction.side) + "_spawn").get_global_pos().y))
 			seperate += 15
 			faction.call_deferred("add_child", survivor.get_ref())
-			 
 
-func positioning(faction, zone, flipped):
-	zone.set_controlled(faction.side)
-	for buildings in zone.get_node("buildings").get_children():
-		var building_pos = buildings.get_global_pos()
-		buildings.get_parent().call_deferred("remove_child", buildings)
-		buildings.manual_placed = true
-		buildings.defence_zone = zone
-		buildings.flip(flipped)
-		faction.call_deferred("add_child", buildings)
-		buildings.call_deferred("set_global_pos", building_pos)
-		buildings.call_deferred("positioning")
-		buildings.call_deferred("initialize")
 
-func check_win():
-	if objective_list.back().get_ref().side == fact1.side or fact2.defence_list == []:
-		win(fact1, fact2, true)
-	elif objective_list.front().get_ref().side == fact2.side or fact1.defence_list == []:
-		win(fact2, fact1, true)
-#	if objective_list.back().get_ref().side == fact1.side or fact2.total_soldiers_remaining <= 0:
-#		win(fact1, fact2, true)
-#	elif objective_list.front().get_ref().side == fact2.side or fact1.total_soldiers_remaining <= 0:
-#		win(fact2, fact1, false)
+func escape():
+	pass
 
+func attack():
+	for number in range(10):
+		var zombie = enemies.get_node("Zombie_movement").duplicate()
+		zombie.set_global_pos(get_node("attack").get_global_pos())
+		fact2.add_child(zombie)
+	for number in range(10):
+		var zombie = enemies.get_node("Zombie_movement").duplicate()
+		zombie.set_global_pos(get_node("retreat").get_global_pos())
+		fact2.add_child(zombie)
+	for number in range(10):
+		var zombie = enemies.get_node("Zombie_movement").duplicate()
+		zombie.set_global_pos(get_node("roof").get_global_pos())
+		fact2.add_child(zombie)
+	pass
 func win(win_faction, lose_faction, attack):
 	for players in win_faction.player_list:
 		if not players.AI:
@@ -128,17 +123,6 @@ func close():
 				players.build_mode_dup.close()
 			if players.get_parent() != null:
 				players.get_parent().remove_child(players)
-				
-#	Global.turn(1)
+
 	Global.back_to_base()
-func points(side, points):
-	if side == "allies":
-		fact1.points += points
-		if not fact1.AI:
-			for players in fact1.player_list:
-				players.update_hud()
-	else:
-		fact2.points += points
-		if not fact2.AI:
-			for players in fact2.player_list:
-				players.update_hud()
+

@@ -31,12 +31,16 @@ script/script = ExtResource( 1 )
 
 [node name="dzones" type="Node2D" parent="."]
 
+editor/display_folded = true
+
 [node name="defence_zone" parent="dzones" instance=ExtResource( 2 )]
 
 editor/display_folded = true
 transform/pos = Vector2( -830, 0 )
 
 [node name="buildings" type="Node2D" parent="dzones/defence_zone"]
+
+editor/display_folded = true
 
 [node name="infantry" type="Node2D" parent="dzones/defence_zone/buildings"]
 
@@ -112,9 +116,12 @@ transform/pos = Vector2( 10, 0 )
 
 [node name="defence_zone2" parent="dzones" instance=ExtResource( 2 )]
 
+editor/display_folded = true
 transform/pos = Vector2( 1150, 0 )
 
 [node name="buildings" type="Node2D" parent="dzones/defence_zone2"]
+
+editor/display_folded = true
 
 [node name="helicopter_pad" type="Node2D" parent="dzones/defence_zone2/buildings"]
 

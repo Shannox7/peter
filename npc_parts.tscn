@@ -1,0 +1,236 @@
+[gd_scene load_steps=22 format=1]
+
+[ext_resource path="res://Data/Player/Head.png" type="Texture" id=1]
+[ext_resource path="res://Data/Player/waist.png" type="Texture" id=2]
+[ext_resource path="res://Data/Player/thigh.png" type="Texture" id=3]
+[ext_resource path="res://Data/Player/lower_leg.png" type="Texture" id=4]
+[ext_resource path="res://Data/Player/newArm.png" type="Texture" id=5]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=6]
+[ext_resource path="res://Data/Player/bicep.png" type="Texture" id=7]
+[ext_resource path="res://Data/Player/hand.png" type="Texture" id=8]
+[ext_resource path="res://Data/Player/hand1.png" type="Texture" id=9]
+[ext_resource path="res://Data/Player/torso.png" type="Texture" id=10]
+[ext_resource path="res://Data/Player/Idle_Prone_R.png" type="Texture" id=11]
+[ext_resource path="res://Data/Player/Run_R2.png" type="Texture" id=12]
+[ext_resource path="res://Data/Player/Idle_R.png" type="Texture" id=13]
+[ext_resource path="res://Data/Player/Run_R1.png" type="Texture" id=14]
+[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=15]
+[ext_resource path="res://Data/Player/Crawl_Prone_R1.png" type="Texture" id=16]
+[ext_resource path="res://Data/Player/Crawl_Prone_R2.png" type="Texture" id=17]
+[ext_resource path="res://Data/Player/Walk_Crouch_R2.png" type="Texture" id=18]
+[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=19]
+
+[sub_resource type="SpriteFrames" id=13]
+
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="SpriteFrames" id=12]
+
+animations = [ {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ) ],
+"loop": true,
+"name": "prone_idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 15 ) ],
+"loop": true,
+"name": "crouch_idle_r",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "prone_crawl",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 18 ) ],
+"loop": false,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "crouch_walk_r",
+"speed": 5.0
+} ]
+
+[node name="npc_parts" type="Node2D"]
+
+editor/display_folded = true
+
+[node name="Survivors" type="Node2D" parent="."]
+
+[node name="heads" type="Node2D" parent="Survivors"]
+
+editor/display_folded = true
+
+[node name="head" type="AnimatedSprite" parent="Survivors/heads"]
+
+transform/pos = Vector2( 0, -30 )
+frames = SubResource( 13 )
+animation = "default"
+
+[node name="Sprite" type="Sprite" parent="Survivors/heads"]
+
+[node name="legs" type="Node2D" parent="Survivors"]
+
+editor/display_folded = true
+
+[node name="waist" type="Sprite" parent="Survivors/legs"]
+
+editor/display_folded = true
+transform/pos = Vector2( -4, -13 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="leg_l" type="Sprite" parent="Survivors/legs/waist"]
+
+editor/display_folded = true
+transform/pos = Vector2( 5, -1 )
+texture = ExtResource( 3 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Survivors/legs/waist/leg_l"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 4 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="leg_r" type="Sprite" parent="Survivors/legs/waist"]
+
+editor/display_folded = true
+transform/pos = Vector2( 3, -1 )
+texture = ExtResource( 3 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Survivors/legs/waist/leg_r"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 4 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="arms" type="Node2D" parent="Survivors"]
+
+editor/display_folded = true
+
+[node name="arm_r" type="Sprite" parent="Survivors/arms"]
+
+editor/display_folded = true
+visibility/self_opacity = 0.0
+transform/pos = Vector2( -2, -19 )
+texture = ExtResource( 5 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Survivors/arms/arm_r"]
+
+visibility/visible = false
+transform/pos = Vector2( 6, -6 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="bicep" type="Sprite" parent="Survivors/arms/arm_r"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -1.1344 )
+transform/rot = -30.0
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 0, -4 )
+
+[node name="forearm" type="Sprite" parent="Survivors/arms/arm_r/bicep"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6.23107, 1.08341 )
+transform/rot = 50.0
+texture = ExtResource( 8 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="hand" type="Sprite" parent="Survivors/arms/arm_r/bicep/forearm"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 4.9399, -1.45181 )
+transform/rot = -20.0
+texture = ExtResource( 9 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="arm_l" type="Sprite" parent="Survivors/arms"]
+
+editor/display_folded = true
+visibility/self_opacity = 0.0
+visibility/behind_parent = true
+transform/pos = Vector2( -2, -19 )
+texture = ExtResource( 5 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Survivors/arms/arm_l"]
+
+visibility/visible = false
+transform/pos = Vector2( 7, -6.1344 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="bicep" type="Sprite" parent="Survivors/arms/arm_l"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 5, -1.1344 )
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( -1, -4 )
+
+[node name="forearm" type="Sprite" parent="Survivors/arms/arm_l/bicep"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6.00569, 0.199072 )
+texture = ExtResource( 8 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="hand" type="Sprite" parent="Survivors/arms/arm_l/bicep/forearm"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6, -1 )
+texture = ExtResource( 9 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="torso" type="Node2D" parent="Survivors"]
+
+editor/display_folded = true
+
+[node name="torso" type="AnimatedSprite" parent="Survivors/torso"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -18 )
+frames = SubResource( 12 )
+animation = "idle"
+
+[node name="secondaryEquip" type="Sprite" parent="Survivors/torso/torso"]
+
+transform/pos = Vector2( -5, -20 )
+transform/rot = -90.0
+
+[node name="Zombies" type="Node2D" parent="."]
+
+

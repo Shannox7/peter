@@ -90,17 +90,18 @@ script/script = ExtResource( 1 )
 
 [node name="Defence" type="Node2D" parent="Army"]
 
-editor/display_folded = true
 script/script = ExtResource( 2 )
 
-[node name="sandbag_bunker" type="Node2D" parent="Army/Defence"]
+[node name="sandbag_bunker" type="Node2D" parent="Army/Defence" groups=[
+"defence",
+]]
 
+editor/display_folded = true
 z/z = 100
 script/script = ExtResource( 3 )
 
 [node name="body" type="KinematicBody2D" parent="Army/Defence/sandbag_bunker"]
 
-editor/display_folded = true
 transform/pos = Vector2( 20, -10 )
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -135,15 +136,12 @@ transform/pos = Vector2( 0, 10 )
 "deployables",
 ]]
 
-editor/display_folded = true
 z/z = 1
 script/script = ExtResource( 4 )
 
 [node name="body" type="Node2D" parent="Army/Defence/sandbag_bunker/body/machinegun_turret"]
 
-editor/display_folded = true
-
-[node name="Pig" type="KinematicBody2D" parent="Army/Defence/sandbag_bunker/body/machinegun_turret/body" groups=[
+[node name="Pig" type="RigidBody2D" parent="Army/Defence/sandbag_bunker/body/machinegun_turret/body" groups=[
 "guns and parts",
 "weapons",
 ]]
@@ -152,7 +150,21 @@ transform/pos = Vector2( 21, -7 )
 input/pickable = false
 collision/layers = 0
 collision/mask = 1
-collision/margin = 0.08
+mode = 1
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
 script/script = ExtResource( 5 )
 
 [node name="body" type="Node2D" parent="Army/Defence/sandbag_bunker/body/machinegun_turret/body/Pig"]
@@ -603,9 +615,12 @@ _update_shape_index = 0
 editor/display_folded = true
 script/script = ExtResource( 29 )
 
-[node name="steel_wall" type="Node2D" parent="Army/Barricades"]
+[node name="steel_wall" type="Node2D" parent="Army/Barricades" groups=[
+"defence",
+]]
 
 editor/display_folded = true
+visibility/visible = false
 z/z = 10
 script/script = ExtResource( 30 )
 
@@ -633,7 +648,34 @@ shape = SubResource( 8 )
 trigger = false
 _update_shape_index = 0
 
-[node name="tall_steel_wall" type="Node2D" parent="Army/Barricades"]
+[node name="defence_pos" type="Node2D" parent="Army/Barricades/steel_wall/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 10 )
+
+[node name="defence_pos" type="Position2D" parent="Army/Barricades/steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -15, 0 )
+
+[node name="defence_pos1" type="Position2D" parent="Army/Barricades/steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -25, 0 )
+
+[node name="defence_pos2" type="Position2D" parent="Army/Barricades/steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -35, 0 )
+
+[node name="defence_pos3" type="Position2D" parent="Army/Barricades/steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -45, 0 )
+
+[node name="defence_pos4" type="Position2D" parent="Army/Barricades/steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -55, 0 )
+
+[node name="tall_steel_wall" type="Node2D" parent="Army/Barricades" groups=[
+"defence",
+]]
 
 z/z = 100
 script/script = ExtResource( 32 )
@@ -646,7 +688,6 @@ centered = false
 
 [node name="body" type="KinematicBody2D" parent="Army/Barricades/tall_steel_wall"]
 
-editor/display_folded = true
 transform/pos = Vector2( 0, -20 )
 input/pickable = false
 shapes/0/shape = SubResource( 9 )
@@ -662,11 +703,40 @@ shape = SubResource( 9 )
 trigger = false
 _update_shape_index = 0
 
-[node name="Resource" type="Node2D" parent="Army"]
+[node name="defence_pos" type="Node2D" parent="Army/Barricades/tall_steel_wall/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 20 )
+
+[node name="defence_pos" type="Position2D" parent="Army/Barricades/tall_steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -15, 0 )
+
+[node name="defence_pos1" type="Position2D" parent="Army/Barricades/tall_steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -25, 0 )
+
+[node name="defence_pos2" type="Position2D" parent="Army/Barricades/tall_steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -35, 0 )
+
+[node name="defence_pos3" type="Position2D" parent="Army/Barricades/tall_steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -45, 0 )
+
+[node name="defence_pos4" type="Position2D" parent="Army/Barricades/tall_steel_wall/body/defence_pos"]
+
+transform/pos = Vector2( -55, 0 )
+
+[node name="Resource" type="Node2D" parent="Army" groups=[
+"resource",
+]]
 
 script/script = ExtResource( 34 )
 
-[node name="Food" type="Node2D" parent="Army/Resource"]
+[node name="Food" type="Node2D" parent="Army/Resource" groups=[
+"resource",
+]]
 
 editor/display_folded = true
 z/z = -100

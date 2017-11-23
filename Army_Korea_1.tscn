@@ -10,17 +10,17 @@
 [ext_resource path="res://Data/Buildings/HQ.gd" type="Script" id=8]
 [ext_resource path="res://Data/Buildings/HQ.png" type="Texture" id=9]
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
 extents = Vector2( 60, 50 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
 extents = Vector2( 40, 20 )
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 30, 40 )
@@ -89,7 +89,7 @@ texture = ExtResource( 5 )
 
 transform/pos = Vector2( 50, -50 )
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -98,7 +98,7 @@ collision/margin = 0.08
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dzones/defence_zone2/buildings/helicopter_pad/body"]
 
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -123,7 +123,7 @@ texture = ExtResource( 7 )
 editor/display_folded = true
 transform/pos = Vector2( 30, -20 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -132,7 +132,7 @@ collision/margin = 0.08
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dzones/defence_zone2/buildings/infantry/body"]
 
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -157,7 +157,7 @@ texture = ExtResource( 9 )
 editor/display_folded = true
 transform/pos = Vector2( 20, -40 )
 input/pickable = false
-shapes/0/shape = SubResource( 2 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -166,7 +166,7 @@ collision/margin = 0.08
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="dzones/defence_zone2/buildings/HQ/body"]
 
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 

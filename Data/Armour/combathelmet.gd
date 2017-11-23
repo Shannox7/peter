@@ -1,6 +1,7 @@
 extends Node2D
 var name = "Combat Helmet"
 var named = "Combat Helmet"
+var slot = "headArmour"
 var value = 10
 var armour = 1
 var health = 10

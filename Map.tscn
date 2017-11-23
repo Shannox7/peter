@@ -59,7 +59,9 @@ margin/right = 40.0
 margin/bottom = 40.0
 script/script = ExtResource( 2 )
 
-[node name="US and Canada" type="Node2D" parent="Events"]
+[node name="US and Canada" type="Node2D" parent="Events" groups=[
+"supply run",
+]]
 
 editor/display_folded = true
 transform/pos = Vector2( -260, -140 )
@@ -84,7 +86,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="South America" type="Node2D" parent="Events"]
+[node name="South America" type="Node2D" parent="Events" groups=[
+"supply run",
+]]
 
 editor/display_folded = true
 transform/pos = Vector2( -220, 60 )
@@ -109,7 +113,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="UK" type="Node2D" parent="Events"]
+[node name="UK" type="Node2D" parent="Events" groups=[
+"supply run",
+]]
 
 editor/display_folded = true
 transform/pos = Vector2( -40, -140 )
@@ -134,7 +140,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Asia and Europe" type="Node2D" parent="Events"]
+[node name="Asia and Europe" type="Node2D" parent="Events" groups=[
+"supply run",
+]]
 
 editor/display_folded = true
 transform/pos = Vector2( 240, -140 )
@@ -159,7 +167,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Austrailia" type="Node2D" parent="Events"]
+[node name="Austrailia" type="Node2D" parent="Events" groups=[
+"supply run",
+]]
 
 editor/display_folded = true
 transform/pos = Vector2( 280, 60 )
@@ -184,7 +194,9 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Africa" type="Node2D" parent="Events"]
+[node name="Africa" type="Node2D" parent="Events" groups=[
+"supply run",
+]]
 
 editor/display_folded = true
 transform/pos = Vector2( 0, 60 )

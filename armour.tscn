@@ -35,8 +35,6 @@ extents = Vector2( 11, 6 )
 
 [node name="body" type="Node2D" parent="Tier_1"]
 
-editor/display_folded = true
-
 [node name="flakjacket" type="KinematicBody2D" parent="Tier_1/body" groups=[
 "body",
 "armour",

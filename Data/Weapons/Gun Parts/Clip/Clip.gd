@@ -4,9 +4,11 @@ var attacks = preload("res://Attacks.tscn").instance()
 # var a = 2
 # var b = "textvar"
 func lazer():
-	return attacks.get_node("Lazer").duplicate()
+	return attacks.get_node(str(get_parent().get_parent().type) + "/basic").duplicate()
+	
 func basic_bullet():
-	return attacks.get_node("Bullet").duplicate()
+	return attacks.get_node(str(get_parent().get_parent().type) + "/basic").duplicate()
+	
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here

@@ -5,11 +5,7 @@ func _ready():
 	initialize()
 
 func effect(collider, hit):
-	if hit:
-		collider.hit(self)
-		queue_free()
-	else:
-		queue_free()
+	hit_effect(collider, hit)
 		
 #func init():
  # Where angle is the angle you want it to start at

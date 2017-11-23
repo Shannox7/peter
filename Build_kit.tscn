@@ -1,0 +1,465 @@
+[gd_scene load_steps=12 format=1]
+
+[ext_resource path="res://Data/Tiles/dirt.xml" type="TileSet" id=1]
+[ext_resource path="res://Data/Tiles/invisible_wall.tres" type="TileSet" id=2]
+[ext_resource path="res://Data/Tiles/top.tres" type="TileSet" id=3]
+[ext_resource path="res://Data/Tiles/road.tres" type="TileSet" id=4]
+[ext_resource path="res://Data/Tiles/wood.tres" type="TileSet" id=5]
+[ext_resource path="res://Data/Tiles/Brick/red.xml" type="TileSet" id=6]
+[ext_resource path="res://Data/Tiles/Brick/grey.xml" type="TileSet" id=7]
+[ext_resource path="res://Data/Tiles/New folder/windows.xml" type="TileSet" id=8]
+[ext_resource path="res://Data/Tiles/Cement.tres" type="TileSet" id=9]
+[ext_resource path="res://Data/Tiles/Cement/red.xml" type="TileSet" id=10]
+[ext_resource path="res://Data/Tiles/floors.tres" type="TileSet" id=11]
+
+[node name="Build_kit" type="Node2D"]
+
+[node name="Outside" type="Node2D" parent="."]
+
+editor/display_folded = true
+
+[node name="floor" type="TileMap" parent="Outside" groups=[
+"inanimate",
+]]
+
+mode = 0
+tile_set = ExtResource( 1 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 540673
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="invisible_wall" type="TileMap" parent="Outside"]
+
+mode = 0
+tile_set = ExtResource( 2 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="grass" type="TileMap" parent="Outside"]
+
+mode = 0
+tile_set = ExtResource( 3 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="pavement" type="TileMap" parent="Outside"]
+
+mode = 0
+tile_set = ExtResource( 4 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Accessories" type="TileMap" parent="Outside"]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Background" type="TileMap" parent="Outside"]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Outside_Building" type="Node2D" parent="."]
+
+editor/display_folded = true
+
+[node name="Base" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = ExtResource( 5 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Top" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = ExtResource( 6 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Trim" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = ExtResource( 7 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Windows" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = ExtResource( 8 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="invisible_wall" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = ExtResource( 2 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="inside_wall_colour" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = ExtResource( 9 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="inside_wall_trim" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = ExtResource( 10 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Accessories" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Background" type="TileMap" parent="Outside_Building"]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Building" type="Node2D" parent="."]
+
+editor/display_folded = true
+
+[node name="Base" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = ExtResource( 5 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Top" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = ExtResource( 6 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Trim" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = ExtResource( 7 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="floor" type="TileMap" parent="Building" groups=[
+"inanimate",
+]]
+
+mode = 0
+tile_set = ExtResource( 11 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 540673
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Windows" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = ExtResource( 8 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="invisible_wall" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = ExtResource( 2 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="inside_wall_colour" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = ExtResource( 9 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="inside_wall_trim" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = ExtResource( 10 )
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 0
+collision/mask = 0
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+[node name="Accessories" type="TileMap" parent="Building"]
+
+mode = 0
+tile_set = null
+cell/size = Vector2( 20, 20 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray(  )
+
+

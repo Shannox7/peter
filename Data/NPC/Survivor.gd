@@ -2,44 +2,29 @@ extends "res://Data/Basic_infantry.gd"
 var Guns = preload("res://Guns.tscn")
 var basic_gun
 var name = "Survivor"
-#var cost = 10
-var patrol_time = 2
-var patrol_hold = false
 
-func patrol(delta):
-	reset()
-	if patrol_hold:
-		holding = true
+
+func health():
+	var head_health = get_node("body/head/health_meter/health")
+	var scale = 3
+	if health > 0.0:
+		head_health.set_scale(Vector2(1, (health/total_health) * scale)) 
+		if health/total_health > 0.25:
+			head_health.set_modulate(Color(0, 255, 0))
+		elif health/total_health <= 0.25:
+			head_health.set_modulate(Color(255, 0, 0))
 	else:
-		holding = false
-	WALK_SPEED = 50
-	patrol_time -= delta
-	if patrol_time <= 0:
-		patrol_time = rand_range(1, 2)
-		var random = int(rand_range(1, 5))
-		if random == 1:
-			flip_mod *= -1
-#			if flipped:
-#				flipped = false
-#			else:
-#				flipped = true
-			raycast.set_rotd(90 * flip_mod)
-			orders("patrol")
-		elif random == 2:
-			patrol_hold = true
-		elif random == 3:
-			patrol_hold = false
-			
-			
-func reset():
-	arm_r.set_rotd(0)
-	head.set_rotd(0)
-	
+		head_health.set_scale(Vector2(1, 0))
+		head_health.set_modulate(Color(255, 0, 0))
+
+
 func _ready():
 	faction.get_parent()
 	level = get_parent().get_parent()
 	side()
 	if not spawned:
+		WALK_SPEED_TOTAL = 150.0
+		WALK_SPEED = 150.0
 		survivor_creator()
 		spawned = true
 		myself = weakref(self)
@@ -54,7 +39,16 @@ func _ready():
 		get_node("hit_timer").connect("timeout", self, "original_colour")
 		animNode = get_node("body/legs")
 		armanimNode = get_node("AnimationPlayer") 
+
 		arm_r = get_node("body/arm_r")
+		arm_l = get_node("body/arm_l")
+		head = get_node("body/head")
+#		torso = get_node("body/torso")
+		leg_l= get_node("body/leg_l")
+		leg_r= get_node("body/leg_r")
+		legs = get_node("body/legs")
+		waist = get_node("body/waist")
+		
 		head = get_node("body/head")
 		jump_over = get_node("body/jump_over")
 		jump_l = get_node("jump_l")
@@ -62,7 +56,7 @@ func _ready():
 		raycast = get_node("RayCast2D")
 		basic_gun = Guns.instance().get_node("Soldier_guns/AK47").duplicate()
 #		if primaryGun == []:
-		equip(basic_gun, false, "primaryGun")
+		equip(basic_gun, true, "primaryGun")
 #		get_node("body/Area2D").set_shape_transform(0, Matrix32( Vector2(1000, 0), Vector2(0, 1000),get_node("body").get_global_pos()))
 #			basic_gun.start()
 #		reset()
@@ -101,15 +95,14 @@ func _fixed_process(delta):
 	elif target_list != []:
 #		track_closest(target_list)
 		attack(target_list)
-		if defending:
-			if !objective.get_ref():
-				pass
-			elif get_pos().distance_to(objective.get_ref().get_global_pos()) <= 10:
-				objective.get_ref().place(self)
-				placed = true
-				holding = true
-
+#		if defending:
+#			if !objective.get_ref():
+#				pass
+#			elif get_pos().distance_to(objective.get_ref().get_global_pos()) <= 10:
+#				holding = true
 	elif occupy:
+		placing()
+	elif defending:
 		defending()
 	elif building_list != []:
 #		track_closest(building_list)
@@ -128,6 +121,17 @@ func _fixed_process(delta):
 #		if objective.get_parent().get_parent().side == faction.side:
 #			orders("attack")
 #		go_to(objective)
+	if abs(velocity.x) > 5 and not holding and grounded and not is_prone:
+		if not get_node("move").is_playing():
+			get_node("move").play("run")
+	elif not is_prone:
+		get_node("move").play("idle")
+	
+	if abs(velocity.x) > 5 and not holding and grounded and is_prone:
+		if not get_node("move").is_playing():
+			get_node("move").play("prone_crawl")
+	elif is_prone:
+		get_node("move").play("prone_idle")
 
 	grounded_check()
 	flip_check()
@@ -135,6 +139,6 @@ func _fixed_process(delta):
 	jumping(delta)
 	the_movement(delta)
 	knockback()
-	animation()
+#	animation()
 #	if level.game_over:
 #		set_fixed_process(false)

@@ -1,6 +1,8 @@
 extends "res://Data/Buildings/Barricades.gd"
 var name = "Tall Steel Wall"
-var cost = 10
+var scrap_cost = 10
+var food_cost = 0
+
 var build_time = 5
 var size = 1
 #func initialize():
@@ -11,10 +13,19 @@ var size = 1
 #	faction.defence_list.append(self)
 #	get_node("KinematicBody2D").set_layer_mask_bit(faction.sidenumber, true)
 
-func AI_recount(AI):
-	AI.walls -= 1
+#func AI_recount(AI):
+#	AI.walls -= 1
+	
+func place(npc):
+#	npc.animNode.play("idle")
+	npc.placed = true
+	npc.set_global_pos(defence_pos[occupents.find(npc.myself)].get_global_pos())
+	npc.flip(false)
+#	npc.set_fixed_process(false)
 	
 func _ready():
+#	occupency = 5
+	wall = true
 	full = true
 	total_health = 500
 	health = total_health

@@ -1,14 +1,14 @@
 extends KinematicBody2D
-var bulletspeed = 0
+var bulletspeed = 300
 var Gravity = 60
 var gravitycounter = 20
 var bullet
-var countdown = rand_range(1, 2)
+var countdown = rand_range(0, 1)
 var flip_mod = 1
 var damage = 0
 var stopping_power = 0
 var accuracy = 0
-var distance = 1
+var distance = .5
 #var distance_timer
 var velocity
 var bh = preload("res://effects.tscn").instance()
@@ -28,6 +28,10 @@ var richochet_chance
 #query space instead of collider
 
 var faction
+var visual_effect
+
+var effect = null
+var effect_multiplier = 0
 
 func initialize():
 	set_fixed_process(true)
@@ -103,8 +107,10 @@ func explode():
 	explosion.damage = explode_damage
 	explosion.shrapnelnumber = shrapnel
 	explosion.faction = faction
+	explosion.effect = effect
+	explosion.effect_multiplier = effect_multiplier
 	explosion.set_collision_mask_bit(faction.enemynumber, true)
-	explosion.set_collision_mask_bit(faction.enemynumber * 3, true)
+#	explosion.set_collision_mask_bit(faction.enemynumber * 3, true)
 	explosion.set_pos(get_collision_pos())
 	get_parent().add_child(explosion)
 
@@ -159,7 +165,7 @@ func drop(delta):
 	else:
 		bulletspeed -= bulletspeed_fraction
 	drop_stat_reduction()
-	countdown -= delta
+	countdown -= .1
 	if countdown <= 0:
 		queue_free()
 
@@ -167,6 +173,8 @@ func fade():
 	opacity -= .1
 	get_node("Sprite").set_opacity(opacity)
 	drop_stat_reduction()
+	if visual_effect != null:
+		visual_effect.set_opacity(opacity)
 	if opacity <= 0:
 		queue_free()
 
@@ -179,5 +187,28 @@ func colliding():
 				flip_effect = true
 			else:
 				flip_effect = false
-			effect(get_collider().get_parent(), true)
+			if get_collider().has_method("hit"):
+				effect(get_collider(), true)
+			else:
+				effect(get_collider().get_parent(), true)
 
+func fire():
+	visual_effect.set_amount(500)
+	get_node("Particles2D").set_color_phase_color(0, Color(50,0,0))
+	get_node("Particles2D").set_color_phase_color(1, Color(0,0,0))
+#	get_node("Particles2D").set_color(Color(0,0,0))
+#	get_node("Sprite").set_modulate(Color(50,0,0))
+
+func freeze():
+	visual_effect.set_amount(200)
+	get_node("Particles2D").set_color_phase_color(0, Color(5,5,5))
+	get_node("Particles2D").set_color_phase_color(1, Color(0,0,50))
+
+func shock():
+#	get_node("Splash_bullet/Particles2D")
+	visual_effect.set_amount(100)
+	get_node("Particles2D").set_color_phase_color(0, Color(0,0,50))
+	get_node("Particles2D").set_color_phase_color(1, Color(0,0,0))
+	get_node("Sprite").set_modulate(Color(5,5,5))
+	
+	

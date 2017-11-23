@@ -1,75 +1,97 @@
-[gd_scene load_steps=33 format=1]
+[gd_scene load_steps=55 format=1]
 
-[ext_resource path="res://Data/Enemies/Zombie_movement.gd" type="Script" id=1]
-[ext_resource path="res://Data/Player/Melee.tres" type="Animation" id=2]
-[ext_resource path="res://Data/Enemies/Zombie/Enemies.tres" type="Animation" id=3]
-[ext_resource path="res://Data/Enemies/Zombie/armWalk.tres" type="Animation" id=4]
-[ext_resource path="res://Data/Enemies/Zombie/Arm_l.png" type="Texture" id=5]
-[ext_resource path="res://Data/Enemies/Zombie/idle.png" type="Texture" id=6]
-[ext_resource path="res://Data/Enemies/Zombie/Run_2.png" type="Texture" id=7]
-[ext_resource path="res://Data/Enemies/Zombie/Run_1.png" type="Texture" id=8]
-[ext_resource path="res://Data/Enemies/Zombie/torso.png" type="Texture" id=9]
-[ext_resource path="res://Data/Enemies/Zombie/Head.png" type="Texture" id=10]
-[ext_resource path="res://Data/Health bar/health_meter.png" type="Texture" id=11]
-[ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=12]
-[ext_resource path="res://Data/Enemies/Zombie/Arm_r.png" type="Texture" id=13]
-[ext_resource path="res://Data/Enemies/Creep/creepidle.png" type="Texture" id=14]
-[ext_resource path="res://Data/Enemies/Creep/creeprun.png" type="Texture" id=15]
-[ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=16]
-[ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=17]
-[ext_resource path="res://Data/Enemies/Creep/Creep Head.png" type="Texture" id=18]
+[ext_resource path="res://Data/Enemies/Zombie/Zombie_screamer.gd" type="Script" id=1]
+[ext_resource path="res://Data/Attacks/sounds/zombie_death.wav" type="Sample" id=2]
+[ext_resource path="res://Data/Attacks/sounds/screamer_howl.smp" type="Sample" id=3]
+[ext_resource path="res://Data/NPC/idle_npc.tres" type="Animation" id=4]
+[ext_resource path="res://Data/NPC/prone_crawl_npc.tres" type="Animation" id=5]
+[ext_resource path="res://Data/NPC/pron_idle_npc.tres" type="Animation" id=6]
+[ext_resource path="res://Data/NPC/running_npc.tres" type="Animation" id=7]
+[ext_resource path="res://Data/Player/bite.tres" type="Animation" id=8]
+[ext_resource path="res://Data/Player/Melee.tres" type="Animation" id=9]
+[ext_resource path="res://Data/Player/Shoot.tres" type="Animation" id=10]
+[ext_resource path="res://Data/Enemies/Zombie/Enemies.tres" type="Animation" id=11]
+[ext_resource path="res://Data/Enemies/Zombie/armWalk.tres" type="Animation" id=12]
+[ext_resource path="res://Data/Player/idle_hands_player.tres" type="Animation" id=13]
+[ext_resource path="res://Data/Enemies/Zombie/torso.png" type="Texture" id=14]
+[ext_resource path="res://Data/Tiles/Ground Tiles/shock.png" type="Texture" id=15]
+[ext_resource path="res://Data/Enemies/critical_hit.gd" type="Script" id=16]
+[ext_resource path="res://Data/Enemies/Zombie/Head.png" type="Texture" id=17]
+[ext_resource path="res://Data/Health bar/health_meter.png" type="Texture" id=18]
+[ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=19]
+[ext_resource path="res://Data/Player/thigh.png" type="Texture" id=20]
+[ext_resource path="res://Data/Player/lower_leg.png" type="Texture" id=21]
+[ext_resource path="res://Data/Player/bicep.png" type="Texture" id=22]
+[ext_resource path="res://Data/Player/hand.png" type="Texture" id=23]
+[ext_resource path="res://Data/Player/hand1.png" type="Texture" id=24]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=25]
+[ext_resource path="res://Data/Player/waist.png" type="Texture" id=26]
+[ext_resource path="res://Data/Enemies/Zombie_movement.gd" type="Script" id=27]
+[ext_resource path="res://Data/Player/idle_hands.tres" type="Animation" id=28]
+[ext_resource path="res://Data/Player/shoot_hands.tres" type="Animation" id=29]
+[ext_resource path="res://Data/Player/newArm.png" type="Texture" id=30]
+[ext_resource path="res://Data/Enemies/Creep/creepidle.png" type="Texture" id=31]
+[ext_resource path="res://Data/Enemies/Creep/creeprun.png" type="Texture" id=32]
+[ext_resource path="res://Data/Health bar/health bar empty.png" type="Texture" id=33]
+[ext_resource path="res://Data/Health bar/health bar full.png" type="Texture" id=34]
+[ext_resource path="res://Data/Enemies/Creep/Creep Head.png" type="Texture" id=35]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 6, 5 )
+extents = Vector2( 5, 5 )
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="SampleLibrary" id=2]
 
-length = 1.0
-loop = false
-step = 0.5
-
-[sub_resource type="Animation" id=14]
-
-resource/name = "Bite"
-length = 1.0
-loop = false
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/head:offset")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0, 0.3, 0.5 ),
-"transitions": FloatArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 5, 0 ), Vector2( 0, 0 ) ]
+samples/death = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 2 )
+}
+samples/scream = {
+"db": 0.0,
+"pitch": 1.0,
+"priority": 0,
+"sample": ExtResource( 3 )
 }
 
 [sub_resource type="Animation" id=3]
 
 length = 1.0
+loop = false
+step = 0.5
+
+[sub_resource type="Animation" id=4]
+
+length = 1.0
 loop = true
 step = 0.1
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
+
+resource/name = "scream"
+length = 5.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/head:transform/rot")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 1, 4, 5 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 75.0, 75.0, 0.0 ]
+}
+
+[sub_resource type="Animation" id=6]
 
 length = 0.4
 loop = false
 step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("body/arm_r:transform/pos")
-tracks/0/interp = 1
-tracks/0/imported = false
-tracks/0/keys = {
-"times": FloatArray( 0, 0.2, 0.4 ),
-"transitions": FloatArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( -5, 5 ), Vector2( -7, 5 ), Vector2( -5, 5 ) ]
-}
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=7]
 
 length = 0.4
 loop = false
@@ -85,75 +107,87 @@ tracks/0/keys = {
 "values": [ Vector2( 5, 5 ), Vector2( 7, 5 ), Vector2( 5, 5 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=8]
 
 custom_solver_bias = 0.0
-extents = Vector2( 5.576, 21.633 )
+extents = Vector2( 4.64667, 16.2247 )
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="ColorRamp" id=9]
 
-animations = [ {
-"frames": [ ExtResource( 6 ) ],
-"loop": true,
-"name": "idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 7 ) ],
-"loop": true,
-"name": "jump",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 8 ), ExtResource( 6 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "run",
-"speed": 5.0
-} ]
+offsets = FloatArray( 0, 1 )
+colors = ColorArray( 0, 0, 0, 1, 0.308594, 0.308594, 0.308594, 1 )
 
-[sub_resource type="CapsuleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=10]
+
+custom_solver_bias = 0.0
+radius = 11.0
+
+[sub_resource type="CapsuleShape2D" id=11]
 
 custom_solver_bias = 0.0
 radius = 36.0
 height = 231.0
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=12]
 
 custom_solver_bias = 0.0
 radius = 311.11
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="ImageTexture" id=13]
+
+flags = 0
+image = Image( 14, 6, 0, RGBA, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 254, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 255, 255, 255, 0, 255, 255, 255, 0, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 255, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 254, 255, 206, 222, 255, 0, 0, 0, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 254, 63, 72, 204, 255, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 255, 63, 72, 204, 255, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 254, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 1, 1, 4, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 254, 0, 0, 0, 255, 255, 255, 255, 0 )
+size = Vector2( 14, 6 )
+storage = 0
+lossy_quality = 0.7
+
+[sub_resource type="ImageTexture" id=14]
+
+flags = 0
+image = Image( 14, 6, 0, RGBA, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 254, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 255, 255, 255, 0, 255, 255, 255, 0, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 255, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 254, 255, 206, 222, 255, 0, 0, 0, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 254, 63, 72, 204, 255, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 255, 63, 72, 204, 255, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 0, 0, 0, 255, 63, 72, 204, 255, 63, 72, 204, 254, 63, 72, 204, 255, 0, 148, 255, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 255, 206, 222, 255, 0, 0, 0, 255, 1, 1, 4, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 255, 0, 0, 0, 254, 0, 0, 0, 255, 255, 255, 255, 0 )
+size = Vector2( 14, 6 )
+storage = 0
+lossy_quality = 0.7
+
+[sub_resource type="RectangleShape2D" id=15]
+
+custom_solver_bias = 0.0
+extents = Vector2( 5, 5 )
+
+[sub_resource type="RectangleShape2D" id=16]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 26 )
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=17]
 
 animations = [ {
-"frames": [ ExtResource( 14 ) ],
+"frames": [ ExtResource( 31 ) ],
 "loop": true,
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 15 ) ],
+"frames": [ ExtResource( 32 ) ],
 "loop": true,
 "name": "run",
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=10]
+[sub_resource type="SpriteFrames" id=18]
 
 animations = [ {
-"frames": [ ExtResource( 16 ) ],
+"frames": [ ExtResource( 33 ) ],
 "loop": false,
 "name": "health_empty",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 17 ) ],
+"frames": [ ExtResource( 34 ) ],
 "loop": false,
 "name": "health_full",
 "speed": 5.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=19]
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 3 )
@@ -164,16 +198,488 @@ extents = Vector2( 10, 3 )
 
 z/z = -2
 
-[node name="Zombie_movement" type="KinematicBody2D" parent="."]
+[node name="Zombie_screamer" type="KinematicBody2D" parent="."]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -6 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -5 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 513
 collision/margin = 0.08
 script/script = ExtResource( 1 )
+
+[node name="SamplePlayer2D" type="SamplePlayer2D" parent="Zombie_screamer"]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 2 )
+config/pitch_random = 0.0
+
+[node name="death" type="Timer" parent="Zombie_screamer"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = false
+
+[node name="hit_timer" type="Timer" parent="Zombie_screamer"]
+
+process_mode = 1
+wait_time = 0.1
+one_shot = true
+autostart = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_screamer"]
+
+transform/pos = Vector2( 0, -5 )
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="RayCast2D" type="RayCast2D" parent="Zombie_screamer"]
+
+transform/pos = Vector2( 0, -24 )
+enabled = false
+cast_to = Vector2( 0, 50 )
+layer_mask = 1
+type_mask = 15
+
+[node name="jump_l" type="RayCast2D" parent="Zombie_screamer"]
+
+transform/pos = Vector2( -5, 0 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+layer_mask = 65537
+type_mask = 1
+
+[node name="jump_r" type="RayCast2D" parent="Zombie_screamer"]
+
+transform/pos = Vector2( 4, 0 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+layer_mask = 65537
+type_mask = 1
+
+[node name="move" type="AnimationPlayer" parent="Zombie_screamer"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idle = ExtResource( 4 )
+anims/prone_crawl = ExtResource( 5 )
+anims/prone_idle = ExtResource( 6 )
+anims/run = ExtResource( 7 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Zombie_screamer"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/Attack = SubResource( 3 )
+anims/Bite = ExtResource( 8 )
+anims/Melee = ExtResource( 9 )
+anims/Shoot = ExtResource( 10 )
+anims/armRun = ExtResource( 11 )
+anims/armWalk = ExtResource( 12 )
+anims/fliparmWalk = SubResource( 4 )
+anims/idle_hands = ExtResource( 13 )
+anims/scream = SubResource( 5 )
+anims/shoot = SubResource( 6 )
+anims/shootflip = SubResource( 7 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+[node name="body" type="KinematicBody2D" parent="Zombie_screamer"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -17 )
+input/pickable = false
+shapes/0/shape = SubResource( 8 )
+shapes/0/transform = Matrix32( 1.07604, 0, 0, 0.924514, 1, 2 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 0
+collision/margin = 0.08
+
+[node name="jump_over" type="RayCast2D" parent="Zombie_screamer/body"]
+
+transform/pos = Vector2( -3, 16 )
+transform/rot = 90.0
+enabled = true
+cast_to = Vector2( 0, 10 )
+layer_mask = 1
+type_mask = 1
+
+[node name="Timer" type="Timer" parent="Zombie_screamer/body"]
+
+process_mode = 1
+wait_time = 1.0
+one_shot = false
+autostart = true
+
+[node name="legs" type="Sprite" parent="Zombie_screamer/body"]
+
+transform/pos = Vector2( 0, -1 )
+texture = ExtResource( 14 )
+
+[node name="effects" type="Node2D" parent="Zombie_screamer/body/legs"]
+
+[node name="shock" type="Particles2D" parent="Zombie_screamer/body/legs/effects"]
+
+transform/pos = Vector2( 0, -3 )
+z/relative = false
+config/amount = 3
+config/lifetime = 0.2
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 10, 20 )
+config/texture = ExtResource( 15 )
+params/direction = 0.0
+params/spread = 10.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 180.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/initial_angle = 1.0
+
+[node name="freeze" type="Particles2D" parent="Zombie_screamer/body/legs/effects"]
+
+transform/pos = Vector2( 0, -3 )
+z/relative = false
+config/amount = 10
+config/lifetime = 0.5
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 5, 20 )
+config/local_space = false
+params/direction = 0.0
+params/spread = 10.0
+params/linear_velocity = 10.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 10.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 180.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+
+[node name="burn" type="Particles2D" parent="Zombie_screamer/body/legs/effects"]
+
+transform/pos = Vector2( 0, -3 )
+z/relative = false
+config/amount = 10
+config/lifetime = 1.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 5, 20 )
+config/local_space = false
+params/direction = 180.0
+params/spread = 10.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = -10.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 2.0
+params/final_size = 5.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color_ramp = SubResource( 9 )
+
+[node name="head" type="Node2D" parent="Zombie_screamer/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -13 )
+
+[node name="head" type="KinematicBody2D" parent="Zombie_screamer/body/head"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 10 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
+shapes/0/trigger = false
+collision/layers = 524288
+collision/mask = 0
+collision/margin = 0.08
+script/script = ExtResource( 16 )
+
+[node name="Sprite" type="Sprite" parent="Zombie_screamer/body/head/head"]
+
+texture = ExtResource( 17 )
+
+[node name="health_meter" type="Sprite" parent="Zombie_screamer/body/head/head"]
+
+transform/pos = Vector2( -6, -2 )
+transform/rot = 180.0
+texture = ExtResource( 18 )
+centered = false
+
+[node name="health" type="Sprite" parent="Zombie_screamer/body/head/head/health_meter"]
+
+transform/pos = Vector2( 2, 1 )
+transform/scale = Vector2( 1, 3 )
+texture = ExtResource( 19 )
+centered = false
+
+[node name="CollisionShape2D 2" type="CollisionShape2D" parent="Zombie_screamer/body/head/head"]
+
+transform/pos = Vector2( 0, -1 )
+shape = SubResource( 10 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Area2D" type="Area2D" parent="Zombie_screamer/body/head/head"]
+
+editor/display_folded = true
+transform/pos = Vector2( 2.5, -0.45397 )
+input/pickable = false
+shapes/0/shape = SubResource( 11 )
+shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 156.5, 2.45397 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitorable = false
+collision/layers = 0
+collision/mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_screamer/body/head/head/Area2D"]
+
+transform/pos = Vector2( 156.5, 2.45397 )
+transform/rot = 90.0
+shape = SubResource( 11 )
+trigger = true
+_update_shape_index = 0
+
+[node name="Sprite" type="Sprite" parent="Zombie_screamer/body/head/head/Area2D/CollisionShape2D"]
+
+[node name="bite" type="Position2D" parent="Zombie_screamer/body/head"]
+
+transform/pos = Vector2( 5, 0 )
+
+[node name="Attack" type="Timer" parent="Zombie_screamer/body"]
+
+process_mode = 1
+wait_time = 0.01
+one_shot = false
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_screamer/body"]
+
+transform/pos = Vector2( 1, 2 )
+transform/scale = Vector2( 1.07604, 0.924514 )
+shape = SubResource( 8 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Area2D" type="Area2D" parent="Zombie_screamer/body"]
+
+editor/display_folded = true
+visibility/visible = false
+input/pickable = false
+shapes/0/shape = SubResource( 12 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitorable = false
+collision/layers = 0
+collision/mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_screamer/body/Area2D"]
+
+shape = SubResource( 12 )
+trigger = true
+_update_shape_index = 0
+
+[node name="cast" type="RayCast2D" parent="Zombie_screamer/body"]
+
+transform/pos = Vector2( 0, -7 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+layer_mask = 16384
+type_mask = 3
+
+[node name="leg_l" type="Sprite" parent="Zombie_screamer/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 1, 3 )
+texture = ExtResource( 20 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Zombie_screamer/body/leg_l"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 21 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="leg_r" type="Sprite" parent="Zombie_screamer/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( -1, 3 )
+texture = ExtResource( 20 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Zombie_screamer/body/leg_r"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 21 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="arm_r" type="Sprite" parent="Zombie_screamer/body"]
+
+editor/display_folded = true
+visibility/self_opacity = 0.0
+transform/pos = Vector2( -2, -2.968 )
+texture = SubResource( 13 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="bicep" type="Sprite" parent="Zombie_screamer/body/arm_r"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -1.1344 )
+transform/rot = -30.0
+texture = ExtResource( 22 )
+centered = false
+offset = Vector2( 0, -4 )
+modulate = Color( 0.886719, 0.484383, 0.013855, 1 )
+
+[node name="forearm" type="Sprite" parent="Zombie_screamer/body/arm_r/bicep"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6.23107, 1.08341 )
+transform/rot = 50.0
+texture = ExtResource( 23 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="hand" type="Sprite" parent="Zombie_screamer/body/arm_r/bicep/forearm"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 4.9399, -1.45181 )
+transform/rot = -20.0
+texture = ExtResource( 24 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Zombie_screamer/body/arm_r"]
+
+visibility/visible = false
+transform/pos = Vector2( 6, -6 )
+texture = ExtResource( 25 )
+centered = false
+
+[node name="arm_l" type="Sprite" parent="Zombie_screamer/body"]
+
+editor/display_folded = true
+visibility/self_opacity = 0.0
+visibility/behind_parent = true
+transform/pos = Vector2( -2, -2.968 )
+texture = SubResource( 14 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Zombie_screamer/body/arm_l"]
+
+visibility/visible = false
+transform/pos = Vector2( 7, -6.1344 )
+texture = ExtResource( 25 )
+centered = false
+
+[node name="bicep" type="Sprite" parent="Zombie_screamer/body/arm_l"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( -1, -2 )
+transform/rot = -30.0
+texture = ExtResource( 22 )
+centered = false
+offset = Vector2( -1, -4 )
+modulate = Color( 0.769531, 0.360718, 0, 1 )
+
+[node name="forearm" type="Sprite" parent="Zombie_screamer/body/arm_l/bicep"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6.00569, 0.199072 )
+transform/rot = 50.0
+texture = ExtResource( 23 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="hand" type="Sprite" parent="Zombie_screamer/body/arm_l/bicep/forearm"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6, -1 )
+transform/rot = -20.0
+texture = ExtResource( 24 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="waist" type="Sprite" parent="Zombie_screamer/body"]
+
+transform/pos = Vector2( -4, 3 )
+texture = ExtResource( 26 )
+centered = false
+
+[node name="Zombie_movement" type="KinematicBody2D" parent="."]
+
+input/pickable = false
+shapes/0/shape = SubResource( 15 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -5 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 513
+collision/margin = 0.08
+script/script = ExtResource( 27 )
+
+[node name="SamplePlayer2D" type="SamplePlayer2D" parent="Zombie_movement"]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 2 )
+config/pitch_random = 0.0
 
 [node name="death" type="Timer" parent="Zombie_movement"]
 
@@ -191,49 +697,66 @@ autostart = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 0, -6 )
+transform/pos = Vector2( 0, -5 )
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
-[node name="jump_over" type="RayCast2D" parent="Zombie_movement"]
+[node name="RayCast2D" type="RayCast2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 2.98023e-06, -1 )
-transform/rot = 90.0
-enabled = true
-cast_to = Vector2( 0, 10 )
+transform/pos = Vector2( 0, -24 )
+enabled = false
+cast_to = Vector2( 0, 50 )
 layer_mask = 1
-type_mask = 1
+type_mask = 15
 
 [node name="jump_l" type="RayCast2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( -6, -1 )
+transform/pos = Vector2( -5, 0 )
 enabled = true
 cast_to = Vector2( 0, 1 )
-layer_mask = 1
+layer_mask = 65537
 type_mask = 1
 
 [node name="jump_r" type="RayCast2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 6, -1 )
+transform/pos = Vector2( 4, 0 )
 enabled = true
 cast_to = Vector2( 0, 1 )
-layer_mask = 1
+layer_mask = 65537
 type_mask = 1
+
+[node name="move" type="AnimationPlayer" parent="Zombie_movement"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/idle = ExtResource( 4 )
+anims/prone_crawl = ExtResource( 5 )
+anims/prone_idle = ExtResource( 6 )
+anims/run = ExtResource( 7 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Zombie_movement"]
 
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Attack = SubResource( 2 )
-anims/Bite = SubResource( 14 )
-anims/Melee = ExtResource( 2 )
-anims/armRun = ExtResource( 3 )
-anims/armWalk = ExtResource( 4 )
-anims/fliparmWalk = SubResource( 3 )
-anims/shoot = SubResource( 4 )
-anims/shootflip = SubResource( 5 )
+anims/Attack = SubResource( 3 )
+anims/Bite = ExtResource( 8 )
+anims/Melee = ExtResource( 9 )
+anims/Shoot = ExtResource( 10 )
+anims/armRun = ExtResource( 11 )
+anims/armWalk = ExtResource( 12 )
+anims/fliparmWalk = SubResource( 4 )
+anims/idle_hands = ExtResource( 28 )
+anims/scream = SubResource( 5 )
+anims/shoot = SubResource( 6 )
+anims/shoot_hands = ExtResource( 29 )
+anims/shootflip = SubResource( 7 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -241,14 +764,114 @@ autoplay = ""
 
 [node name="body" type="KinematicBody2D" parent="Zombie_movement"]
 
-transform/pos = Vector2( 0, -24 )
+transform/pos = Vector2( 0, -17 )
 input/pickable = false
-shapes/0/shape = SubResource( 6 )
-shapes/0/transform = Matrix32( 1.07604, 0, 0, 0.924514, 0, 4 )
+shapes/0/shape = SubResource( 8 )
+shapes/0/transform = Matrix32( 1.07604, 0, 0, 0.924514, 1, 2 )
 shapes/0/trigger = false
-collision/layers = 4
+collision/layers = 0
 collision/mask = 0
 collision/margin = 0.08
+
+[node name="legs" type="Sprite" parent="Zombie_movement/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -1 )
+texture = ExtResource( 14 )
+
+[node name="effects" type="Node2D" parent="Zombie_movement/body/legs"]
+
+[node name="shock" type="Particles2D" parent="Zombie_movement/body/legs/effects"]
+
+transform/pos = Vector2( 0, -3 )
+z/relative = false
+config/amount = 3
+config/lifetime = 0.2
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 10, 20 )
+config/texture = ExtResource( 15 )
+params/direction = 0.0
+params/spread = 10.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 180.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/initial_angle = 1.0
+
+[node name="freeze" type="Particles2D" parent="Zombie_movement/body/legs/effects"]
+
+transform/pos = Vector2( 0, -3 )
+z/relative = false
+config/amount = 10
+config/lifetime = 0.5
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 5, 20 )
+config/local_space = false
+params/direction = 0.0
+params/spread = 10.0
+params/linear_velocity = 10.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 10.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 180.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+
+[node name="burn" type="Particles2D" parent="Zombie_movement/body/legs/effects"]
+
+transform/pos = Vector2( 0, -3 )
+z/relative = false
+config/amount = 10
+config/lifetime = 1.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 5, 20 )
+config/local_space = false
+params/direction = 180.0
+params/spread = 10.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = -10.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 2.0
+params/final_size = 5.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color_ramp = SubResource( 9 )
+
+[node name="jump_over" type="RayCast2D" parent="Zombie_movement/body"]
+
+transform/pos = Vector2( -3, 16 )
+transform/rot = 90.0
+enabled = true
+cast_to = Vector2( 0, 10 )
+layer_mask = 1
+type_mask = 1
 
 [node name="Timer" type="Timer" parent="Zombie_movement/body"]
 
@@ -257,42 +880,54 @@ wait_time = 1.0
 one_shot = false
 autostart = true
 
-[node name="arm_l" type="Sprite" parent="Zombie_movement/body"]
+[node name="head" type="Node2D" parent="Zombie_movement/body"]
 
-transform/pos = Vector2( -5, 2 )
-transform/rot = -8.89976
-texture = ExtResource( 5 )
+transform/pos = Vector2( 0, -13 )
+
+[node name="head" type="KinematicBody2D" parent="Zombie_movement/body/head"]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 10 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
+shapes/0/trigger = false
+collision/layers = 524288
+collision/mask = 0
+collision/margin = 0.08
+script/script = ExtResource( 16 )
+
+[node name="Sprite" type="Sprite" parent="Zombie_movement/body/head/head"]
+
+texture = ExtResource( 17 )
+
+[node name="health_meter" type="Sprite" parent="Zombie_movement/body/head/head"]
+
+editor/display_folded = true
+transform/pos = Vector2( -6, -2 )
+transform/rot = 180.0
+texture = ExtResource( 18 )
 centered = false
 
-[node name="legs" type="AnimatedSprite" parent="Zombie_movement/body"]
+[node name="health" type="Sprite" parent="Zombie_movement/body/head/head/health_meter"]
 
-transform/pos = Vector2( 0, 18 )
-frames = SubResource( 7 )
-animation = "idle"
+transform/pos = Vector2( 2, 1 )
+transform/scale = Vector2( 1, 3 )
+texture = ExtResource( 19 )
+centered = false
 
-[node name="torso" type="Sprite" parent="Zombie_movement/body"]
+[node name="CollisionShape2D 2" type="CollisionShape2D" parent="Zombie_movement/body/head/head"]
 
-transform/pos = Vector2( 0, 7 )
-texture = ExtResource( 9 )
+transform/pos = Vector2( 0, -1 )
+shape = SubResource( 10 )
+trigger = false
+_update_shape_index = 0
 
-[node name="head" type="Sprite" parent="Zombie_movement/body"]
-
-transform/pos = Vector2( 0, -6 )
-texture = ExtResource( 10 )
-
-[node name="cast" type="RayCast2D" parent="Zombie_movement/body/head"]
-
-enabled = true
-cast_to = Vector2( 0, 0 )
-layer_mask = 1025
-type_mask = 15
-
-[node name="Area2D" type="Area2D" parent="Zombie_movement/body/head"]
+[node name="Area2D" type="Area2D" parent="Zombie_movement/body/head/head"]
 
 editor/display_folded = true
 transform/pos = Vector2( 2.5, -0.45397 )
 input/pickable = false
-shapes/0/shape = SubResource( 8 )
+shapes/0/shape = SubResource( 11 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 156.5, 2.45397 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -303,40 +938,19 @@ monitorable = false
 collision/layers = 0
 collision/mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement/body/head/Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement/body/head/head/Area2D"]
 
 transform/pos = Vector2( 156.5, 2.45397 )
 transform/rot = 90.0
-shape = SubResource( 8 )
+shape = SubResource( 11 )
 trigger = true
 _update_shape_index = 0
 
-[node name="Sprite" type="Sprite" parent="Zombie_movement/body/head/Area2D/CollisionShape2D"]
-
-[node name="health_meter" type="Sprite" parent="Zombie_movement/body/head"]
-
-transform/pos = Vector2( -9, -3 )
-transform/scale = Vector2( 1, -1 )
-texture = ExtResource( 11 )
-centered = false
-
-[node name="health" type="Sprite" parent="Zombie_movement/body/head/health_meter"]
-
-transform/pos = Vector2( 2, 1 )
-transform/scale = Vector2( 1, 3 )
-texture = ExtResource( 12 )
-centered = false
+[node name="Sprite" type="Sprite" parent="Zombie_movement/body/head/head/Area2D/CollisionShape2D"]
 
 [node name="bite" type="Position2D" parent="Zombie_movement/body/head"]
 
 transform/pos = Vector2( 5, 0 )
-
-[node name="direction" type="RayCast2D" parent="Zombie_movement/body"]
-
-enabled = true
-cast_to = Vector2( 0, 0 )
-layer_mask = 1
-type_mask = 15
 
 [node name="Attack" type="Timer" parent="Zombie_movement/body"]
 
@@ -347,32 +961,18 @@ autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement/body"]
 
-visibility/visible = false
-transform/pos = Vector2( 0, 4 )
+transform/pos = Vector2( 1, 2 )
 transform/scale = Vector2( 1.07604, 0.924514 )
-shape = SubResource( 6 )
+shape = SubResource( 8 )
 trigger = false
 _update_shape_index = 0
-
-[node name="arm_r" type="Sprite" parent="Zombie_movement/body"]
-
-editor/display_folded = true
-transform/pos = Vector2( -5, 5 )
-texture = ExtResource( 13 )
-centered = false
-offset = Vector2( 0, -3 )
-
-[node name="Gun" type="Sprite" parent="Zombie_movement/body/arm_r"]
-
-transform/pos = Vector2( 5, -1 )
-centered = false
 
 [node name="Area2D" type="Area2D" parent="Zombie_movement/body"]
 
 editor/display_folded = true
 visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 12 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -385,16 +985,146 @@ collision/mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_movement/body/Area2D"]
 
-shape = SubResource( 9 )
+shape = SubResource( 12 )
 trigger = true
 _update_shape_index = 0
+
+[node name="cast" type="RayCast2D" parent="Zombie_movement/body"]
+
+transform/pos = Vector2( 0, -7 )
+enabled = true
+cast_to = Vector2( 0, 0 )
+layer_mask = 16384
+type_mask = 3
+
+[node name="leg_l" type="Sprite" parent="Zombie_movement/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 1, 3 )
+texture = ExtResource( 20 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Zombie_movement/body/leg_l"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 21 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="leg_r" type="Sprite" parent="Zombie_movement/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( -1, 3 )
+texture = ExtResource( 20 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Zombie_movement/body/leg_r"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 21 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="waist" type="Sprite" parent="Zombie_movement/body"]
+
+transform/pos = Vector2( -4, 3 )
+texture = ExtResource( 26 )
+centered = false
+
+[node name="arm_r" type="Sprite" parent="Zombie_movement/body"]
+
+editor/display_folded = true
+visibility/self_opacity = 0.0
+transform/pos = Vector2( -2, -2.968 )
+texture = ExtResource( 30 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="bicep" type="Sprite" parent="Zombie_movement/body/arm_r"]
+
+transform/pos = Vector2( 0, -1.1344 )
+transform/rot = -30.0
+texture = ExtResource( 22 )
+centered = false
+offset = Vector2( 0, -4 )
+
+[node name="forearm" type="Sprite" parent="Zombie_movement/body/arm_r/bicep"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6.23107, 1.08341 )
+transform/rot = 50.0
+texture = ExtResource( 23 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="hand" type="Sprite" parent="Zombie_movement/body/arm_r/bicep/forearm"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 4.9399, -1.45181 )
+transform/rot = -20.0
+texture = ExtResource( 24 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Zombie_movement/body/arm_r"]
+
+visibility/visible = false
+transform/pos = Vector2( 6, -6 )
+texture = ExtResource( 25 )
+centered = false
+
+[node name="arm_l" type="Sprite" parent="Zombie_movement/body"]
+
+editor/display_folded = true
+visibility/self_opacity = 0.0
+visibility/behind_parent = true
+transform/pos = Vector2( -2, -2.968 )
+texture = ExtResource( 30 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Zombie_movement/body/arm_l"]
+
+visibility/visible = false
+transform/pos = Vector2( 7, -6.1344 )
+texture = ExtResource( 25 )
+centered = false
+
+[node name="bicep" type="Sprite" parent="Zombie_movement/body/arm_l"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( -1, -2 )
+transform/rot = -30.0
+texture = ExtResource( 22 )
+centered = false
+offset = Vector2( -1, -4 )
+
+[node name="forearm" type="Sprite" parent="Zombie_movement/body/arm_l/bicep"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6.00569, 0.199072 )
+transform/rot = 50.0
+texture = ExtResource( 23 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="hand" type="Sprite" parent="Zombie_movement/body/arm_l/bicep/forearm"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6, -1 )
+transform/rot = -20.0
+texture = ExtResource( 24 )
+centered = false
+offset = Vector2( 0, -3 )
 
 [node name="Creep" type="KinematicBody2D" parent="."]
 
 editor/display_folded = true
 visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 12 )
+shapes/0/shape = SubResource( 16 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -4 )
 shapes/0/trigger = false
 collision/layers = 2
@@ -404,13 +1134,13 @@ collision/margin = 0.08
 [node name="CollisionShape2D 2" type="CollisionShape2D" parent="Creep"]
 
 transform/pos = Vector2( 0, -4 )
-shape = SubResource( 12 )
+shape = SubResource( 16 )
 trigger = false
 _update_shape_index = 0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Creep"]
 
-frames = SubResource( 13 )
+frames = SubResource( 17 )
 animation = "idle"
 
 [node name="Timer" type="Timer" parent="Creep"]
@@ -438,7 +1168,7 @@ autostart = false
 [node name="healthBar" type="AnimatedSprite" parent="Creep"]
 
 transform/pos = Vector2( -16, -30 )
-frames = SubResource( 10 )
+frames = SubResource( 18 )
 animation = "health_full"
 
 [node name="ViewArea" type="Area2D" parent="Creep"]
@@ -446,7 +1176,7 @@ animation = "health_full"
 editor/display_folded = true
 transform/pos = Vector2( 2.5, -6.45397 )
 input/pickable = true
-shapes/0/shape = SubResource( 8 )
+shapes/0/shape = SubResource( 11 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 143.5, -0.54603 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -458,7 +1188,7 @@ angular_damp = 1.0
 
 transform/pos = Vector2( 143.5, -0.54603 )
 transform/rot = 90.0
-shape = SubResource( 8 )
+shape = SubResource( 11 )
 trigger = true
 _update_shape_index = 0
 
@@ -473,7 +1203,7 @@ autostart = true
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 11 )
+shapes/0/shape = SubResource( 19 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 25 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -484,13 +1214,13 @@ angular_damp = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Creep/Area2D"]
 
 transform/pos = Vector2( 0, 25 )
-shape = SubResource( 11 )
+shape = SubResource( 19 )
 trigger = true
 _update_shape_index = 0
 
 [node name="head" type="Sprite" parent="Creep"]
 
 transform/pos = Vector2( 0, -16 )
-texture = ExtResource( 18 )
+texture = ExtResource( 35 )
 
 

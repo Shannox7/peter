@@ -1,14 +1,19 @@
 extends Control
 var icons = preload("res://Inventory_icons.tscn")
+var loaded = false
 
 var bullet_list = []
 var player
 
 var Global
 
+func position():
+	set_global_pos(Vector2(get_viewport().get_rect().size.x - get_viewport().get_rect().size.x + 50, get_viewport().get_rect().size.y - 75))
 func _ready():
-	set_process_input(true)
-	
+	if loaded == false:
+		loaded = true
+		set_process_input(true)
+		get_tree().get_root().connect("size_changed", self, "position")
 	pass
 #	hud_list
 func shoot(player):
@@ -39,7 +44,7 @@ func deferred(defer):
 
 func update_hud():
 	var scale = 100
-	get_node("Points").set_text("Points: " + str(player.faction.points))
+#	get_node("Points").set_text("Points: " + str(player.faction.points))
 	if player.primaryGun != []:
 		get_node("Label 2").set_text("Ammo: " + str(player.primaryGun[0].current_ammo) + "/" + str(player.primaryGun[0].current_clip))
 		if player.reloading:

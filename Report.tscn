@@ -74,6 +74,7 @@ scale = Vector2( 1, 1 )
 
 [node name="report_ui" type="Control" parent="report"]
 
+editor/display_folded = true
 visibility/visible = false
 focus/ignore_mouse = false
 focus/stop_mouse = true

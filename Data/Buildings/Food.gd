@@ -1,13 +1,16 @@
 extends "res://Data/Buildings/Resource.gd"
 var name = "Farm"
-var cost = 50
+var scrap_cost = 10
+var food_cost = 5
+
 var build_time = 4
-var harvest = 5
+var harvest_time = 5
 var total_harvest_time = 5
 var size = 4
 var food = 2
+var scrap = 0
 var job = "Farming"
-
+var skill = "labour"
 func _ready():
 	occupency = 3
 	Global = get_node("/root/Global") 
@@ -19,10 +22,10 @@ func turn():
 		elif !farmer.get_ref():
 			pass
 		else:
-			harvest -= farmer.get_ref().labour_skill
-	if harvest <= 0:
+			harvest_time -= farmer.get_ref().labour_skill
+	if harvest_time <= 0:
 		Global.food += food
-		harvest = total_harvest_time
+		harvest_time = total_harvest_time
 
 func builder():
 	return builder.get_node("four_tile_x/Build")

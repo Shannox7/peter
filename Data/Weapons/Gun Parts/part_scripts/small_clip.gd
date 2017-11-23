@@ -13,7 +13,7 @@ var fire_rate = 0
 var fullauto
 
 func bullet(bullet):
-	return lazer()
+	return basic_bullet()
 	
 func equip():
 	get_parent().clip_capacity += clip_capacity

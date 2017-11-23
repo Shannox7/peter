@@ -3,7 +3,10 @@ extends KinematicBody2D
 var description = ''
 var job = ''
 #values
-var WALK_SPEED = 200
+
+var in_motion
+var WALK_SPEED = 150.0
+var WALK_SPEED_TOTAL = 150.0
 var PRONE_SPEED = 100
 var ACCELERATION = 5
 var DECCELERATION = 10
@@ -27,7 +30,15 @@ var random_attack_hold = rand_range(1, .80)
 var fight_skill = 0
 var labour_skill = 0
 var doctor_skill = 0
-
+var carry_weight = 5
+var patrol_time = 2
+var patrol_hold = false
+var enemy = false
+var effect = null
+var effect_time = 0
+var burn_time = 1
+var slow_number = 0
+var stunned = false
 #orders
 var objective
 var attacking = false
@@ -58,9 +69,13 @@ var dead = false
 var injured = false
 var melee = false
 var attack_ready = true
+var ladder = false
+var ladder_engaged = false
 var grounded
 var jumping
-
+var climbing = false
+var dropping = false
+var chase = false
 #anims
 var animNode
 var animNew
@@ -75,6 +90,7 @@ var level
 var faction
 
 #variable nodes
+var zone = null
 var spawn_home
 var comment
 var comment_box 
@@ -83,6 +99,9 @@ var jump_r
 var jump_over
 var arm_r
 var arm_l
+var leg_l
+var leg_r
+var waist
 var head
 var legs
 var torso
@@ -95,7 +114,7 @@ var building = null
 
 #lists
 var myself
-var pack = []
+
 var primaryGun = []
 var secondaryGun = []
 var headArmour = []
@@ -131,24 +150,23 @@ func survivor_creator():
 #	print (self.name + ", Labour: " +str(labour_skill))
 #	print (self.name + ", Doctor: " +str(doctor_skill))
 func fighter():
-	fight_skill = int(rand_range(3, 6))
-	labour_skill = int(rand_range(1, 4))
-	doctor_skill = int(rand_range(1, 4))
+	fight_skill = int(round(rand_range(2, 5)))
+	labour_skill =int( round(rand_range(1, 3)))
+	doctor_skill = int(round(rand_range(1, 3)))
 	pass
 func doctor():
-	fight_skill = int(rand_range(1, 4))
-	labour_skill = int(rand_range(1, 4))
-	doctor_skill = int(rand_range(3, 6))
+	fight_skill = int(round(rand_range(1, 3)))
+	labour_skill = int(round(rand_range(2, 5)))
 	pass
 func labourer():
-	fight_skill = int(rand_range(1, 4))
-	labour_skill = int(rand_range(3, 6))
-	doctor_skill = int(rand_range(1, 4))
+	fight_skill = int(round(rand_range(1, 3)))
+	labour_skill = int(round(rand_range(2, 5)))
+	doctor_skill = int(round(rand_range(1, 3)))
 	pass
 func unskilled():
-	fight_skill = int(rand_range(1, 3))
-	labour_skill = int(rand_range(1, 3))
-	doctor_skill = int(rand_range(1, 3))
+	fight_skill = int(round(rand_range(1, 3)))
+	labour_skill = int(round(rand_range(1, 3)))
+	doctor_skill = int(round(rand_range(1, 3)))
 #comments
 func comment(say):
 	comment_box.show()
@@ -174,7 +192,7 @@ func flip(flipped):
 func side():
 	get_node("body").set_layer_mask_bit(faction.sidenumber, true)
 	get_node("body").add_to_group(faction.side)
-	get_node("body/head/Area2D").set_collision_mask_bit(faction.enemynumber, true)
+#	get_node("body/head/head/Area2D").set_collision_mask_bit(faction.enemynumber, true)
 	get_node("body/Area2D").set_collision_mask_bit(faction.enemynumber, true)
 	get_node("body/Area2D").set_collision_mask_bit(faction.enemynumber * 3, true)
 #hit
@@ -182,8 +200,17 @@ func hit(collider):
 #	if collider.get_global_pos().y < collider.get_global_pos().y:
 #		print ("critical")
 #		collider.damage = collider.damage * 2
-	get_node("hit_timer").start()
 	red()
+	if collider.effect != null and effect == null:
+		effect = collider.effect
+		if collider.effect == "freeze":
+			freeze(collider.effect_multiplier)
+		elif collider.effect == "fire":
+			burn(collider.effect_multiplier)
+		elif collider.effect == "shock":
+			shock(collider.effect_multiplier)
+	get_node("hit_timer").start()
+
 	if hit == false and not placed:
 		knockback_velocity.x = collider.velocity.x * collider.stopping_power
 		knockback_velocity.y = collider.velocity.y * collider.stopping_power
@@ -193,7 +220,94 @@ func hit(collider):
 		dead = true
 		death()
 	health()
+
+func slow(number):
+	if number > slow_number:
+		slow_number = number
+	WALK_SPEED = WALK_SPEED_TOTAL
+	if WALK_SPEED - slow_number > 50:
+		WALK_SPEED -= slow_number
+	else:
+		WALK_SPEED = 50
+	get_node("move").set_speed(WALK_SPEED/ WALK_SPEED_TOTAL)
+	pass
+func no_slow(number):
+	slow_number -= number
+	WALK_SPEED += number
+	slow(0)
+	pass
 	
+func effect(delta):
+	effect_time -= delta
+	if effect == "freeze":
+		if effect_time <= 0:
+			no_slow(30)
+		elif stunned:
+			blue()
+			
+	elif effect == "fire":
+		burn_time -= delta
+		if burn_time <= 0:
+			health -= 1
+			burn_time = 1
+			health()
+			if health <= 0:
+				death()
+
+	elif effect == "shock":
+		burn_time -= delta
+		if burn_time <= 0:
+			health -= 1
+			burn_time = 1
+			if health <= 0:
+				death()
+			var random = round(rand_range(0, 100))
+			if random > 75:
+				stunned = true
+			else:
+				stunned = false
+			
+	if stunned:
+		if grounded:
+			velocity = Vector2()
+		target_list = []
+	if effect_time <= 0:
+		burn_time = 1
+		get_node("body/legs/effects/burn").set_emitting(false)
+		get_node("body/legs/effects/shock").set_emitting(false)
+		get_node("body/legs/effects/freeze").set_emitting(false)
+		effect = null
+		stunned = false
+		original_colour()
+func shock(multiplier):
+	effect_time = 5 + multiplier
+	var random = round(rand_range(0, 100))
+	if random > 75 - multiplier:
+		shocking()
+		get_node("body/legs/effects/shock").set_emitting(true)
+		random = round(rand_range(0, 100))
+		if random > 75 - multiplier:
+			stunned = true
+	else:
+		effect = null
+func freeze(multiplier):
+	effect_time = 5 + multiplier
+	get_node("body/legs/effects/freeze").set_emitting(true)
+	slow(0)
+	var random = round(rand_range(0, 100))
+	if random > 75 - multiplier:
+		stunned = true
+		blue()
+		
+func burn(multiplier):
+	effect_time = 5 + multiplier
+	var random = round(rand_range(0, 100))
+	if random > 75 - multiplier:
+		get_node("body/legs/effects/burn").set_emitting(true)
+		burning()
+	else:
+		effect = null
+		
 #melee
 func melee():
 	attack_ready = false
@@ -227,6 +341,8 @@ func special():
 	var spawn_point = pos + primaryGun[0].get_node("body/special_tip").get_global_pos()
 
 	var bullets = primaryGun[0].special[0].special()
+	bullets.effect = primaryGun[0].mod[0].effect
+	bullets.effect_multiplier = primaryGun[0].mod[0].effect_multiplier
 	bullets.damage = primaryGun[0].special_damage
 	bullets.stopping_power = primaryGun[0].stopping_power
 	bullets.faction = faction
@@ -255,8 +371,8 @@ func fire():
 	var pos = Vector2(cos(Aimrot), -sin(Aimrot)) * flip_mod
 	var spawn_point = pos + primaryGun[0].get_node("body/barrel_tip").get_global_pos()
 
-	for bullets in range(primaryGun[0].bullets_inbullets):
-		bullets = primaryGun[0].bullettype()
+	for bullet in range(primaryGun[0].bullets_inbullets):
+		var bullets = primaryGun[0].bullettype()
 		bullets.faction = faction
 		if flip_mod == -1:
 			bullets.get_node("Sprite").set_flip_h(true)  
@@ -274,38 +390,59 @@ func fire():
 		reload()
  #swap, equip, unequip and drop
 func dropGun():
-	primaryGun[0].get_parent().remove_child(primaryGun[0])
+	primaryGun[0].drop()
 	fire_ready.stop()
-	level.add_child(primaryGun[0])
-	primaryGun[0].set_global_pos(get_node("body/arm_r/Gun").get_global_pos())
-	primaryGun[0].unlock()
-	primaryGun.remove(0)
-	
+
 		
 func unequip(itemvar):
-	itemvar[0].named = str(itemvar[0].name)
+#	itemvar[0].named = str(itemvar[0].name)
 	itemvar[0].is_equipped = false
-	itemvar[0].queue_free()
+	itemvar[0].get_parent().remove_child(itemvar[0])
 	itemvar.pop_front()
+
+func unequip_change(slot):
+	if slot == "primaryGun":
+		primaryGun.pop_front()
+	elif slot == "secondaryGun":
+		secondaryGun.pop_front()
+	elif slot == "headArmour":
+		headArmour.pop_front()
+	elif slot == "bodyArmour":
+		bodyArmour.pop_front()
+#	itemvar[0].named = str(itemvar[0].name)
+#	itemvar[0].is_equipped = false
+#	itemvar[0].get_parent().remove_child(itemvar[0])
+#	itemvar.pop_front()
 
 func equip(item, pickedup, slot):
 	if pickedup == true:
-		pack.append(item)
+		Global.pack.append(item)
+		item.equipped()
+		if Global.on_supply_run:
+			Global.supply_run_weight -= item.weight
+		if item.get_parent() != null:
+			item.get_parent().remove_child(item)
 	if item.is_in_group("weapons") and slot == "primaryGun":
-		if primaryGun != [] and secondaryGun != []:
-			unequip(primaryGun)
+		if AI:
+			if primaryGun != []:
+				unequip(primaryGun)
 			arm_r.add_child(item)
 			primaryGun.append(item)
-		elif primaryGun != [] and secondaryGun == []:
-			primaryGun[0].get_parent().remove_child(primaryGun[0])
-			get_node("body/legs").add_child(primaryGun[0])
-			arm_r.add_child(item)
-			primaryGun.append(item)
-			secondaryGun.append(primaryGun[0])
-			primaryGun.pop_front()
 		else:
-			primaryGun.append(item)
-			arm_r.add_child(item)
+			if primaryGun != [] and secondaryGun != []:
+				unequip(primaryGun)
+				arm_r.add_child(item)
+				primaryGun.append(item)
+			elif primaryGun != [] and secondaryGun == []:
+				primaryGun[0].get_parent().remove_child(primaryGun[0])
+				get_node("body/legs").add_child(primaryGun[0])
+				arm_r.add_child(item)
+				primaryGun.append(item)
+				secondaryGun.append(primaryGun[0])
+				primaryGun.pop_front()
+			else:
+				primaryGun.append(item)
+				arm_r.add_child(item)
 		if primaryGun != []:
 			primaryGun[0].set_pos(get_node("body/arm_r/Gun").get_pos())
 			primaryGun[0].set_rotd(get_node("body/arm_r/Gun").get_rotd())
@@ -322,8 +459,8 @@ func equip(item, pickedup, slot):
 	elif item.is_in_group("armour"):
 		if item.is_in_group("head"):
 			if headArmour != []:
-				headArmour[0].level.remove_child(headArmour[0])
-				headArmour[0].unequip(self)
+#				headArmour[0].get_parent().remove_child(headArmour[0])
+				headArmour[0].unequip(headArmour)
 				headArmour.pop_front()
 			headArmour.append(item)
 			get_node("body/head").add_child(item)
@@ -332,8 +469,8 @@ func equip(item, pickedup, slot):
 			headArmour[0].equip(self)
 		elif item.is_in_group("body"):
 			if bodyArmour != []:
-				bodyArmour[0].level.remove_child(bodyArmour[0])
-				bodyArmour[0].unequip(self)
+#				bodyArmour[0].get_parent().remove_child(bodyArmour[0])
+				bodyArmour[0].unequip(headArmour)
 				bodyArmour.pop_front()
 			bodyArmour.append(item)
 			get_node("body/legs").add_child(item)
@@ -341,6 +478,7 @@ func equip(item, pickedup, slot):
 			item.set_rot(get_node("body/legs").get_rot())
 			item.set_rot(0)
 			bodyArmour[0].equip(self)
+	item.is_equipped = true
 #	if AI:
 #		get_node("body/Area2D").set_shape_transform(0, Matrix32( Vector2(300, 300), Vector2(300, 300), Vector2(300, 300) ))
 func swap():
@@ -378,6 +516,9 @@ func fireready():
 		if reloading == true:
 			reloading = false
 			primaryGun[0].reload()
+			if not AI:
+				for item in get_node("Area2D").get_overlapping_bodies():
+					detect(item)
 		attack_ready = true
 		fire_ready.set_wait_time(primaryGun[0].fire_rate)
 		fire_ready.start()
@@ -395,6 +536,55 @@ func reload():
 	fire_ready.start()
 
 #que ordering
+
+
+func patrol(delta):
+	reset()
+	if patrol_hold:
+		holding = true
+	else:
+		holding = false
+	WALK_SPEED = 50
+	patrol_time -= delta
+	if patrol_time <= 0:
+		patrol_time = rand_range(1, 2)
+		var random = int(rand_range(1, 5))
+		if random == 1:
+			flip_mod *= -1
+#			if flipped:
+#				flipped = false
+#			else:
+#				flipped = true
+			raycast.set_rotd(90 * flip_mod)
+			orders("patrol")
+		elif random == 2:
+			patrol_hold = true
+		elif random == 3:
+			patrol_hold = false
+#	if not Global.on_supply_run:
+#		if level.objective_list.front().get_ref().positions.front().get_global_pos().x > get_global_pos().x:
+#			flip_mod = 1
+#			raycast.set_rotd(90 * flip_mod)
+#			orders("patrol")
+#		elif level.objective_list.front().get_ref().positions.back().get_global_pos().x < get_global_pos().x:
+#			flip_mod = -1
+#			raycast.set_rotd(90 * flip_mod)
+#			orders("patrol")
+#	else:
+	if zone != null:
+		if zone.get_node("positions").get_children().front().get_global_pos().x > get_global_pos().x:
+			flip_mod = 1
+			raycast.set_rotd(90 * flip_mod)
+			orders("patrol")
+		elif zone.get_node("positions").get_children().back().get_global_pos().x < get_global_pos().x:
+			flip_mod = -1
+			raycast.set_rotd(90 * flip_mod)
+			orders("patrol")
+		
+func reset():
+	arm_r.set_rotd(0)
+	head.set_rotd(0)
+	
 func hold_order(state):
 	pass
 #	if state == "remove":
@@ -436,7 +626,8 @@ func prone(proned):
 		get_node("body").set_pos(Vector2(0, -3))
 		get_node("body/prone").set_trigger(false)
 		get_node("body/standing").set_trigger(true)
-
+		get_node("prone").set_trigger(false)
+		get_node("standing").set_trigger(true)
 		get_node("body/legs").set_pos(Vector2(-4, -2))
 		get_node("body/legs/secondaryEquip").set_pos(Vector2(14, - 2))
 		get_node("body/legs/secondaryEquip").set_rotd(180)
@@ -458,6 +649,8 @@ func prone(proned):
 		get_node("body").set_pos(Vector2(0, -17))
 		get_node("body/standing").set_trigger(false)
 		get_node("body/prone").set_trigger(true)
+		get_node("standing").set_trigger(false)
+		get_node("prone").set_trigger(true)
 		get_node("body/standing").set_pos(get_node("body/legs").get_pos())
 		
 		head.set_pos(Vector2(0, -13))
@@ -525,11 +718,9 @@ func flip_check():
 	if raycast.get_rotd() <= -90  and flipped == false:
 		flipped = true
 		flip(true)
-		jump_over.set_rotd(-90)
 	elif raycast.get_rotd() > -90 and flipped == true:
 		flipped = false
 		flip(false)
-		jump_over.set_rotd(90)
 		
 #targeting and attacking
 func attack(targetlist):
@@ -552,13 +743,14 @@ func attack(targetlist):
 				primaryGun[0].aiming(true, faction.enemynumberval)
 				if attack_ready == true and primaryGun[0].current_clip > 0:
 					fire()
-			elif targeting.get_global_pos().y < (primaryGun[0].bulletspeed * primaryGun[0].distance) * -random_attack_hold:
-				targetlist.pop_front()
+#			elif targeting.get_global_pos().y < (primaryGun[0].bulletspeed * primaryGun[0].distance) * -random_attack_hold:
+#				targetlist.pop_front()
 		if get_pos().distance_to(targeting.get_global_pos()) < 30:
 			holding = true
 			if attack_ready == true:
 				melee()
-
+		if defending:
+			holding = true
 func track_closest(targetlist):
 	for targets in targetlist:
 		if !targets.get_ref():
@@ -589,7 +781,8 @@ func untrack(collider):
 	elif collider.get_parent().myself in low_priority_list:
 		low_priority_list.remove(low_priority_list.find(collider.get_parent().myself))
 		
-
+	if target_list == []:
+		orders("patrol")
 #movement and animations
 func animation():
 	if anim != animNew:
@@ -639,7 +832,7 @@ func jumping(delta):
 	if jump_over.is_colliding() and (not hold or not holding):
 		if jumping == false:
 			Jump()
-		elif (jump_press < 0.25) and jumping == true:
+		elif (jump_press < 0.35) and jumping == true:
 			jump_press += delta
 			velocity.y -= JUMP_FORCE * 2 * delta
 		else:
@@ -661,9 +854,11 @@ func knockback():
 		
 func the_movement(delta):
 	var motion = velocity * delta + knockback_velocity
+
+	
 #	var motion = velocity * delta
 	motion = move(motion)
-	if (is_colliding()):
+	if is_colliding():
 		var n = get_collision_normal()
 		motion = n.slide(motion)
 		velocity = n.slide(velocity)

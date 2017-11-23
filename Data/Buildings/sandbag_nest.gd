@@ -1,9 +1,10 @@
 extends "res://Data/Buildings/defence.gd"
 var name = "Sandbag Nest"
-var cost = 5
+var scrap_cost = 5
+var food_cost = 0
 var build_time = 5
 var size = 3
-
+var damage = 0
 func AI_recount(AI):
 	AI.bunkers -= 1
 	
@@ -11,6 +12,7 @@ func _ready():
 	occupency = 1
 	total_health = 100
 	health = total_health
+	damage = get_node("body/machinegun_turret/body/Pig").damage
 	for i in range(operators_size):
 		operators.append(null)
 	pass

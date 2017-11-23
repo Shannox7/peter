@@ -4,6 +4,7 @@ var occupents = []
 var occupency = 3
 var party = []
 var difficulty = 30
+var dead = false
 
 var food = 5
 var scrap = 0
@@ -11,7 +12,7 @@ var medicine = 5
 
 var fight = 0
 var job = "Supply Run"
-
+var skill = "fight"
 var myself
 
 var name = "Bad Haircut"
@@ -72,7 +73,7 @@ func place(npc):
 #	npc.set_fixed_process(false)
 	
 func level():
-	return Global.generate_level("res://Zombies711.tscn")
+	return Global.generate_area("City")
 	Global.running_events.append(self)
 
 
