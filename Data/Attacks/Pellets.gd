@@ -21,6 +21,7 @@ func shock():
 	
 func effect(collider, hit):
 	if hit:
+		blood()
 		collider.hit(self)
 		queue_free()
 	else:

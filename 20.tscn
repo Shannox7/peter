@@ -1,7 +1,14 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://Data/Tiles/Ground Tiles/dirt.png" type="Texture" id=1]
 [ext_resource path="res://Data/Tiles/Ground Tiles/dirt1.png" type="Texture" id=2]
+[ext_resource path="res://Data/Tiles/Ground Tiles/grass.png" type="Texture" id=3]
+[ext_resource path="res://Data/Tiles/Ground Tiles/sidewalk_background.png" type="Texture" id=4]
+[ext_resource path="res://Data/Tiles/Ground Tiles/road.png" type="Texture" id=5]
+[ext_resource path="res://Data/Tiles/Ground Tiles/road_foreground.png" type="Texture" id=6]
+[ext_resource path="res://Data/Tiles/Ground Tiles/road_middle.png" type="Texture" id=7]
+[ext_resource path="res://Data/Tiles/Ground Tiles/road_middle_foreground.png" type="Texture" id=8]
+[ext_resource path="res://Data/Tiles/Wood/floor_back.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -46,7 +53,6 @@ texture = ExtResource( 2 )
 
 [node name="dirt1" type="StaticBody2D" parent="dirt1"]
 
-editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 2 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -63,5 +69,33 @@ bounce = 0.0
 shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
+
+[node name="grass" type="Sprite" parent="."]
+
+texture = ExtResource( 3 )
+
+[node name="sidwalk" type="Sprite" parent="."]
+
+texture = ExtResource( 4 )
+
+[node name="road_back" type="Sprite" parent="."]
+
+texture = ExtResource( 5 )
+
+[node name="road_fore" type="Sprite" parent="."]
+
+texture = ExtResource( 6 )
+
+[node name="road_middle_back" type="Sprite" parent="."]
+
+texture = ExtResource( 7 )
+
+[node name="road_middle_fore" type="Sprite" parent="."]
+
+texture = ExtResource( 8 )
+
+[node name="wood_back" type="Sprite" parent="."]
+
+texture = ExtResource( 9 )
 
 

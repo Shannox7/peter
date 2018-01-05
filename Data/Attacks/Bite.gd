@@ -1,6 +1,10 @@
 extends "res://Data/Attacks/Attacks.gd"
 
+
+
 func _ready():
+	stopping_power = 3
+	poison = 3
 	initialize()
 
 func effect(collider, hit):

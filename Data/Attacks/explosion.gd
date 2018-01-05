@@ -19,6 +19,9 @@ var drop = false
 
 var effect = null
 var effect_multiplier = 0
+var player = null
+var poison = 0
+var critical = false
 func _ready():
 	get_node("Particles2D").set_emitting(true)
 	set_fixed_process(true)

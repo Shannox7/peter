@@ -14,16 +14,6 @@ tracks/0/keys = {
 "times": FloatArray( 0, 0.2, 0.3 ),
 "transitions": FloatArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 60.0, -60.0, 0.0 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("body/arm_l:transform/rot")
-tracks/1/interp = 1
-tracks/1/imported = false
-tracks/1/keys = {
-"times": FloatArray( 0, 0.2, 0.3 ),
-"transitions": FloatArray( 1, 1, 1 ),
-"update": 0,
-"values": [ 60.0, -60.0, 0.0 ]
+"values": [ 70.0, -60.0, 0.0 ]
 }
 

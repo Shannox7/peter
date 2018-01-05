@@ -1,20 +1,20 @@
-[gd_scene load_steps=45 format=1]
+[gd_scene load_steps=48 format=1]
 
 [ext_resource path="res://Guns.gd" type="Script" id=1]
-[ext_resource path="res://Data/Weapons/Gun Parts/Base/Tier_1.gd" type="Script" id=2]
-[ext_resource path="res://Data/Weapons/Gun Parts/Base/M14.gd" type="Script" id=3]
-[ext_resource path="res://Data/Weapons/Gun Parts/flashlight.gd" type="Script" id=4]
-[ext_resource path="res://Data/Levels/light.png" type="Texture" id=5]
-[ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=6]
-[ext_resource path="res://Data/Weapons/Gun Parts/Barrel/basic_barrel.png" type="Texture" id=7]
-[ext_resource path="res://Data/Weapons/Gun Parts/Melee/bayanette.png" type="Texture" id=8]
-[ext_resource path="res://Data/Weapons/Gun Parts/Clip/small clip.png" type="Texture" id=9]
-[ext_resource path="res://Data/Weapons/Gun Parts/Special_attatchments/grenade_launcher.png" type="Texture" id=10]
-[ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=11]
-[ext_resource path="res://Data/Weapons/basic_gun_shoot.tres" type="Animation" id=12]
-[ext_resource path="res://Data/Attacks/sounds/266977__coolguy244e__gun-shot5.smp" type="Sample" id=13]
-[ext_resource path="res://Data/Weapons/Gun Parts/Base/Shotgun.gd" type="Script" id=14]
-[ext_resource path="res://Data/Weapons/Gun Parts/Base/sawedoff_shotgun.png" type="Texture" id=15]
+[ext_resource path="res://Data/Weapons/Gun Parts/flashlight.gd" type="Script" id=2]
+[ext_resource path="res://Data/Levels/light.png" type="Texture" id=3]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/Tier_1.gd" type="Script" id=4]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/M14.gd" type="Script" id=5]
+[ext_resource path="res://Data/Weapons/Gun Parts/lazer sight.png" type="Texture" id=6]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=7]
+[ext_resource path="res://Data/Weapons/Gun Parts/Barrel/basic_barrel.png" type="Texture" id=8]
+[ext_resource path="res://Data/Weapons/Gun Parts/Melee/bayanette.png" type="Texture" id=9]
+[ext_resource path="res://Data/Weapons/Gun Parts/Clip/small clip.png" type="Texture" id=10]
+[ext_resource path="res://Data/Weapons/Gun Parts/Special_attatchments/grenade_launcher.png" type="Texture" id=11]
+[ext_resource path="res://Data/Attacks/sounds/266977__coolguy244e__gun-shot5.smp" type="Sample" id=12]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/Shotgun.gd" type="Script" id=13]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/sawedoff_shotgun.png" type="Texture" id=14]
+[ext_resource path="res://Data/Weapons/basic_gun_shoot.tres" type="Animation" id=15]
 [ext_resource path="res://Data/Weapons/Gun Parts/Base/Gatling.gd" type="Script" id=16]
 [ext_resource path="res://Data/Weapons/Gun Parts/Base/gatling_frame.png" type="Texture" id=17]
 [ext_resource path="res://Data/Weapons/Gun Parts/Base/Uzi.gd" type="Script" id=18]
@@ -33,46 +33,53 @@
 [ext_resource path="res://Data/Weapons/Gun Parts/Base/M14.png" type="Texture" id=31]
 [ext_resource path="res://Data/Weapons/basic_sniper.gd" type="Script" id=32]
 [ext_resource path="res://Data/Weapons/Gun Parts/Base/basic_sniper.png" type="Texture" id=33]
-[ext_resource path="res://Data/Buildings/Tank_gun.gd" type="Script" id=34]
-[ext_resource path="res://Data/Buildings/Tank Turret.png" type="Texture" id=35]
+[ext_resource path="res://Data/Weapons/zombie_guns_and_parts/rusty_AK.gd" type="Script" id=34]
+[ext_resource path="res://Data/Weapons/Gun Parts/Base/rusty_ak.png" type="Texture" id=35]
+[ext_resource path="res://Data/Buildings/Tank_gun.gd" type="Script" id=36]
+[ext_resource path="res://Data/Buildings/Tank Turret.png" type="Texture" id=37]
 
-[sub_resource type="RectangleShape2D" id=1]
-
-custom_solver_bias = 0.0
-extents = Vector2( 10, 2 )
-
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="CapsuleShape2D" id=1]
 
 custom_solver_bias = 0.0
 radius = 50.0
 height = 106.0
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=2]
 
 custom_solver_bias = 0.0
 radius = 24.0
 height = 106.0
 
-[sub_resource type="SampleLibrary" id=4]
+[sub_resource type="RectangleShape2D" id=3]
+
+custom_solver_bias = 0.0
+extents = Vector2( 10, 2 )
+
+[sub_resource type="ColorRamp" id=4]
+
+offsets = FloatArray( 0, 0.719298, 1 )
+colors = ColorArray( 1, 0.304688, 0, 1, 1, 0.890625, 0, 1, 1, 0.984049, 0.854167, 1 )
+
+[sub_resource type="SampleLibrary" id=5]
 
 samples/shoot = {
 "db": 0.0,
 "pitch": 1.5,
 "priority": 0,
-"sample": ExtResource( 13 )
+"sample": ExtResource( 12 )
 }
-
-[sub_resource type="RectangleShape2D" id=5]
-
-custom_solver_bias = 0.0
-extents = Vector2( 12, 3 )
 
 [sub_resource type="RectangleShape2D" id=6]
 
 custom_solver_bias = 0.0
+extents = Vector2( 12, 3 )
+
+[sub_resource type="RectangleShape2D" id=7]
+
+custom_solver_bias = 0.0
 extents = Vector2( 16, 11 )
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=8]
 
 animations = [ {
 "frames": [ ExtResource( 24 ) ],
@@ -86,7 +93,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 
 length = 0.2
 loop = false
@@ -102,7 +109,7 @@ tracks/0/keys = {
 "values": [ Vector2( -1, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="CapsuleShape2D" id=9]
+[sub_resource type="CapsuleShape2D" id=10]
 
 custom_solver_bias = 0.0
 radius = 30.0
@@ -132,6 +139,85 @@ damp_override/linear = -1.0
 damp_override/angular = -1.0
 script/script = ExtResource( 1 )
 
+[node name="flashlight" type="Node2D" parent="."]
+
+editor/display_folded = true
+z/z = -50
+script/script = ExtResource( 2 )
+
+[node name="Area2D1" type="Area2D" parent="flashlight"]
+
+editor/display_folded = true
+transform/pos = Vector2( 1, 0 )
+input/pickable = true
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( -4.37114e-08, 1, -1, -4.37114e-08, 123, 4 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 10.0
+collision/layers = 32
+collision/mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="flashlight/Area2D1"]
+
+transform/pos = Vector2( 123, 4 )
+transform/rot = -90.0
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Area2D" type="Area2D" parent="flashlight"]
+
+editor/display_folded = true
+transform/pos = Vector2( 1, 0 )
+input/pickable = true
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( -4.37114e-08, 1, -1, -4.37114e-08, 96, 3 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 5.0
+collision/layers = 32
+collision/mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="flashlight/Area2D"]
+
+transform/pos = Vector2( 96, 3 )
+transform/rot = -90.0
+shape = SubResource( 2 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Light2D" type="Light2D" parent="flashlight"]
+
+transform/pos = Vector2( 97.6875, 1.75 )
+transform/rot = 90.0
+transform/scale = Vector2( 0.641667, 1.25521 )
+enabled = true
+editor_only = false
+texture = ExtResource( 3 )
+offset = Vector2( 0, 0 )
+scale = 1.0
+color = Color( 1, 1, 1, 1 )
+energy = 1.0
+mode = 0
+range/height = 0.0
+range/z_min = -1024
+range/z_max = 1024
+range/layer_min = 0
+range/layer_max = 0
+range/item_mask = 1
+shadow/enabled = true
+shadow/color = Color( 0, 0, 0, 0.885255 )
+shadow/buffer_size = 2048
+shadow/esm_multiplier = 80.0
+shadow/item_mask = 1
+
 [node name="Tier_1" type="RigidBody2D" parent="."]
 
 input/pickable = false
@@ -152,17 +238,16 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 2 )
+script/script = ExtResource( 4 )
 
 [node name="M14" type="RigidBody2D" parent="Tier_1" groups=[
 "guns and parts",
-"weapons",
+"Weapons",
 ]]
 
-transform/pos = Vector2( 1, 0 )
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 9, 2 )
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 10, 2 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 1
@@ -181,104 +266,41 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 3 )
-
-[node name="flashlight" type="Node2D" parent="Tier_1/M14"]
-
-editor/display_folded = true
-transform/pos = Vector2( -1, 0 )
-z/z = -50
-script/script = ExtResource( 4 )
-
-[node name="Area2D1" type="Area2D" parent="Tier_1/M14/flashlight"]
-
-editor/display_folded = true
-transform/pos = Vector2( 1, 0 )
-input/pickable = true
-shapes/0/shape = SubResource( 2 )
-shapes/0/transform = Matrix32( -4.37114e-08, 1, -1, -4.37114e-08, 123, 4 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 10.0
-collision/layers = 32
-collision/mask = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/M14/flashlight/Area2D1"]
-
-transform/pos = Vector2( 123, 4 )
-transform/rot = -90.0
-shape = SubResource( 2 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Area2D" type="Area2D" parent="Tier_1/M14/flashlight"]
-
-editor/display_folded = true
-transform/pos = Vector2( 1, 0 )
-input/pickable = true
-shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( -4.37114e-08, 1, -1, -4.37114e-08, 96, 3 )
-shapes/0/trigger = false
-gravity_vec = Vector2( 0, 1 )
-gravity = 98.0
-linear_damp = 0.1
-angular_damp = 1.0
-priority = 5.0
-collision/layers = 32
-collision/mask = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/M14/flashlight/Area2D"]
-
-transform/pos = Vector2( 96, 3 )
-transform/rot = -90.0
-shape = SubResource( 3 )
-trigger = false
-_update_shape_index = 0
-
-[node name="Light2D" type="Light2D" parent="Tier_1/M14/flashlight"]
-
-transform/pos = Vector2( 97.6875, 1.75 )
-transform/rot = 90.0
-transform/scale = Vector2( 0.641667, 1.25521 )
-enabled = true
-editor_only = false
-texture = ExtResource( 5 )
-offset = Vector2( 0, 0 )
-scale = 1.0
-color = Color( 1, 1, 1, 1 )
-energy = 1.0
-mode = 0
-range/height = 0.0
-range/z_min = -1024
-range/z_max = 1024
-range/layer_min = 0
-range/layer_max = 0
-range/item_mask = 1
-shadow/enabled = true
-shadow/color = Color( 0, 0, 0, 0.885255 )
-shadow/buffer_size = 2048
-shadow/esm_multiplier = 80.0
-shadow/item_mask = 1
+script/script = ExtResource( 5 )
 
 [node name="body" type="Node2D" parent="Tier_1/M14"]
 
-transform/pos = Vector2( -1, 0 )
+[node name="RayCast2D" type="RayCast2D" parent="Tier_1/M14/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 22, 6 )
+enabled = true
+cast_to = Vector2( 1, 0 )
+layer_mask = 1
+type_mask = 15
+
+[node name="lazer_sight" type="Sprite" parent="Tier_1/M14/body/RayCast2D"]
+
+visibility/opacity = 0.2
+visibility/behind_parent = true
+transform/pos = Vector2( 0, -1 )
+texture = ExtResource( 6 )
+centered = false
+modulate = Color( 0.078125, 1, 0, 1 )
 
 [node name="Sprite" type="Sprite" parent="Tier_1/M14/body"]
 
-texture = ExtResource( 6 )
+transform/pos = Vector2( 0, -2 )
+texture = ExtResource( 7 )
 centered = false
 
 [node name="barrel" type="Sprite" parent="Tier_1/M14/body"]
 
-visibility/visible = false
-transform/pos = Vector2( 19, 1 )
+transform/pos = Vector2( 22, 2 )
 z/z = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
+offset = Vector2( 0, -2 )
 
 [node name="mod" type="Sprite" parent="Tier_1/M14/body"]
 
@@ -290,84 +312,95 @@ centered = false
 [node name="melee" type="Sprite" parent="Tier_1/M14/body"]
 
 visibility/visible = false
-transform/pos = Vector2( 16, 1 )
-texture = ExtResource( 8 )
+transform/pos = Vector2( 18, 3 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="clip" type="Sprite" parent="Tier_1/M14/body"]
 
 visibility/visible = false
-transform/pos = Vector2( 9, 5 )
-texture = ExtResource( 9 )
+visibility/behind_parent = true
+transform/pos = Vector2( 15, 5 )
+texture = ExtResource( 10 )
 centered = false
+offset = Vector2( -2, 0 )
 
 [node name="special" type="Sprite" parent="Tier_1/M14/body"]
 
 visibility/visible = false
 transform/pos = Vector2( 0, -4 )
-texture = ExtResource( 10 )
-centered = false
-
-[node name="RayCast2D" type="RayCast2D" parent="Tier_1/M14/body"]
-
-transform/pos = Vector2( 20, 1 )
-enabled = true
-cast_to = Vector2( 1, 0 )
-layer_mask = 1
-type_mask = 15
-
-[node name="lazer_sight" type="Sprite" parent="Tier_1/M14/body/RayCast2D"]
-
-visibility/opacity = 0.2
 texture = ExtResource( 11 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Tier_1/M14/body"]
 
-transform/pos = Vector2( 20, 1 )
+transform/pos = Vector2( 24, 0 )
 
 [node name="special_tip" type="Position2D" parent="Tier_1/M14/body"]
 
 transform/pos = Vector2( 12, -1 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Tier_1/M14"]
+[node name="Particles2D" type="Particles2D" parent="Tier_1/M14/body"]
 
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
-autoplay = ""
+transform/pos = Vector2( 24, 2 )
+transform/rot = 90.0
+config/amount = 20
+config/lifetime = 0.5
+config/time_scale = 2.0
+config/emit_timeout = 0.5
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 2, 0 )
+config/explosiveness = 0.1
+params/direction = 0.0
+params/spread = 30.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 3.0
+params/final_size = 0.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 1.0
+color/color = Color( 0.949219, 0.778656, 0, 1 )
+color/color_ramp = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/M14"]
 
-transform/pos = Vector2( 9, 2 )
-shape = SubResource( 1 )
+transform/pos = Vector2( 10, 2 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="SamplePlayer2D" type="SamplePlayer2D" parent="Tier_1/M14"]
 
+transform/pos = Vector2( -1, -1 )
 params/volume_db = 0.0
 params/pitch_scale = 1.0
 params/attenuation/min_distance = 1.0
 params/attenuation/max_distance = 2048.0
 params/attenuation/distance_exp = 1.0
 config/polyphony = 1
-config/samples = SubResource( 4 )
+config/samples = SubResource( 5 )
 config/pitch_random = 0.0
 
 [node name="Shotgun" type="RigidBody2D" parent="Tier_1" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
+"Weapons",
 ]]
 
 editor/display_folded = true
 visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 9, 2 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -387,7 +420,7 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 14 )
+script/script = ExtResource( 13 )
 
 [node name="body" type="Node2D" parent="Tier_1/Shotgun"]
 
@@ -395,7 +428,7 @@ editor/display_folded = true
 
 [node name="Sprite" type="Sprite" parent="Tier_1/Shotgun/body"]
 
-texture = ExtResource( 15 )
+texture = ExtResource( 14 )
 centered = false
 
 [node name="barrel" type="Sprite" parent="Tier_1/Shotgun/body"]
@@ -403,7 +436,7 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 19, 1 )
 z/z = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="mod" type="Sprite" parent="Tier_1/Shotgun/body"]
@@ -417,14 +450,14 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 14, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="clip" type="Sprite" parent="Tier_1/Shotgun/body"]
 
 visibility/visible = false
 transform/pos = Vector2( 9, 5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="special" type="Sprite" parent="Tier_1/Shotgun/body"]
@@ -432,7 +465,7 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 11, 2 )
 transform/rot = -180.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 centered = false
 
 [node name="RayCast2D" type="RayCast2D" parent="Tier_1/Shotgun/body"]
@@ -447,7 +480,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Tier_1/Shotgun/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Tier_1/Shotgun/body"]
@@ -469,7 +502,7 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 13, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Tier_1/Shotgun"]
@@ -477,7 +510,7 @@ centered = false
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
+anims/Shoot = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -486,23 +519,24 @@ autoplay = ""
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="Tier_1/Shotgun"]
 
 transform/pos = Vector2( 9, 2 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
 [node name="Gatling" type="RigidBody2D" parent="Tier_1" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
+"Weapons",
 ]]
 
 editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 1, -1 )
 input/pickable = false
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
-shapes/1/shape = SubResource( 1 )
+shapes/1/shape = SubResource( 3 )
 shapes/1/transform = Matrix32( 1, 0, 0, 1, 8, 3 )
 shapes/1/trigger = false
 collision/layers = 0
@@ -529,7 +563,7 @@ script/script = ExtResource( 16 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
+anims/Shoot = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -537,7 +571,7 @@ autoplay = ""
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/Gatling"]
 
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 trigger = true
 _update_shape_index = 0
 
@@ -558,7 +592,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Tier_1/Gatling/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Tier_1/Gatling/body"]
@@ -579,7 +613,7 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 33, 0 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="sight" type="Sprite" parent="Tier_1/Gatling/body"]
@@ -591,7 +625,7 @@ transform/pos = Vector2( 11, -3 )
 
 visibility/visible = false
 transform/pos = Vector2( 8, 5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="special" type="Sprite" parent="Tier_1/Gatling/body"]
@@ -610,29 +644,30 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 13, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="Tier_1/Gatling"]
 
 transform/pos = Vector2( 8, 3 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 1
 
 [node name="Uzi" type="RigidBody2D" parent="Tier_1" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
+"Weapons",
 ]]
 
 editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( -1, -4 )
 input/pickable = false
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
-shapes/1/shape = SubResource( 1 )
+shapes/1/shape = SubResource( 3 )
 shapes/1/transform = Matrix32( 1, 0, 0, 1, 10, 6 )
 shapes/1/trigger = false
 collision/layers = 0
@@ -659,7 +694,7 @@ script/script = ExtResource( 18 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
+anims/Shoot = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -682,7 +717,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Tier_1/Uzi/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Tier_1/Uzi/body"]
@@ -703,7 +738,7 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 13, -3 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="sight" type="Sprite" parent="Tier_1/Uzi/body"]
 
@@ -714,7 +749,7 @@ transform/pos = Vector2( -1, -8 )
 
 visibility/visible = false
 transform/pos = Vector2( -3, 2 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="special" type="Sprite" parent="Tier_1/Uzi/body"]
 
@@ -733,31 +768,31 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 13, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tier_1/Uzi"]
 
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 trigger = true
 _update_shape_index = 0
 
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="Tier_1/Uzi"]
 
 transform/pos = Vector2( 10, 6 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 1
 
 [node name="Unicorn" type="RigidBody2D" parent="." groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
 visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 collision/layers = 0
@@ -781,7 +816,7 @@ script/script = ExtResource( 20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Unicorn"]
 
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 trigger = true
 _update_shape_index = 0
 
@@ -792,7 +827,7 @@ texture = ExtResource( 21 )
 [node name="Pickup" type="Area2D" parent="Unicorn"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -802,7 +837,7 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Unicorn/Pickup"]
 
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 trigger = true
 _update_shape_index = 0
 
@@ -825,7 +860,7 @@ max_lines_visible = -1
 
 visibility/visible = false
 transform/pos = Vector2( 14, 2 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 
 [node name="sight" type="Sprite" parent="Unicorn"]
 
@@ -837,7 +872,7 @@ texture = ExtResource( 22 )
 
 visibility/visible = false
 transform/pos = Vector2( 2, 6 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="special" type="Sprite" parent="Unicorn"]
 
@@ -849,7 +884,7 @@ transform/pos = Vector2( -6, 0 )
 editor/display_folded = true
 visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 collision/layers = 0
@@ -873,20 +908,20 @@ script/script = ExtResource( 23 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Blaster"]
 
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 trigger = true
 _update_shape_index = 0
 
 [node name="Sprite" type="AnimatedSprite" parent="Blaster"]
 
-frames = SubResource( 7 )
+frames = SubResource( 8 )
 animation = "idle"
 
 [node name="Pickup" type="Area2D" parent="Blaster"]
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -896,7 +931,7 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Blaster/Pickup"]
 
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 trigger = true
 _update_shape_index = 0
 
@@ -927,8 +962,8 @@ editor/display_folded = true
 visibility/visible = false
 
 [node name="Pig" type="RigidBody2D" parent="Mounted_guns" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
@@ -961,7 +996,7 @@ editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 19, 1 )
 z/z = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="mod" type="Sprite" parent="Mounted_guns/Pig/body"]
@@ -975,14 +1010,14 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 14, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="clip" type="Sprite" parent="Mounted_guns/Pig/body"]
 
 visibility/visible = false
 transform/pos = Vector2( 9, 5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="special" type="Sprite" parent="Mounted_guns/Pig/body"]
@@ -990,7 +1025,7 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 11, 2 )
 transform/rot = 180.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 centered = false
 
 [node name="RayCast2D" type="RayCast2D" parent="Mounted_guns/Pig/body"]
@@ -1005,7 +1040,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Mounted_guns/Pig/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Mounted_guns/Pig/body"]
@@ -1021,7 +1056,7 @@ texture = ExtResource( 29 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = SubResource( 8 )
+anims/Shoot = SubResource( 9 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -1031,7 +1066,7 @@ autoplay = ""
 
 transform/pos = Vector2( 0, 1 )
 input/pickable = true
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 134, -3 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -1046,7 +1081,7 @@ collision/mask = 0
 
 transform/pos = Vector2( 134, -3 )
 transform/rot = 90.0
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 trigger = true
 _update_shape_index = 0
 
@@ -1054,16 +1089,17 @@ _update_shape_index = 0
 
 [node name="Soldier_guns" type="Node2D" parent="."]
 
+editor/display_folded = true
 visibility/visible = false
 
 [node name="AK47" type="RigidBody2D" parent="Soldier_guns" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 9, 2 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -1087,6 +1123,8 @@ script/script = ExtResource( 30 )
 
 [node name="body" type="Node2D" parent="Soldier_guns/AK47"]
 
+editor/display_folded = true
+
 [node name="Sprite" type="Sprite" parent="Soldier_guns/AK47/body"]
 
 transform/pos = Vector2( 0, -1 )
@@ -1098,7 +1136,7 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 19, 1 )
 z/z = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="mod" type="Sprite" parent="Soldier_guns/AK47/body"]
@@ -1112,14 +1150,14 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 14, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="clip" type="Sprite" parent="Soldier_guns/AK47/body"]
 
 visibility/visible = false
 transform/pos = Vector2( 9, 5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="special" type="Sprite" parent="Soldier_guns/AK47/body"]
@@ -1127,7 +1165,7 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 11, 2 )
 transform/rot = 180.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 centered = false
 
 [node name="RayCast2D" type="RayCast2D" parent="Soldier_guns/AK47/body"]
@@ -1142,7 +1180,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Soldier_guns/AK47/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Soldier_guns/AK47/body"]
@@ -1158,7 +1196,7 @@ transform/pos = Vector2( 25, -3 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
+anims/Shoot = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -1167,7 +1205,7 @@ autoplay = ""
 [node name="CollisionShape2D1" type="CollisionShape2D" parent="Soldier_guns/AK47"]
 
 transform/pos = Vector2( 9, 2 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -1179,18 +1217,18 @@ params/attenuation/min_distance = 1.0
 params/attenuation/max_distance = 2048.0
 params/attenuation/distance_exp = 1.0
 config/polyphony = 1
-config/samples = SubResource( 4 )
+config/samples = SubResource( 5 )
 config/pitch_random = 0.0
 
 [node name="Sniper" type="RigidBody2D" parent="Soldier_guns" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
 visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
+shapes/0/shape = SubResource( 3 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 9, 2 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -1227,7 +1265,7 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 19, 1 )
 z/z = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="mod" type="Sprite" parent="Soldier_guns/Sniper/body"]
@@ -1241,14 +1279,14 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 14, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="clip" type="Sprite" parent="Soldier_guns/Sniper/body"]
 
 visibility/visible = false
 transform/pos = Vector2( 9, 5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="special" type="Sprite" parent="Soldier_guns/Sniper/body"]
@@ -1256,7 +1294,7 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 11, 2 )
 transform/rot = 180.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 centered = false
 
 [node name="RayCast2D" type="RayCast2D" parent="Soldier_guns/Sniper/body"]
@@ -1271,7 +1309,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Soldier_guns/Sniper/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Soldier_guns/Sniper/body"]
@@ -1287,7 +1325,7 @@ transform/pos = Vector2( 25, -3 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
+anims/Shoot = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -1296,7 +1334,7 @@ autoplay = ""
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Soldier_guns/Sniper"]
 
 transform/pos = Vector2( 9, 2 )
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
@@ -1304,14 +1342,164 @@ _update_shape_index = 0
 
 visibility/visible = false
 
+[node name="Rusty_AK" type="RigidBody2D" parent="Zombie_guns" groups=[
+"weapons",
+"guns and parts",
+]]
+
+editor/display_folded = true
+transform/pos = Vector2( 1, 0 )
+input/pickable = false
+shapes/0/shape = SubResource( 3 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 9, 2 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 1
+mode = 1
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
+script/script = ExtResource( 34 )
+
+[node name="body" type="Node2D" parent="Zombie_guns/Rusty_AK"]
+
+editor/display_folded = true
+transform/pos = Vector2( -1, 0 )
+
+[node name="Sprite" type="Sprite" parent="Zombie_guns/Rusty_AK/body"]
+
+transform/pos = Vector2( 0, -3 )
+texture = ExtResource( 35 )
+centered = false
+
+[node name="barrel" type="Sprite" parent="Zombie_guns/Rusty_AK/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 19, -1 )
+z/z = -1
+texture = ExtResource( 8 )
+centered = false
+
+[node name="mod" type="Sprite" parent="Zombie_guns/Rusty_AK/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 5, -1 )
+z/z = -1
+centered = false
+
+[node name="melee" type="Sprite" parent="Zombie_guns/Rusty_AK/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 15, 1 )
+texture = ExtResource( 9 )
+centered = false
+
+[node name="clip" type="Sprite" parent="Zombie_guns/Rusty_AK/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 10, 3 )
+texture = ExtResource( 10 )
+centered = false
+
+[node name="special" type="Sprite" parent="Zombie_guns/Rusty_AK/body"]
+
+visibility/visible = false
+transform/pos = Vector2( 0, -4 )
+texture = ExtResource( 11 )
+centered = false
+
+[node name="Particles2D" type="Particles2D" parent="Zombie_guns/Rusty_AK/body"]
+
+transform/pos = Vector2( 24, 2 )
+transform/rot = 90.0
+config/amount = 20
+config/lifetime = 0.5
+config/time_scale = 2.0
+config/emit_timeout = 0.5
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 2, 0 )
+config/explosiveness = 0.1
+params/direction = 0.0
+params/spread = 30.0
+params/linear_velocity = 20.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 3.0
+params/final_size = 0.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 1.0
+color/color = Color( 0.949219, 0.778656, 0, 1 )
+color/color_ramp = SubResource( 4 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Zombie_guns/Rusty_AK/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 20, 1 )
+enabled = true
+cast_to = Vector2( 1, 0 )
+layer_mask = 1
+type_mask = 15
+
+[node name="lazer_sight" type="Sprite" parent="Zombie_guns/Rusty_AK/body/RayCast2D"]
+
+visibility/opacity = 0.2
+texture = ExtResource( 6 )
+centered = false
+
+[node name="barrel_tip" type="Position2D" parent="Zombie_guns/Rusty_AK/body"]
+
+transform/pos = Vector2( 20, 1 )
+
+[node name="special_tip" type="Position2D" parent="Zombie_guns/Rusty_AK/body"]
+
+transform/pos = Vector2( 12, -1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Zombie_guns/Rusty_AK"]
+
+transform/pos = Vector2( 9, 2 )
+shape = SubResource( 3 )
+trigger = false
+_update_shape_index = 0
+
+[node name="SamplePlayer2D" type="SamplePlayer2D" parent="Zombie_guns/Rusty_AK"]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 2048.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = SubResource( 5 )
+config/pitch_random = 0.0
+
 [node name="Heavy_guns" type="Node2D" parent="."]
 
 editor/display_folded = true
 visibility/visible = false
 
 [node name="Tank_gun" type="RigidBody2D" parent="Heavy_guns" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
@@ -1333,7 +1521,7 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 34 )
+script/script = ExtResource( 36 )
 
 [node name="body" type="Node2D" parent="Heavy_guns/Tank_gun"]
 
@@ -1344,7 +1532,7 @@ editor/display_folded = true
 visibility/visible = false
 transform/pos = Vector2( 19, 1 )
 z/z = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="mod" type="Sprite" parent="Heavy_guns/Tank_gun/body"]
@@ -1358,14 +1546,14 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 14, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="clip" type="Sprite" parent="Heavy_guns/Tank_gun/body"]
 
 visibility/visible = false
 transform/pos = Vector2( 9, 5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="special" type="Sprite" parent="Heavy_guns/Tank_gun/body"]
@@ -1373,12 +1561,12 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 11, 2 )
 transform/rot = 180.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 centered = false
 
 [node name="Sprite" type="Sprite" parent="Heavy_guns/Tank_gun/body"]
 
-texture = ExtResource( 35 )
+texture = ExtResource( 37 )
 centered = false
 offset = Vector2( 0, -4 )
 
@@ -1394,7 +1582,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Heavy_guns/Tank_gun/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Heavy_guns/Tank_gun/body"]
@@ -1406,7 +1594,7 @@ transform/pos = Vector2( 38, 0 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
+anims/Shoot = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -1415,7 +1603,7 @@ autoplay = ""
 [node name="Area2D" type="Area2D" parent="Heavy_guns/Tank_gun"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 153, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -1429,13 +1617,13 @@ collision/mask = 0
 
 transform/pos = Vector2( 153, 0 )
 transform/rot = 90.0
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 trigger = true
 _update_shape_index = 0
 
 [node name="artillary_cannon" type="RigidBody2D" parent="Heavy_guns" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
@@ -1457,7 +1645,7 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 34 )
+script/script = ExtResource( 36 )
 
 [node name="body" type="Node2D" parent="Heavy_guns/artillary_cannon"]
 
@@ -1466,7 +1654,7 @@ script/script = ExtResource( 34 )
 visibility/visible = false
 transform/pos = Vector2( 19, 1 )
 z/z = -1
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="mod" type="Sprite" parent="Heavy_guns/artillary_cannon/body"]
@@ -1480,14 +1668,14 @@ centered = false
 
 visibility/visible = false
 transform/pos = Vector2( 14, 4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="clip" type="Sprite" parent="Heavy_guns/artillary_cannon/body"]
 
 visibility/visible = false
 transform/pos = Vector2( 9, 5 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 centered = false
 
 [node name="special" type="Sprite" parent="Heavy_guns/artillary_cannon/body"]
@@ -1495,12 +1683,12 @@ centered = false
 visibility/visible = false
 transform/pos = Vector2( 11, 2 )
 transform/rot = 180.0
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 centered = false
 
 [node name="Sprite" type="Sprite" parent="Heavy_guns/artillary_cannon/body"]
 
-texture = ExtResource( 35 )
+texture = ExtResource( 37 )
 centered = false
 offset = Vector2( 0, -4 )
 
@@ -1516,7 +1704,7 @@ type_mask = 15
 [node name="lazer_sight" type="Sprite" parent="Heavy_guns/artillary_cannon/body/RayCast2D"]
 
 visibility/opacity = 0.2
-texture = ExtResource( 11 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="barrel_tip" type="Position2D" parent="Heavy_guns/artillary_cannon/body"]
@@ -1528,7 +1716,7 @@ transform/pos = Vector2( 38, 0 )
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/Shoot = ExtResource( 12 )
+anims/Shoot = ExtResource( 15 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -1537,7 +1725,7 @@ autoplay = ""
 [node name="Area2D" type="Area2D" parent="Heavy_guns/artillary_cannon"]
 
 input/pickable = true
-shapes/0/shape = SubResource( 9 )
+shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 153, 0 )
 shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
@@ -1551,7 +1739,7 @@ collision/mask = 0
 
 transform/pos = Vector2( 153, 0 )
 transform/rot = 90.0
-shape = SubResource( 9 )
+shape = SubResource( 10 )
 trigger = true
 _update_shape_index = 0
 

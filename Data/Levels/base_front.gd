@@ -1,12 +1,10 @@
-extends Node2D
-var detect_list = []
-var loaded = false
+extends "res://doors.gd"
 var start = false
 var area
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
-
+var door_side = ""
 func _ready():
 	
 	if start == false:

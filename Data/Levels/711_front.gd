@@ -1,12 +1,11 @@
-extends Node2D
-var detect_list = []
-var loaded = false
+extends "res://doors.gd"
+
 var start = false
 var area
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
-
+var door_side = ""
 func _ready():
 	
 	if start == false:
@@ -30,10 +29,11 @@ func no_detect(collider):
 
 func _input(event):
 	if event.is_action_pressed("interact"):
+		get_parent().get_parent().get_parent().current_door = self
 		get_parent().get_parent().get_parent().get_node("player_pos").set_global_pos(get_node("Area2D/Position2D").get_global_pos())
 		get_node("/root/Global").player.get_parent().remove_child(get_node("/root/Global").player)
 		if loaded:
-			get_node("/root/Global").load_room(area, get_parent().get_parent().get_parent(), true, self)
+			get_node("/root/Global").load_building(area, get_parent().get_parent().get_parent(), true, self)
 		else:
 			loaded = true
 			get_node("/root/Global").load_building("City/Buildings/Grocery/Small", get_parent().get_parent().get_parent(), false, self)

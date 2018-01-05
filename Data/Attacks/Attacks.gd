@@ -8,10 +8,10 @@ var flip_mod = 1
 var damage = 0
 var stopping_power = 0
 var accuracy = 0
-var distance = .5
+var distance = 0
+
 #var distance_timer
 var velocity
-var bh = preload("res://effects.tscn").instance()
 var bullet_humanoid
 var flip_effect
 var drop = false
@@ -33,6 +33,10 @@ var visual_effect
 var effect = null
 var effect_multiplier = 0
 
+var critical
+var poison = 0
+
+var player = null
 func initialize():
 	set_fixed_process(true)
 	damage_fraction = damage/100.0
@@ -50,36 +54,70 @@ func drop_stat_reduction():
 func explode_effect(collider, hit):
 	if hit:
 		explode()
-		queue_free()
+		call_deferred("queue_free")
 	else:
 		explode()
-		queue_free()
+		call_deferred("queue_free")
 		
 func hit_and_explode_effect(collider, hit):
 	if hit:
 		collider.hit(self)
 		explode()
-		queue_free()
+		call_deferred("queue_free")
 	else:
 		explode()
-		queue_free()
+		call_deferred("queue_free")
 		
+func collision_effect():
+	pass
+	
 func hit_effect(collider, hit):
-	if hit:
-		blood()
-		collider.hit(self)
-		queue_free()
+	if collider.is_in_group("steel") or collider.is_in_group("inanimate"):
+		call_deferred("sparks")
+	elif collider.is_in_group("dirt"):
+		dirt()
+	elif collider.is_in_group("cement"):
+		cement()
+	elif collider.is_in_group("wood"):
+		wood()
 	else:
-		queue_free()
+		call_deferred("blood")
 		
-func blood():
-	var blood = bh.get_node("Blood_splatter").duplicate()
-	blood.set_pos(get_collision_pos())
-#	blood.set_scale(Vector2(1 * flip_mod, 1))
+	if hit:
+		collider.hit(self)
+		call_deferred("queue_free")
+	else:
+		
+		call_deferred("queue_free")
 
+func sparks():
+	var sparks = get_node("/root/Global").effects.get_node("sparks").duplicate()
+	sparks.set_pos(get_collision_pos())
+	get_parent().add_child(sparks)
+#	sparks.set_param(0, rad2deg(sparks.get_angle_to(get_pos()) - 3.14159/2))
+#	if flip_mod == -1:
+	sparks.set_rotd(get_rotd() -90 * flip_mod)
+#	else:
+#		sparks.set_rotd(get_rotd() -90)
+	print(get_rotd())
+	sparks.set_emitting(true)
+func wood():
+	pass
+func cement():
+	pass
+func dirt():
+	pass
+	
+func blood():
+	var blood = get_node("/root/Global").effects.get_node("Blood_splatter").duplicate()
+	var blood_drop = get_node("/root/Global").effects.get_node("blood").duplicate()
+	blood.set_pos(get_collision_pos())
+	blood_drop.set_pos(get_collision_pos())
+#	blood.set_scale(Vector2(1 * flip_mod, 1))
 	get_parent().add_child(blood)
-	blood.set_rot(blood.get_angle_to(get_pos()) - 3.14159/2)
-#	blood.set_rotd(blood.get_rotd() * - 1)
+	get_parent().get_parent().add_child(blood_drop)
+#	blood.set_param(0, rad2deg(blood.get_angle_to(get_pos()) - 3.14159/2))
+	blood.set_rotd(get_rotd() -90 * flip_mod)
 	blood.set_emitting(true)
 
 func loop(delta):
@@ -90,16 +128,16 @@ func loop(delta):
 func hit_pierce_effect(collider, hit):
 	if hit:
 		collider.hit(self)
-		queue_free()
+		call_deferred("queue_free")
 	else:
-		queue_free()
+		call_deferred("queue_free")
 
 func richochet_effect(collider, hit):
 	if hit:
 		collider.hit(self)
-		queue_free()
+		call_deferred("queue_free")
 	else:
-		queue_free()
+		call_deferred("queue_free")
 
 func explode():
 #	pass
@@ -167,7 +205,7 @@ func drop(delta):
 	drop_stat_reduction()
 	countdown -= .1
 	if countdown <= 0:
-		queue_free()
+		call_deferred("queue_free")
 
 func fade():
 	opacity -= .1
@@ -176,12 +214,12 @@ func fade():
 	if visual_effect != null:
 		visual_effect.set_opacity(opacity)
 	if opacity <= 0:
-		queue_free()
+		call_deferred("queue_free")
 
 func colliding():
 	if is_colliding():
-		if get_collider().is_in_group("inanimate"):
-			effect("no_hit", false)
+		if get_collider().is_in_group("inanimate") or get_collider().get_parent().get_parent() == get_parent():
+			effect(get_collider(), false)
 		else:
 			if flip_mod == -1:
 				flip_effect = true
@@ -193,14 +231,14 @@ func colliding():
 				effect(get_collider().get_parent(), true)
 
 func fire():
-	visual_effect.set_amount(500)
+	visual_effect.set_amount(100)
 	get_node("Particles2D").set_color_phase_color(0, Color(50,0,0))
 	get_node("Particles2D").set_color_phase_color(1, Color(0,0,0))
 #	get_node("Particles2D").set_color(Color(0,0,0))
 #	get_node("Sprite").set_modulate(Color(50,0,0))
 
 func freeze():
-	visual_effect.set_amount(200)
+	visual_effect.set_amount(100)
 	get_node("Particles2D").set_color_phase_color(0, Color(5,5,5))
 	get_node("Particles2D").set_color_phase_color(1, Color(0,0,50))
 

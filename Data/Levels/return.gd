@@ -2,6 +2,7 @@ extends "res://doors.gd"
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
+var door_side = "side "
 
 func _ready():
 	if loaded == false:
@@ -15,10 +16,10 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("interact"):
-		if not enemy_chase():
+		if not chased and not get_parent().lockdown:
 			get_parent().get_node("player_pos").set_global_pos(get_node("Area2D/Position2D").get_global_pos())
 			get_node("/root/Global").player.get_parent().remove_child(get_node("/root/Global").player)
-			get_node("/root/Global").return_from(get_parent())
+			get_node("/root/Global").return_from_building(get_parent())
 		pass
 		
 		

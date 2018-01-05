@@ -11,7 +11,9 @@ var menu = 0
 var buydisplay
 var selldisplay
 var player
+var Global
 func _ready():
+	Global = get_node("/root/Global")
 	x = 0
 	y = 0
 	get_parent().get_node("selector").set_opacity(0)
@@ -31,6 +33,7 @@ func start():
 
 func generate(Tier):
 	var item = weapon.get_node(Tier).random()
+	item.Global = Global
 	item.generate(Tier)
 	return item
 	
@@ -46,6 +49,7 @@ func show_inventory():
 				get_parent().add_child(list[0])
 			ylist += 50
 		update_inventory()
+		
 func update_inventory():
 #	if inventory_x == 0:
 #		itemlist_group = "weapons"
@@ -62,10 +66,10 @@ func update_inventory():
 		for items in player.pack:
 #			if items.is_in_group(itemlist_group):
 #				var displayitems = items.duplicate()
-			if items.is_in_group("deployables"):
-				items.deactivate()
+#			if items.is_in_group("deployables"):
+#				items.deactivate()
 			packlist.append(items)
-			get_parent().get_node("List").append_bbcode(str(items.named) +'\n')
+			get_parent().get_node("List").append_bbcode(str(items.name) +'\n')
 		pack_display()
 #	if inventory_y == null:
 #		pass
@@ -190,19 +194,19 @@ func _input(event):
 			else:
 				y += 1
 		selector(true)
-	if event.is_action_pressed("esc"):
+	if event.is_action_pressed("command"):
 		close()
 	if event.is_action_pressed("interact"):
 		if menu == 0:
-			if shoplist[x][y][0].value <= player.money:
-				player.money -= shoplist[x][y][0].value
+			if shoplist[x][y][0].value <= player.trade:
+				player.trade -= shoplist[x][y][0].value
 				shoplist[x][y][0].get_parent().remove_child(shoplist[x][y][0])
 				player.pack.append(shoplist[x][y][0])
 				shoplist[x][y].clear()
 			update_inventory()
 		elif menu == 1:
 			buyback.append(packlist[y])
-			player.money += packlist[y].value
+			player.trade += packlist[y].value
 			var number = 0
 			for items in player.pack:
 				if items.get_instance_ID() == packlist[y].get_instance_ID():

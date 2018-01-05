@@ -1,8 +1,11 @@
 extends "res://Data/Weapons/Gun Parts/Clip/Clip.gd"
 var name = "Small Clip"
-var clip_capacity = int(rand_range(2, 10))
+var clip_capacity = 20.0
 #con
-var reload_speed = rand_range(-1, -.5)
+var reload_speed = 2.8
+#10 = .4
+# of 4
+
 var stats
 # extra
 var accuracy = 0
@@ -15,9 +18,9 @@ var fullauto
 func bullet(bullet):
 	return basic_bullet()
 	
-func equip():
-	get_parent().clip_capacity += clip_capacity
-	get_parent().reload_speed += reload_speed
+func equip(gun):
+	gun.clip_capacity = clip_capacity
+	gun.reload_speed = reload_speed
 	
 func unequip():
 	get_parent().clip_capacity -= clip_capacity

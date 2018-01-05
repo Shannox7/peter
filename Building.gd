@@ -1,5 +1,5 @@
 extends "res://Zones.gd"
-
+var level
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"
@@ -25,6 +25,7 @@ func night():
 func _ready():
 	if loaded == false:
 		loaded = true
+		level = get_parent().get_parent()
 #		cell_randomizer()
 #		night()
 	# Called every time the node is added to the scene.

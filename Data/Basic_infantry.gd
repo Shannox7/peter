@@ -5,26 +5,41 @@ var total_bomb_time = 3
 var bomb_damage = 25
 var objective_pos = Vector2()
 
+func check_null(ref):
+	if !ref.get_ref():
+		return true
+	elif ref == null:
+		return true
+	elif ref.get_ref().dead:
+		return true
+	else:
+		return false
+
 func orders(commands):
 	attack = false
 	follow = false
 	hold = false
 	retreat = false
-	patrol = false
+	if patrol:
+		WALK_SPEED += patrol_speed
+		patrol = false
 	occupy = false
 	defending = false
-	if not occupy:
+	investigate = false
+	if commands == "chase":
+		chase = true
+	elif not chase:
 		if commands == "attack":
 			attack = true
-			if faction.side == "allies":
-				for obj in level.objective_list:
-					if obj.get_ref().side != faction.side:
-						objective = obj.get_ref().positions[obj.get_ref().positions.size() - 1]
-						break
-			elif faction.side == "enemies":
-				for obj in level.objective_list:
-					if obj.get_ref().side != faction.side:
-						objective = obj.get_ref().positions[0]
+#			if faction.side == "allies":
+#				for obj in level.objective_list:
+#					if obj.get_ref().side != faction.side:
+#						objective = obj.get_ref().positions[obj.get_ref().positions.size() - 1]
+#						break
+#			elif faction.side == "enemies":
+#				for obj in level.objective_list:
+#					if obj.get_ref().side != faction.side:
+#						objective = obj.get_ref().positions[0]
 		elif commands == "defend":
 			defending = true
 			if faction.defence_list == []:
@@ -40,13 +55,15 @@ func orders(commands):
 					if building.get_ref().wall:
 						objective = building
 			job = "Defending Wall"
-#					else:
-#						orders("patrol")
+		elif commands == "investigate":
+			investigate = true
 		elif commands == "hold":
 			hold = true
 		elif commands == "follow":
 			follow = true
 		elif commands == "patrol":
+			WALK_SPEED -= patrol_speed
+			patrol_time = 0
 			patrol = true
 		elif commands == "occupy":
 			occupy = true
@@ -87,13 +104,13 @@ func blowup_building(delta):
 			
 					
 	
-func die(delta):
-	deathTime -= delta
-	if get_rotd() > -90 and get_rotd() < 90:  
-		rotate(.05 * flip_mod)
-		holding = true
-	if deathTime <= 0:
-		call_deferred("queue_free")
+#func die(delta):
+#	deathTime -= delta
+#	if get_rotd() > -90 and get_rotd() < 90:  
+#		rotate(.05 * flip_mod)
+#		holding = true
+#	if deathTime <= 0:
+#	call_deferred("queue_free")
 
 func check_injure():
 	if health <= 0:
@@ -211,71 +228,24 @@ func placing():
 		holding = true
 	else:
 		raycast.set_rot(get_angle_to(objective.get_ref().get_global_pos()) - 3.14159/2)
+	
 
-func prone(proned):
-	if proned:
-		get_node("body").set_pos(Vector2(0, 14))
-		get_node("body/prone").set_trigger(false)
-		get_node("body/standing").set_trigger(true)
-		get_node("body/prone").set_pos(get_node("body/legs").get_pos())
-	else:
-		get_node("body").set_pos(Vector2(0, 0))
-		get_node("body/standing").set_trigger(false)
-		get_node("body/prone").set_trigger(true)
-		get_node("body/standing").set_pos(get_node("body/legs").get_pos())
-		
-	if is_prone != true:
-		head.set_pos(Vector2(0, -13))
-		get_node("body/legs").set_pos(Vector2(0, 5))
-		get_node("body/legs/secondaryEquip").set_pos(Vector2(-5, -20))
-		arm_r.set_pos(Vector2(-5, -3))
-		if headArmour != []:
-			headArmour[0].set_pos(Vector2(0 , -4))
-		if bodyArmour != []:
-			bodyArmour[0].set_rotd(0)
-			bodyArmour[0].set_pos(Vector2(0, -4))
-		if secondaryGun != []:
-			secondaryGun[0].set_pos(Vector2(get_node("body/legs/secondaryEquip").get_pos()))
-			secondaryGun[0].set_rotd(-90)
-
-	elif is_prone == true:
-		get_node("body/legs").set_pos(Vector2(-4, -2))
-		get_node("body/legs/secondaryEquip").set_pos(Vector2(14, - 2))
-		head.set_pos(Vector2(12, -6))
-		arm_r.set_pos(Vector2(-1, -1))
-		if headArmour != []:
-			headArmour[0].set_pos(Vector2(0, -4))
-		if bodyArmour != []:
-			bodyArmour[0].set_rotd(-90)
-			bodyArmour[0].set_pos(Vector2(2, 0))
-		if primaryGun != []:
-			primaryGun[0].set_pos(get_node("body/arm_r/Gun").get_pos())
-		if secondaryGun != []:
-			secondaryGun[0].set_rotd(180)
-			secondaryGun[0].set_pos(Vector2(get_node("body/legs/secondaryEquip").get_pos()))
-	flip(flipped)
-	
-	
-	
-	
 func original_colour():
 	hit = false
-	if effect == null:
-		arm_r.get_node("bicep").set_modulate(Color(1,1, 1))
-		arm_r.get_node("bicep/forearm").set_modulate(Color(1,1, 1))
-		arm_r.get_node("bicep/forearm/hand").set_modulate(Color(1,1, 1))
-		arm_l.get_node("bicep").set_modulate(Color(1,1, 1))
-		arm_l.get_node("bicep/forearm").set_modulate(Color(1,1, 1))
-		arm_l.get_node("bicep/forearm/hand").set_modulate(Color(1,1, 1))
-		for limb in leg_l.get_children():
-			limb.set_modulate(Color(1,1, 1))
-		for limb in leg_r.get_children():
-			limb.set_modulate(Color(1,1, 1))
-		head.set_modulate(Color(1,1, 1))
-		legs.set_modulate(Color(1,1, 1))
-	#	leg_l.set_modulate(Color(0,0, 255))
-	#	leg_r.set_modulate(Color(0,0, 255))
-		waist.set_modulate(Color(1,1, 1))
+#	if effect == null:
+#		arm_r.get_node("bicep").set_modulate(Color(1,1, 1))
+#		arm_r.get_node("bicep/forearm").set_modulate(Color(1,1, 1))
+#		arm_r.get_node("bicep/forearm/hand").set_modulate(Color(1,1, 1))
+#		arm_l.get_node("bicep").set_modulate(Color(1,1, 1))
+#		arm_l.get_node("bicep/forearm").set_modulate(Color(1,1, 1))
+#		arm_l.get_node("bicep/forearm/hand").set_modulate(Color(1,1, 1))
+#		for limb in leg_l.get_children():
+#			limb.set_modulate(Color(1,1, 1))
+#		for limb in leg_r.get_children():
+#			limb.set_modulate(Color(1,1, 1))
+#		head.set_modulate(Color(1,1, 1))
+#		legs.set_modulate(Color(1,1, 1))
+#		waist.set_modulate(Color(1,1, 1))
 	
 func burning():
 	arm_r.get_node("bicep").set_modulate(Color(0,0, 0))
@@ -325,20 +295,20 @@ func blue():
 	
 func red():
 	get_node("hit_timer").start()
-	if effect == null:
-		arm_r.get_node("bicep").set_modulate(Color(255,0, 0))
-		arm_r.get_node("bicep/forearm").set_modulate(Color(255,0, 0))
-		arm_r.get_node("bicep/forearm/hand").set_modulate(Color(255,0, 0))
-		arm_l.get_node("bicep").set_modulate(Color(255,0, 0))
-		arm_l.get_node("bicep/forearm").set_modulate(Color(255,0, 0))
-		arm_l.get_node("bicep/forearm/hand").set_modulate(Color(255,0, 0))
-		for limb in leg_l.get_children():
-			limb.set_modulate(Color(255,0, 0))
-		for limb in leg_r.get_children():
-			limb.set_modulate(Color(255,0, 0))
-		head.set_modulate(Color(255,0, 0))
-		legs.set_modulate(Color(255,0, 0))
-		waist.set_modulate(Color(255,0, 0))
+#	if effect == null:
+#		arm_r.get_node("bicep").set_modulate(Color(255,0, 0))
+#		arm_r.get_node("bicep/forearm").set_modulate(Color(255,0, 0))
+#		arm_r.get_node("bicep/forearm/hand").set_modulate(Color(255,0, 0))
+#		arm_l.get_node("bicep").set_modulate(Color(255,0, 0))
+#		arm_l.get_node("bicep/forearm").set_modulate(Color(255,0, 0))
+#		arm_l.get_node("bicep/forearm/hand").set_modulate(Color(255,0, 0))
+#		for limb in leg_l.get_children():
+#			limb.set_modulate(Color(255,0, 0))
+#		for limb in leg_r.get_children():
+#			limb.set_modulate(Color(255,0, 0))
+#		head.set_modulate(Color(255,0, 0))
+#		legs.set_modulate(Color(255,0, 0))
+#		waist.set_modulate(Color(255,0, 0))
 		
 		
 		

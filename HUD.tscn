@@ -1,8 +1,21 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://Data/Hud_scripts/player_hud.gd" type="Script" id=1]
-[ext_resource path="res://Data/Health bar/player_healthBar.png" type="Texture" id=2]
-[ext_resource path="res://Data/Health bar/player_healthBar_health.png" type="Texture" id=3]
+[ext_resource path="res://Data/Hud_scripts/Inventory/player_hud.png" type="Texture" id=2]
+[ext_resource path="res://Data/Hud_scripts/Inventory/1 pixel.png" type="Texture" id=3]
+[ext_resource path="res://Data/Deployables/deployable box.png" type="Texture" id=4]
+[ext_resource path="res://Data/Deployables/deployable box center.png" type="Texture" id=5]
+[ext_resource path="res://Data/Health bar/player_healthBar.png" type="Texture" id=6]
+[ext_resource path="res://Data/Health bar/player_healthBar_health.png" type="Texture" id=7]
+
+[sub_resource type="ImageTexture" id=1]
+
+resource/name = "player_healthBar_health.png"
+flags = 5
+image = Image( 1, 16, 0, RGB, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 )
+size = Vector2( 1, 16 )
+storage = 0
+lossy_quality = 0.7
 
 [node name="HUD" type="CanvasLayer"]
 
@@ -17,11 +30,142 @@ focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
-margin/left = 32.0
-margin/top = 552.0
-margin/right = 72.0
-margin/bottom = 592.0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
 script/script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Player1"]
+
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Sprite1" type="Sprite" parent="Player1"]
+
+transform/pos = Vector2( 10, 42 )
+transform/scale = Vector2( 126, 26 )
+texture = ExtResource( 3 )
+centered = false
+modulate = Color( 0.0859375, 0.0859375, 0.0859375, 1 )
+
+[node name="quick_use" type="Node2D" parent="Player1"]
+
+editor/display_folded = true
+transform/pos = Vector2( -189, 28 )
+z/z = 200
+
+[node name="Sprite0" type="Sprite" parent="Player1/quick_use"]
+
+editor/display_folded = true
+transform/pos = Vector2( 200, 15 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Label" type="Label" parent="Player1/quick_use/Sprite0"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 11.0
+margin/right = 40.0
+margin/bottom = 25.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite1" type="Sprite" parent="Player1/quick_use"]
+
+editor/display_folded = true
+transform/pos = Vector2( 225, 15 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Label" type="Label" parent="Player1/quick_use/Sprite1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 11.0
+margin/right = 40.0
+margin/bottom = 25.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite2" type="Sprite" parent="Player1/quick_use"]
+
+editor/display_folded = true
+transform/pos = Vector2( 250, 15 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Label" type="Label" parent="Player1/quick_use/Sprite2"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 11.0
+margin/right = 40.0
+margin/bottom = 25.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite3" type="Sprite" parent="Player1/quick_use"]
+
+editor/display_folded = true
+transform/pos = Vector2( 275, 15 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Label" type="Label" parent="Player1/quick_use/Sprite3"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 11.0
+margin/right = 40.0
+margin/bottom = 25.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite4" type="Sprite" parent="Player1/quick_use"]
+
+editor/display_folded = true
+transform/pos = Vector2( 300, 15 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="Label" type="Label" parent="Player1/quick_use/Sprite4"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 11.0
+margin/right = 40.0
+margin/bottom = 25.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="selector" type="Sprite" parent="Player1"]
+
+transform/pos = Vector2( 11, 43 )
+z/z = 201
+texture = ExtResource( 5 )
+centered = false
 
 [node name="Label" type="Label" parent="Player1"]
 
@@ -29,10 +173,10 @@ focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = -26.0
-margin/top = -10.0
-margin/right = 14.0
-margin/bottom = 4.0
+margin/left = 10.0
+margin/top = 0.0
+margin/right = 50.0
+margin/bottom = 14.0
 text = "Peter"
 percent_visible = 1.0
 lines_skipped = 0
@@ -40,33 +184,20 @@ max_lines_visible = -1
 
 [node name="ammo_position" type="Position2D" parent="Player1"]
 
-transform/pos = Vector2( -23, 38 )
-
-[node name="Label 2" type="Label" parent="Player1"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -25.0
-margin/top = 22.0
-margin/right = 15.0
-margin/bottom = 36.0
-text = "1"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
+transform/pos = Vector2( 4, 70 )
 
 [node name="Label 3" type="Label" parent="Player1"]
 
+visibility/visible = false
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 80.0
-margin/top = -20.0
-margin/right = 120.0
-margin/bottom = -6.0
+margin/left = 105.0
+margin/top = 15.0
+margin/right = 145.0
+margin/bottom = 29.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "1"
 percent_visible = 1.0
 lines_skipped = 0
@@ -74,14 +205,16 @@ max_lines_visible = -1
 
 [node name="Label 4" type="Label" parent="Player1"]
 
+visibility/visible = false
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 80.0
-margin/top = 0.0
-margin/right = 120.0
-margin/bottom = 14.0
+margin/left = 105.0
+margin/top = 30.0
+margin/right = 145.0
+margin/bottom = 44.0
+custom_colors/font_color = Color( 0, 1, 0.0625, 1 )
 text = "1"
 percent_visible = 1.0
 lines_skipped = 0
@@ -89,15 +222,179 @@ max_lines_visible = -1
 
 [node name="Label 5" type="Label" parent="Player1"]
 
+visibility/visible = false
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 80.0
-margin/top = 20.0
-margin/right = 120.0
-margin/bottom = 34.0
+margin/left = 105.0
+margin/top = 45.0
+margin/right = 145.0
+margin/bottom = 59.0
+custom_colors/font_color = Color( 1, 0.609375, 0, 1 )
 text = "1"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="trade" type="Label" parent="Player1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 90.0
+margin/top = 0.0
+margin/right = 140.0
+margin/bottom = 14.0
+custom_colors/font_color = Color( 1, 0.867188, 0, 1 )
+text = "$10"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="hidden" type="Label" parent="Player1"]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 113.0
+margin/top = 75.0
+margin/right = 156.0
+margin/bottom = 89.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Trade: "
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="food_meter" type="Sprite" parent="Player1"]
+
+editor/display_folded = true
+transform/pos = Vector2( 10, 22 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="food" type="Sprite" parent="Player1/food_meter"]
+
+transform/pos = Vector2( 2, 2 )
+texture = ExtResource( 7 )
+centered = false
+modulate = Color( 1, 0.539063, 0, 1 )
+
+[node name="Label" type="Label" parent="Player1/food_meter"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ammo_meter" type="Sprite" parent="Player1"]
+
+transform/pos = Vector2( 10, 70 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="ammo" type="Sprite" parent="Player1/ammo_meter"]
+
+transform/pos = Vector2( 2, 2 )
+texture = ExtResource( 7 )
+centered = false
+modulate = Color( 1, 0.539063, 0, 1 )
+
+[node name="Label" type="Label" parent="Player1/ammo_meter"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label 2" type="Label" parent="Player1"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 40.0
+margin/top = 72.0
+margin/right = 80.0
+margin/bottom = 87.0
+text = "1"
+align = 1
+valign = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="volume" type="Sprite" parent="Player1"]
+
+editor/display_folded = true
+transform/pos = Vector2( 487.711, 18.6597 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="volume" type="Sprite" parent="Player1/volume"]
+
+transform/pos = Vector2( 2, 2 )
+texture = SubResource( 1 )
+centered = false
+modulate = Color( 0, 1, 0.8125, 1 )
+
+[node name="Label" type="Label" parent="Player1/volume"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 107.0
+margin/top = 2.0
+margin/right = 147.0
+margin/bottom = 16.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="poison_meter" type="Sprite" parent="Player1"]
+
+editor/display_folded = true
+transform/pos = Vector2( 10, 18 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="poison" type="Sprite" parent="Player1/poison_meter"]
+
+transform/pos = Vector2( 2, 2 )
+texture = ExtResource( 7 )
+centered = false
+modulate = Color( 0, 0.800781, 0.0875854, 1 )
+
+[node name="Label" type="Label" parent="Player1/poison_meter"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
@@ -105,28 +402,41 @@ max_lines_visible = -1
 [node name="health_meter" type="Sprite" parent="Player1"]
 
 editor/display_folded = true
-transform/pos = Vector2( -26, 2 )
-texture = ExtResource( 2 )
+transform/pos = Vector2( 10, 14 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="health" type="Sprite" parent="Player1/health_meter"]
 
 transform/pos = Vector2( 2, 2 )
-texture = ExtResource( 3 )
+texture = ExtResource( 7 )
 centered = false
+modulate = Color( 1, 0, 0, 1 )
 
-[node name="Points" type="Label" parent="Player1"]
+[node name="bonus_health" type="Sprite" parent="Player1/health_meter"]
+
+visibility/opacity = 0.5
+transform/pos = Vector2( 2, 2 )
+texture = ExtResource( 7 )
+centered = false
+modulate = Color( 1, 0.609375, 0.61853, 1 )
+
+[node name="Label" type="Label" parent="Player1/health_meter"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 468.0
-margin/top = 11.0
-margin/right = 508.0
-margin/bottom = 25.0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 14.0
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="card_pos" type="Position2D" parent="Player1"]
+
+transform/pos = Vector2( 150, 0 )
 
 

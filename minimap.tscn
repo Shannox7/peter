@@ -1,7 +1,16 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=12 format=1]
 
 [ext_resource path="res://Data/Tiles/minimap/road.png" type="Texture" id=1]
 [ext_resource path="res://Data/Tiles/minimap/grocery.png" type="Texture" id=2]
+[ext_resource path="res://Data/Tiles/minimap/department.png" type="Texture" id=3]
+[ext_resource path="res://Data/Tiles/minimap/weapons_big.png" type="Texture" id=4]
+[ext_resource path="res://Data/Tiles/minimap/residential_big.png" type="Texture" id=5]
+[ext_resource path="res://Data/Tiles/minimap/residential_small.png" type="Texture" id=6]
+[ext_resource path="res://Data/Tiles/minimap/small_business.png" type="Texture" id=7]
+[ext_resource path="res://Data/Tiles/minimap/military_big.png" type="Texture" id=8]
+[ext_resource path="res://Data/Tiles/minimap/government.png" type="Texture" id=9]
+[ext_resource path="res://Data/Tiles/minimap/Laboratory.png" type="Texture" id=10]
+[ext_resource path="res://Data/Tiles/minimap/home base.png" type="Texture" id=11]
 
 [node name="minimap" type="Node2D"]
 
@@ -12,5 +21,41 @@ texture = ExtResource( 1 )
 [node name="grocery" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
+
+[node name="department" type="Sprite" parent="."]
+
+texture = ExtResource( 3 )
+
+[node name="weapons" type="Sprite" parent="."]
+
+texture = ExtResource( 4 )
+
+[node name="residential" type="Sprite" parent="."]
+
+texture = ExtResource( 5 )
+
+[node name="residential_small" type="Sprite" parent="."]
+
+texture = ExtResource( 6 )
+
+[node name="small_business" type="Sprite" parent="."]
+
+texture = ExtResource( 7 )
+
+[node name="military" type="Sprite" parent="."]
+
+texture = ExtResource( 8 )
+
+[node name="government" type="Sprite" parent="."]
+
+texture = ExtResource( 9 )
+
+[node name="laboratory" type="Sprite" parent="."]
+
+texture = ExtResource( 10 )
+
+[node name="home_base" type="Sprite" parent="."]
+
+texture = ExtResource( 11 )
 
 

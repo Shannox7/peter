@@ -1,13 +1,21 @@
-[gd_scene load_steps=13 format=1]
+[gd_scene load_steps=25 format=1]
 
 [ext_resource path="res://resource.gd" type="Script" id=1]
 [ext_resource path="res://scrap.gd" type="Script" id=2]
 [ext_resource path="res://Data/Pickups/Scrap.png" type="Texture" id=3]
-[ext_resource path="res://Data/Pickups/food.png" type="Texture" id=4]
-[ext_resource path="res://health.gd" type="Script" id=5]
-[ext_resource path="res://Data/Pickups/health_pack.png" type="Texture" id=6]
-[ext_resource path="res://ammo.gd" type="Script" id=7]
-[ext_resource path="res://Data/Pickups/ammo.png" type="Texture" id=8]
+[ext_resource path="res://Data/Pickups/food.gd" type="Script" id=4]
+[ext_resource path="res://Data/Pickups/food.png" type="Texture" id=5]
+[ext_resource path="res://health.gd" type="Script" id=6]
+[ext_resource path="res://Data/Pickups/health_pack.png" type="Texture" id=7]
+[ext_resource path="res://ammo.gd" type="Script" id=8]
+[ext_resource path="res://Data/Pickups/ammo.png" type="Texture" id=9]
+[ext_resource path="res://Data/Buildings/pain_killer.gd" type="Script" id=10]
+[ext_resource path="res://Data/Pickups/Pain_killers.png" type="Texture" id=11]
+[ext_resource path="res://Data/Pickups/gas.gd" type="Script" id=12]
+[ext_resource path="res://Data/Pickups/Gas.png" type="Texture" id=13]
+[ext_resource path="res://Data/water.gd" type="Script" id=14]
+[ext_resource path="res://Data/Pickups/Water.png" type="Texture" id=15]
+[ext_resource path="res://scrap_wall.gd" type="Script" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -29,13 +37,34 @@ extents = Vector2( 7, 3 )
 custom_solver_bias = 0.0
 extents = Vector2( 5, 3 )
 
+[sub_resource type="RectangleShape2D" id=5]
+
+custom_solver_bias = 0.0
+extents = Vector2( 3, 5 )
+
+[sub_resource type="RectangleShape2D" id=10]
+
+custom_solver_bias = 0.0
+extents = Vector2( 7, 8 )
+
+[sub_resource type="RectangleShape2D" id=11]
+
+custom_solver_bias = 0.0
+extents = Vector2( 7, 8 )
+
+[sub_resource type="RectangleShape2D" id=9]
+
+custom_solver_bias = 0.0
+extents = Vector2( 5, 5 )
+
 [node name="resource" type="Node2D"]
 
 script/script = ExtResource( 1 )
 
-[node name="scrap" type="RigidBody2D" parent="." groups=[
-"misc",
+[node name="trade" type="RigidBody2D" parent="." groups=[
 "resource",
+"trade",
+"misc",
 ]]
 
 editor/display_folded = true
@@ -62,19 +91,20 @@ damp_override/linear = -1.0
 damp_override/angular = -1.0
 script/script = ExtResource( 2 )
 
-[node name="body" type="Sprite" parent="scrap"]
+[node name="body" type="Sprite" parent="trade"]
 
 texture = ExtResource( 3 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="scrap"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="trade"]
 
 shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
 [node name="food" type="RigidBody2D" parent="." groups=[
-"misc",
 "resource",
+"food",
+"misc",
 ]]
 
 editor/display_folded = true
@@ -99,11 +129,11 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 2 )
+script/script = ExtResource( 4 )
 
 [node name="body" type="Sprite" parent="food"]
 
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="food"]
 
@@ -112,6 +142,7 @@ trigger = false
 _update_shape_index = 0
 
 [node name="health" type="RigidBody2D" parent="." groups=[
+"resource",
 "health",
 ]]
 
@@ -137,11 +168,11 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 5 )
+script/script = ExtResource( 6 )
 
 [node name="body" type="Sprite" parent="health"]
 
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="health"]
 
@@ -150,6 +181,7 @@ trigger = false
 _update_shape_index = 0
 
 [node name="ammo" type="RigidBody2D" parent="." groups=[
+"resource",
 "ammo",
 ]]
 
@@ -175,15 +207,178 @@ velocity/linear = Vector2( 0, 0 )
 velocity/angular = 0.0
 damp_override/linear = -1.0
 damp_override/angular = -1.0
-script/script = ExtResource( 7 )
+script/script = ExtResource( 8 )
 
 [node name="body" type="Sprite" parent="ammo"]
 
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ammo"]
 
 shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
+
+[node name="pain_killers" type="RigidBody2D" parent="." groups=[
+"Items",
+"instant",
+"useable",
+]]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 5 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1024
+collision/mask = 1
+mode = 0
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
+script/script = ExtResource( 10 )
+
+[node name="body" type="Sprite" parent="pain_killers"]
+
+texture = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pain_killers"]
+
+shape = SubResource( 5 )
+trigger = false
+_update_shape_index = 0
+
+[node name="gas" type="RigidBody2D" parent="." groups=[
+"Items",
+"deployables",
+"craft",
+"useable",
+]]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 10 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 525312
+collision/mask = 1
+mode = 0
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
+script/script = ExtResource( 12 )
+
+[node name="body" type="Sprite" parent="gas"]
+
+texture = ExtResource( 13 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="gas"]
+
+shape = SubResource( 10 )
+trigger = false
+_update_shape_index = 0
+
+[node name="water" type="RigidBody2D" parent="." groups=[
+"Items",
+"deployables",
+"craft",
+"useable",
+]]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 11 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 525312
+collision/mask = 1
+mode = 0
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
+script/script = ExtResource( 14 )
+
+[node name="body" type="Sprite" parent="water"]
+
+texture = ExtResource( 15 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="water"]
+
+shape = SubResource( 10 )
+trigger = false
+_update_shape_index = 0
+
+[node name="scrap" type="RigidBody2D" parent="." groups=[
+"Items",
+"deployables",
+"craft",
+"useable",
+]]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 9 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1024
+collision/mask = 1
+mode = 0
+mass = 1.0
+friction = 1.0
+bounce = 0.0
+gravity_scale = 1.0
+custom_integrator = false
+continuous_cd = 0
+contacts_reported = 0
+contact_monitor = false
+sleeping = false
+can_sleep = true
+velocity/linear = Vector2( 0, 0 )
+velocity/angular = 0.0
+damp_override/linear = -1.0
+damp_override/angular = -1.0
+script/script = ExtResource( 16 )
+
+[node name="body" type="Sprite" parent="scrap"]
+
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="scrap"]
+
+shape = SubResource( 9 )
 trigger = false
 _update_shape_index = 0
 

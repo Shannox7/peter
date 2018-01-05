@@ -1,5 +1,7 @@
 extends Node2D
 #var fact = preload("res://Faction.tscn").instance()
+
+var Global
 var game_over = false
 var AI = preload("res://AI.tscn").instance()
 var buildings = preload("res://buildings.tscn").instance()
@@ -25,6 +27,8 @@ var night = false
 var set = false
 var world
 
+var loaded_enemies = []
+
 var objective_list = []
 
 var survivor_list = []
@@ -35,6 +39,9 @@ var time = 10
 var total_time = 10
 var day_count = 0
 
+var chase_list = []
+
+var enemy_number = 0
 func attack(delta):
 	var number = 10 + Global.day
 
@@ -56,15 +63,48 @@ func start_survivors():
 		survivor.faction = faction
 		faction.add_child(survivor)
 		seperate += 10
-		
-		
+func add_foliage():
+	for cells in get_node("Outside/background").get_used_cells():
+		if get_node("Outside/background").get_cell(cells.x, cells.y) == 2:
+			var coords = get_node("Outside/background").map_to_world(cells)
+			var fol = foliage.get_children()[round(rand_range(0, foliage.get_children().size() -1))].duplicate()
+			fol.set_global_pos(Vector2(coords.x + 10 + get_global_pos().x, coords.y - 10))
+			fol.set_z(get_node("Outside/background").get_z())
+			add_child(fol)
+
+	for cells in get_node("Outside/walk").get_used_cells():
+		if get_node("Outside/walk").get_cell(cells.x, cells.y) == 2:
+			var coords = get_node("Outside/walk").map_to_world(cells)
+			var fol = foliage.get_children()[round(rand_range(0, foliage.get_children().size() -1))].duplicate()
+			fol.set_global_pos(Vector2(coords.x + 10 + get_global_pos().x, coords.y + 5))
+			fol.set_z(get_node("Outside/walk").get_z())
+			add_child(fol)
+			
+#func add_foliage():
+#	for cells in get_node("Outside/top").get_used_cells():
+#		var coords = get_node("Outside/top").map_to_world(cells)
+#		var fol = foliage.get_children()[round(rand_range(0, foliage.get_children().size() -1))].duplicate()
+#		fol.set_global_pos(Vector2(coords.x + 10 + get_global_pos().x, coords.y - 10))
+#		fol.set_z(get_node("Outside/top").get_z())
+#		add_child(fol)
+#
+#	for cells in get_node("Outside/walk").get_used_cells():
+#		if get_node("Outside/walk").get_cell(cells.x, cells.y) == 2:
+#			var coords = get_node("Outside/walk").map_to_world(cells)
+#			var fol = foliage.get_children()[round(rand_range(0, foliage.get_children().size() -1))].duplicate()
+#			fol.set_global_pos(Vector2(coords.x + 10 + get_global_pos().x, coords.y + 5))
+#			fol.set_z(100)
+#			add_child(fol)
+
 func _ready():
-	for cells in get_node("top").get_used_cells():
-		var coords = get_node("top").map_to_world(cells)
-		var fol = foliage.get_children()[round(rand_range(0, foliage.get_children().size() -1))].duplicate()
-		fol.set_global_pos(Vector2(coords.x + 10 + get_global_pos().x, coords.y - 10))
-		add_child(fol)
-#		dark.show()
+#	for cells in get_node("top").get_used_cells():
+#		var coords = get_node("top").map_to_world(cells)
+#		var fol = foliage.get_children()[round(rand_range(0, foliage.get_children().size() -1))].duplicate()
+#		fol.set_global_pos(Vector2(coords.x + 10 + get_global_pos().x, coords.y - 10))
+#		fol.set_z(get_node("top").get_z())
+#		add_child(fol)
+	
+	add_foliage()
 		
 #	for cells in get_node("top").get_used_cells():
 #		var coords = get_node("top").map_to_world(cells)
@@ -83,9 +123,9 @@ func _ready():
 		report.get_node("report/report_ui").set_global_pos(Vector2(get_viewport().get_rect().size.x/2, get_viewport().get_rect().size.y - get_viewport().get_rect().size.y + 25))
 		events = map.get_node("Events")
 		enemy_faction = get_node("Enemy_faction")
-		for zones in get_node("dzones").get_children():
-			zones.init()
-			objective_list.append(zones.myself)
+#		for zones in get_node("dzones").get_children():
+#			zones.init()
+#			objective_list.append(zones.myself)
 #		world = get_parent()
 		
 		faction.side = "allies"
@@ -104,12 +144,14 @@ func _ready():
 		enemy_faction.enemynumberval = 2
 #		enemy_faction.points = 300
 #		add_child(enemy_faction)
-#		for spawn in get_node("enemy_start").get_children():
-#			var zombie = enemies.get_node("Zombie_movement").duplicate()
-#			enemy_faction.add_child(zombie)
-#			zombie.set_global_pos(spawn.get_global_pos())
-		start_survivors()
-		call_deferred("positioning", faction, get_node("dzones").get_children().front(), false)
+
+#		start_survivors()
+#		call_deferred("positioning", faction, get_node("dzones").get_children().front(), false)
+		for number in range(7):
+			var AK = guns.instance().get_node("Soldier_guns/AK47").duplicate()
+			AK.set_global_pos(get_node("gun_spawn").get_global_pos())
+			call_deferred("add_child", AK)
+			AK.call_deferred("spawn")
 		pass
 	else:
 		var seperate = 0
@@ -132,6 +174,23 @@ func _ready():
 	Global.player.level = self
 	faction.call_deferred("add_child", Global.player)
 	Global.Base = self
+	
+	
+#	for spawn in get_node("enemy_start").get_children():
+	var zombie = enemies.get_node("Zombie_movement").duplicate()
+#	zombie.set_global_pos(get_node("enemy_start/enemy_start1").get_global_pos())
+	zombie.home_zone = weakref(self)
+	zombie.zone = get_node("Area2D")
+	var spawn = get_node("spawns").get_children()[round(rand_range( 0, get_node("spawns").get_children().size()-1))]
+	zombie.call_deferred("set_global_pos", spawn.get_global_pos())
+#		zombie.set_z(spawn.get_z() - 1)
+	spawn.call_deferred("spawn", zombie)
+	enemy_faction.call_deferred("add_child", zombie)
+	zombie.start(true)
+#	zombie.call_deferred("track", Global.player.get_node("body"))
+#	zombie.call_deferred("chase")
+	enemy_number += 1
+
 func free_up(survivor):
 	survivor.get_ref().building = null
 	survivor.get_ref().job = ''

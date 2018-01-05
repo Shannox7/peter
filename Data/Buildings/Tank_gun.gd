@@ -12,7 +12,7 @@ func _ready():
 	explode_damage = int(rand_range(1, 3))
 	shrapnel = 20
 func bullettype():
-	var new_bullet = b.instance().get_node(str(type) + "/cannon_shell").duplicate()
+	var new_bullet = Global.attacks.get_node(str(type) + "/cannon_shell").duplicate()
 	new_bullet.faction = get_parent().get_parent().get_parent()
 	new_bullet.explode_damage = explode_damage
 	new_bullet.shrapnel= shrapnel

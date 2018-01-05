@@ -6,6 +6,8 @@ var time = 10
 
 var effect = null
 var effect_multiplier = 0
+
+var poison = 0
 # class member variables go here, for example:
 # var a = 2
 # var b = "textvar"

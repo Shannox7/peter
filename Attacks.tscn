@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=1]
+[gd_scene load_steps=40 format=1]
 
 [ext_resource path="res://Data/Attacks/Attacks.gd" type="Script" id=1]
 [ext_resource path="res://Data/Attacks/Shrapnel.gd" type="Script" id=2]
@@ -12,77 +12,85 @@
 [ext_resource path="res://Data/Attacks/Pellet.png" type="Texture" id=10]
 [ext_resource path="res://Data/Attacks/Lazer.gd" type="Script" id=11]
 [ext_resource path="res://Data/Attacks/Lazer.png" type="Texture" id=12]
-[ext_resource path="res://Data/Attacks/Gun_melee.gd" type="Script" id=13]
-[ext_resource path="res://Data/Attacks/CreepBlast.png" type="Texture" id=14]
-[ext_resource path="res://Data/Attacks/Bite.gd" type="Script" id=15]
-[ext_resource path="res://Data/Attacks/Bite.png" type="Texture" id=16]
-[ext_resource path="res://Data/Attacks/Unicorn_bullet.png" type="Texture" id=17]
-[ext_resource path="res://Data/Attacks/CreepBlast.gd" type="Script" id=18]
-[ext_resource path="res://Data/Attacks/tank_shell.gd" type="Script" id=19]
-[ext_resource path="res://Data/Attacks/Tank Shell.png" type="Texture" id=20]
-[ext_resource path="res://Data/Attacks/Cannon_shell.gd" type="Script" id=21]
-[ext_resource path="res://Grenade.gd" type="Script" id=22]
-[ext_resource path="res://Data/Attacks/Grenade.png" type="Texture" id=23]
-
-[sub_resource type="RectangleShape2D" id=10]
-
-custom_solver_bias = 0.0
-extents = Vector2( 2, 2 )
+[ext_resource path="res://Data/Attacks/melee.gd" type="Script" id=13]
+[ext_resource path="res://Data/Attacks/Gun_melee.gd" type="Script" id=14]
+[ext_resource path="res://Data/Attacks/CreepBlast.png" type="Texture" id=15]
+[ext_resource path="res://Data/Attacks/slice.png" type="Texture" id=16]
+[ext_resource path="res://Data/Attacks/gun_stab.gd" type="Script" id=17]
+[ext_resource path="res://Data/Attacks/Bite.gd" type="Script" id=18]
+[ext_resource path="res://Data/Attacks/Bite.png" type="Texture" id=19]
+[ext_resource path="res://Data/Attacks/Unicorn_bullet.png" type="Texture" id=20]
+[ext_resource path="res://Data/Attacks/CreepBlast.gd" type="Script" id=21]
+[ext_resource path="res://Data/Attacks/tank_shell.gd" type="Script" id=22]
+[ext_resource path="res://Data/Attacks/Tank Shell.png" type="Texture" id=23]
+[ext_resource path="res://Data/Attacks/Cannon_shell.gd" type="Script" id=24]
+[ext_resource path="res://Grenade.gd" type="Script" id=25]
+[ext_resource path="res://Data/Attacks/Grenade.png" type="Texture" id=26]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
+extents = Vector2( 2, 2 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+custom_solver_bias = 0.0
 extents = Vector2( 2, 4 )
 
-[sub_resource type="ColorRamp" id=12]
+[sub_resource type="ColorRamp" id=3]
 
 offsets = FloatArray( 0, 0.25731 )
 colors = ColorArray( 1, 1, 1, 1, 0, 0, 0, 1 )
 
-[sub_resource type="RectangleShape2D" id=11]
+[sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
 extents = Vector2( 1, 1 )
 
-[sub_resource type="ColorRamp" id=13]
+[sub_resource type="ColorRamp" id=5]
 
 offsets = FloatArray( 0, 0.333333 )
 colors = ColorArray( 1, 1, 1, 1, 0, 0, 0, 1 )
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=6]
 
 custom_solver_bias = 0.0
 radius = 2.0
 
-[sub_resource type="CapsuleShape2D" id=5]
+[sub_resource type="CapsuleShape2D" id=7]
 
 custom_solver_bias = 0.0
 radius = 4.0
 height = 2.0
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="ColorRamp" id=8]
+
+offsets = FloatArray( 0, 0.923977 )
+colors = ColorArray( 0.398438, 0.398438, 0.398438, 1, 0, 0, 0, 1 )
+
+[sub_resource type="RectangleShape2D" id=9]
 
 custom_solver_bias = 0.0
-extents = Vector2( 5, 5 )
+extents = Vector2( 7, 10 )
 
-[sub_resource type="CapsuleShape2D" id=4]
+[sub_resource type="CapsuleShape2D" id=10]
 
 custom_solver_bias = 0.0
 radius = 2.42497
 height = 3.50464
 
-[sub_resource type="CircleShape2D" id=6]
+[sub_resource type="CircleShape2D" id=11]
 
 custom_solver_bias = 0.0
 radius = 5.09902
 
-[sub_resource type="CapsuleShape2D" id=8]
+[sub_resource type="CapsuleShape2D" id=12]
 
 custom_solver_bias = 0.0
 radius = 3.0
 height = 9.96793
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=13]
 
 custom_solver_bias = 0.0
 radius = 5.0
@@ -100,9 +108,10 @@ script/script = ExtResource( 1 )
 ]]
 
 editor/display_folded = true
+visibility/visible = false
 z/z = 1
 input/pickable = false
-shapes/0/shape = SubResource( 10 )
+shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 2, 2 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -119,7 +128,7 @@ texture = ExtResource( 3 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shrapnel"]
 
 transform/pos = Vector2( 2, 2 )
-shape = SubResource( 10 )
+shape = SubResource( 1 )
 trigger = false
 _update_shape_index = 0
 
@@ -129,11 +138,10 @@ _update_shape_index = 0
 "bullets",
 ]]
 
-editor/display_folded = true
 z/z = -1
 input/pickable = false
-shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 4, 2 )
+shapes/0/shape = SubResource( 2 )
+shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 4, 0 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 524288
@@ -142,14 +150,15 @@ script/script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="bullet/basic"]
 
+transform/pos = Vector2( 0, -2 )
 texture = ExtResource( 5 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bullet/basic"]
 
-transform/pos = Vector2( 4, 2 )
+transform/pos = Vector2( 4, 0 )
 transform/rot = 90.0
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 trigger = false
 _update_shape_index = 0
 
@@ -158,6 +167,7 @@ _update_shape_index = 0
 ]]
 
 editor/display_folded = true
+visibility/visible = false
 z/z = -1
 input/pickable = false
 collision/layers = 0
@@ -198,13 +208,13 @@ params/anim_speed_scale = 1.0
 params/anim_initial_pos = 0.0
 randomness/spread = 1.0
 randomness/linear_velocity = 1.0
-color/color_ramp = SubResource( 12 )
+color/color_ramp = SubResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="bullet/splash"]
 
 editor/display_folded = true
 input/pickable = true
-shapes/0/shape = SubResource( 11 )
+shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
@@ -217,7 +227,7 @@ collision/mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bullet/splash/Area2D"]
 
 transform/rot = 90.0
-shape = SubResource( 11 )
+shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
 
@@ -233,21 +243,24 @@ type_mask = 15
 ]]
 
 editor/display_folded = true
+visibility/visible = false
 z/z = -1
 input/pickable = false
 collision/layers = 0
-collision/mask = 524288
+collision/mask = 0
 collision/margin = 0.08
 script/script = ExtResource( 7 )
 
 [node name="Particles2D" type="Particles2D" parent="bullet/direct"]
 
-config/amount = 1000
+visibility/visible = false
+config/amount = 10
 config/lifetime = 2.0
 config/time_scale = 5.0
 config/emit_timeout = 1.0
 config/emitting = false
 config/process_mode = 1
+config/half_extents = Vector2( 30, 0 )
 config/local_space = false
 config/explosiveness = 0.01
 params/direction = -90.0
@@ -255,26 +268,24 @@ params/spread = 0.0
 params/linear_velocity = 0.0
 params/spin_velocity = 0.0
 params/orbit_velocity = 0.0
-params/gravity_direction = 360.0
-params/gravity_strength = 1.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
 params/radial_accel = 0.0
 params/tangential_accel = 0.0
 params/damping = 0.0
 params/initial_angle = 0.0
-params/initial_size = 3.0
-params/final_size = 2.0
+params/initial_size = 5.0
+params/final_size = 0.0
 params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
+params/anim_speed_scale = 0.0
 params/anim_initial_pos = 0.0
 randomness/gravity_direction = 1.0
-randomness/final_size = 1.0
 color/color = Color( 0.746094, 0.746094, 0.746094, 1 )
-color/color_ramp = SubResource( 13 )
+color/color_ramp = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="bullet/direct"]
 
-visibility/visible = false
-transform/scale = Vector2( 1, 3 )
+transform/scale = Vector2( 1, 4 )
 texture = ExtResource( 8 )
 centered = false
 
@@ -282,17 +293,18 @@ centered = false
 
 enabled = true
 cast_to = Vector2( 0, 0 )
-layer_mask = 524292
-type_mask = 15
+layer_mask = 524288
+type_mask = 3
 
 [node name="split" type="KinematicBody2D" parent="bullet" groups=[
 "bullets",
 ]]
 
 editor/display_folded = true
+visibility/visible = false
 z/z = -1
 input/pickable = false
-shapes/0/shape = SubResource( 3 )
+shapes/0/shape = SubResource( 6 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 2, 2 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -305,29 +317,24 @@ script/script = ExtResource( 9 )
 texture = ExtResource( 10 )
 centered = false
 
-[node name="Distance" type="Timer" parent="bullet/split"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="bullet/split"]
 
 transform/pos = Vector2( 2, 2 )
-shape = SubResource( 3 )
+shape = SubResource( 6 )
 trigger = false
 _update_shape_index = 0
 
 [node name="lazer" type="Node2D" parent="."]
 
+editor/display_folded = true
+visibility/visible = false
+
 [node name="basic" type="KinematicBody2D" parent="lazer" groups=[
 "bullets",
 ]]
 
-editor/display_folded = true
 input/pickable = false
-shapes/0/shape = SubResource( 5 )
+shapes/0/shape = SubResource( 7 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 6, 5 )
 shapes/0/trigger = false
 collision/layers = 0
@@ -344,15 +351,24 @@ centered = false
 
 transform/pos = Vector2( 6, 5 )
 transform/rot = 90.0
-shape = SubResource( 5 )
+shape = SubResource( 7 )
 trigger = false
 _update_shape_index = 0
 
 [node name="energy" type="Node2D" parent="."]
 
-[node name="melee" type="Node2D" parent="."]
+visibility/visible = false
+
+[node name="melee" type="RayCast2D" parent="."]
 
 editor/display_folded = true
+visibility/visible = false
+z/z = 20
+enabled = false
+cast_to = Vector2( 0, 50 )
+layer_mask = 1
+type_mask = 15
+script/script = ExtResource( 13 )
 
 [node name="Gun_melee" type="RayCast2D" parent="melee"]
 
@@ -362,12 +378,90 @@ enabled = true
 cast_to = Vector2( 40, 0 )
 layer_mask = 0
 type_mask = 3
-script/script = ExtResource( 13 )
+script/script = ExtResource( 14 )
 
 [node name="Sprite" type="Sprite" parent="melee/Gun_melee"]
 
+visibility/visible = false
 transform/pos = Vector2( 43, 0 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
+
+[node name="Particles2D" type="Particles2D" parent="melee/Gun_melee"]
+
+visibility/self_opacity = 0.1
+transform/pos = Vector2( 31, -12 )
+config/amount = 50
+config/lifetime = 1.0
+config/emit_timeout = 1.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/explosiveness = 0.25
+config/texture = ExtResource( 16 )
+params/direction = 0.0
+params/spread = 10.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 5.0
+params/final_size = 0.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color_ramp = SubResource( 8 )
+
+[node name="Gun_stab" type="RayCast2D" parent="melee"]
+
+editor/display_folded = true
+z/z = -1
+enabled = true
+cast_to = Vector2( 40, 0 )
+layer_mask = 0
+type_mask = 3
+script/script = ExtResource( 17 )
+
+[node name="Sprite" type="Sprite" parent="melee/Gun_stab"]
+
+visibility/visible = false
+transform/pos = Vector2( 43, 0 )
+texture = ExtResource( 15 )
+
+[node name="Particles2D" type="Particles2D" parent="melee/Gun_stab"]
+
+visibility/self_opacity = 0.1
+transform/pos = Vector2( 44, 0 )
+config/amount = 50
+config/lifetime = 1.0
+config/time_scale = 2.0
+config/emit_timeout = 1.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/explosiveness = 0.25
+config/texture = ExtResource( 16 )
+params/direction = 90.0
+params/spread = 0.0
+params/linear_velocity = -35.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = -90.0
+params/initial_size = 1.0
+params/final_size = 2.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color_ramp = SubResource( 8 )
 
 [node name="Bite" type="KinematicBody2D" parent="melee" groups=[
 "bullets",
@@ -375,23 +469,23 @@ texture = ExtResource( 14 )
 
 editor/display_folded = true
 input/pickable = false
-shapes/0/shape = SubResource( 7 )
+shapes/0/shape = SubResource( 9 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 0
 collision/margin = 0.08
-script/script = ExtResource( 15 )
+script/script = ExtResource( 18 )
 
 [node name="Sprite" type="Sprite" parent="melee/Bite"]
 
 transform/pos = Vector2( -3, -5 )
-texture = ExtResource( 16 )
+texture = ExtResource( 19 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="melee/Bite"]
 
-shape = SubResource( 7 )
+shape = SubResource( 9 )
 trigger = false
 _update_shape_index = 0
 
@@ -400,8 +494,9 @@ _update_shape_index = 0
 ]]
 
 editor/display_folded = true
+visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 4 )
+shapes/0/shape = SubResource( 10 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 0, 0 )
 shapes/0/trigger = true
 collision/layers = 524288
@@ -411,132 +506,135 @@ script/script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Unicorn"]
 
-texture = ExtResource( 17 )
+texture = ExtResource( 20 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Unicorn"]
 
 transform/rot = 90.0
-shape = SubResource( 4 )
+shape = SubResource( 10 )
 trigger = true
 _update_shape_index = 0
-
-[node name="Distance" type="Timer" parent="Unicorn"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = true
-autostart = false
 
 [node name="CreepBlast" type="KinematicBody2D" parent="."]
 
 editor/display_folded = true
+visibility/visible = false
 input/pickable = false
-shapes/0/shape = SubResource( 6 )
+shapes/0/shape = SubResource( 11 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 0
 collision/margin = 0.08
-script/script = ExtResource( 18 )
+script/script = ExtResource( 21 )
 ATTACKSPEED = 60
 
 [node name="Sprite" type="Sprite" parent="CreepBlast"]
 
-texture = ExtResource( 14 )
-
-[node name="Range" type="Timer" parent="CreepBlast"]
-
-process_mode = 1
-wait_time = 1.0
-one_shot = false
-autostart = false
+texture = ExtResource( 15 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CreepBlast"]
 
-shape = SubResource( 6 )
+shape = SubResource( 11 )
 trigger = false
 _update_shape_index = 0
 
 [node name="vehicle" type="Node2D" parent="."]
 
 editor/display_folded = true
+visibility/visible = false
 
 [node name="Tank_bullet" type="KinematicBody2D" parent="vehicle"]
 
 editor/display_folded = true
 input/pickable = false
-shapes/0/shape = SubResource( 8 )
+shapes/0/shape = SubResource( 12 )
 shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 8, 3 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 524288
-collision/margin = 0.08
-script/script = ExtResource( 19 )
-
-[node name="Sprite" type="Sprite" parent="vehicle/Tank_bullet"]
-
-texture = ExtResource( 20 )
-centered = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="vehicle/Tank_bullet"]
-
-transform/pos = Vector2( 8, 3 )
-transform/rot = 90.0
-shape = SubResource( 8 )
-trigger = false
-_update_shape_index = 0
-
-[node name="cannon_shell" type="KinematicBody2D" parent="vehicle"]
-
-editor/display_folded = true
-input/pickable = false
-shapes/0/shape = SubResource( 8 )
-shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 8, 3 )
-shapes/0/trigger = false
-collision/layers = 0
-collision/mask = 524288
-collision/margin = 0.08
-script/script = ExtResource( 21 )
-
-[node name="Sprite" type="Sprite" parent="vehicle/cannon_shell"]
-
-texture = ExtResource( 20 )
-centered = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="vehicle/cannon_shell"]
-
-transform/pos = Vector2( 8, 3 )
-transform/rot = 90.0
-shape = SubResource( 8 )
-trigger = false
-_update_shape_index = 0
-
-[node name="special" type="Node2D" parent="."]
-
-editor/display_folded = true
-
-[node name="Grenade" type="KinematicBody2D" parent="special"]
-
-editor/display_folded = true
-input/pickable = false
-shapes/0/shape = SubResource( 9 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 collision/layers = 0
 collision/mask = 524288
 collision/margin = 0.08
 script/script = ExtResource( 22 )
 
-[node name="Sprite" type="Sprite" parent="special/Grenade"]
+[node name="Sprite" type="Sprite" parent="vehicle/Tank_bullet"]
 
 texture = ExtResource( 23 )
+centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="special/Grenade"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="vehicle/Tank_bullet"]
 
-shape = SubResource( 9 )
+transform/pos = Vector2( 8, 3 )
+transform/rot = 90.0
+shape = SubResource( 12 )
 trigger = false
 _update_shape_index = 0
 
+[node name="Area2D" type="Area2D" parent="vehicle/Tank_bullet"]
+
+input/pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="cannon_shell" type="KinematicBody2D" parent="vehicle"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 12 )
+shapes/0/transform = Matrix32( -4.37114e-08, -1, 1, -4.37114e-08, 8, 3 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 524288
+collision/margin = 0.08
+script/script = ExtResource( 24 )
+
+[node name="Sprite" type="Sprite" parent="vehicle/cannon_shell"]
+
+texture = ExtResource( 23 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="vehicle/cannon_shell"]
+
+transform/pos = Vector2( 8, 3 )
+transform/rot = 90.0
+shape = SubResource( 12 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Area2D" type="Area2D" parent="vehicle/cannon_shell"]
+
+input/pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="special" type="Node2D" parent="."]
+
+visibility/visible = false
+
+[node name="Grenade" type="KinematicBody2D" parent="special"]
+
+editor/display_folded = true
+input/pickable = false
+shapes/0/shape = SubResource( 13 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 0
+collision/mask = 524288
+collision/margin = 0.08
+script/script = ExtResource( 25 )
+
+[node name="Sprite" type="Sprite" parent="special/Grenade"]
+
+texture = ExtResource( 26 )
+
 [node name="Blow_up" type="Position2D" parent="special/Grenade"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="special/Grenade"]
+
+shape = SubResource( 13 )
+trigger = false
+_update_shape_index = 0
 
 

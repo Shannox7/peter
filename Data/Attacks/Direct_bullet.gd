@@ -14,6 +14,7 @@ func _ready():
 	ray.set_scale(Vector2(1 * flip_mod , 1))
 	target = Vector2(get_node("RayCast2D").get_cast_to().x, 0)
 	velocity = Vector2(0,0)
+	ray.set_layer_mask(get_collision_mask())
 func effect(collider, hit):
 	var random = round(rand_range(0, 100))
 	if hit:
@@ -58,20 +59,20 @@ func colliding(collider):
 	if collider.is_colliding():
 		target = Vector2(get_global_pos().distance_to(get_node("RayCast2D").get_collision_point()),0 )
 		get_node("Sprite").set_scale(Vector2(get_global_pos().distance_to(get_node("RayCast2D").get_collision_point()) * flip_mod, 1))
-		if collider.get_collider().is_in_group("inanimate"):
-			effect("no_hit", false)
-		else:
-			if flip_mod == -1:
-				flip_effect = true
+		if collider.get_collider() != null:
+			if collider.get_collider().is_in_group("inanimate"):
+				effect("no_hit", false)
 			else:
-				flip_effect = false
-			if collider.get_collider().has_method("hit"):
-				effect(collider.get_collider(), true)
-			else:
-				effect(collider.get_collider().get_parent(), true)
+				if flip_mod == -1:
+					flip_effect = true
+				else:
+					flip_effect = false
+				if collider.get_collider().has_method("hit"):
+					effect(collider.get_collider(), true)
+				else:
+					effect(collider.get_collider().get_parent(), true)
 	else:
 		var target = get_node("RayCast2D").get_cast_to()
-	print(target)
 	get_node("Sprite").set_scale(Vector2(target.x * flip_mod, get_scale().y))
 	get_node("Particles2D").set_emissor_offset(Vector2(target.x/2 * flip_mod, 0))
 	get_node("Particles2D").set_emission_half_extents((Vector2(target.x/2 * flip_mod, 0)))

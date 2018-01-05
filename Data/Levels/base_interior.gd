@@ -11,6 +11,7 @@ func _ready():
 	Global.player.get_node("Camera2D").set_limit(0, -1000000)
 	Global.player.faction = faction
 	Global.player.level = self
+	Global.player.in_building = true
 	faction.add_child(Global.player)
 	Global.player.set_global_pos(get_node("player_pos").get_global_pos())
 	if loaded == false:

@@ -17,6 +17,7 @@ var effect_multiplier = 1
 
 func bullet(bullet):
 	var fire = get_node("Particles2D").duplicate()
+#	fire.set_emitting(true)
 	bullet.add_child(fire)
 	bullet.effect = effect
 	bullet.effect_multiplier = effect_multiplier

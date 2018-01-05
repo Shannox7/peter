@@ -1,0 +1,110 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://crafting.gd" type="Script" id=1]
+[ext_resource path="res://Data/Deployables/deployable box.png" type="Texture" id=2]
+[ext_resource path="res://Data/Deployables/deployable box center.png" type="Texture" id=3]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="Craft" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 40.0
+margin/bottom = 40.0
+script/script = ExtResource( 1 )
+
+[node name="lists" type="Node2D" parent="Craft"]
+
+[node name="result" type="Sprite" parent="Craft"]
+
+editor/display_folded = true
+transform/pos = Vector2( 50, 50 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Label" type="Label" parent="Craft/result"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 30.0
+margin/top = 0.0
+margin/right = 70.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="boxes" type="Sprite" parent="Craft"]
+
+editor/display_folded = true
+transform/pos = Vector2( 20, 20 )
+
+[node name="box0" type="Sprite" parent="Craft/boxes"]
+
+transform/pos = Vector2( -10, -10 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="box1" type="Sprite" parent="Craft/boxes"]
+
+transform/pos = Vector2( 30, -10 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="box2" type="Sprite" parent="Craft/boxes"]
+
+transform/pos = Vector2( 70, -10 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="selector" type="Sprite" parent="Craft"]
+
+transform/pos = Vector2( 10, 10 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="item_label" type="Label" parent="Craft"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 80.0
+margin/right = 40.0
+margin/bottom = 94.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Label" type="Label" parent="Craft"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 70.0
+margin/top = 100.0
+margin/right = 110.0
+margin/bottom = 114.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="display_pos" type="Position2D" parent="Craft"]
+
+transform/pos = Vector2( 80, 90 )
+
+

@@ -19,12 +19,13 @@ func health():
 
 
 func _ready():
+	Global.gen.generate_character(self, false)
 	faction.get_parent()
 	level = get_parent().get_parent()
 	side()
 	if not spawned:
-		WALK_SPEED_TOTAL = 150.0
-		WALK_SPEED = 150.0
+		WALK_SPEED_TOTAL = 100.0
+		WALK_SPEED = 100.0
 		survivor_creator()
 		spawned = true
 		myself = weakref(self)
@@ -37,19 +38,18 @@ func _ready():
 		fire_ready.set_wait_time(.5)
 		fire_ready.connect("timeout", self, "fireready")
 		get_node("hit_timer").connect("timeout", self, "original_colour")
-		animNode = get_node("body/legs")
+#		animNode = get_node("body/legs")
 		armanimNode = get_node("AnimationPlayer") 
 
 		arm_r = get_node("body/arm_r")
 		arm_l = get_node("body/arm_l")
 		head = get_node("body/head")
-#		torso = get_node("body/torso")
-		leg_l= get_node("body/leg_l")
-		leg_r= get_node("body/leg_r")
-		legs = get_node("body/legs")
-		waist = get_node("body/waist")
+		upper_body = get_node("body/upper_body")
+		leg_l= get_node("body/lower_body/leg_l")
+		leg_r= get_node("body/lower_body/leg_r")
+		lower_body = get_node("body/lower_body")
+#		waist = get_node("body/waist")
 		
-		head = get_node("body/head")
 		jump_over = get_node("body/jump_over")
 		jump_l = get_node("jump_l")
 		jump_r = get_node("jump_r")

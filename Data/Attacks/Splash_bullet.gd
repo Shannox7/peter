@@ -66,7 +66,7 @@ func fade(delta):
 	
 func colliding():
 	for collider in get_node("Area2D").get_overlapping_bodies():
-		if collider.is_in_group("inanimate"):
+		if collider.is_in_group("inanimate") or collider.is_in_group("critical"):
 			effect("no_hit", false)
 		else:
 			if flip_mod == -1:

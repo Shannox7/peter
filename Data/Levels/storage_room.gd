@@ -1,6 +1,9 @@
 extends "res://Zones.gd"
-
+var size = "small"
+var type = "grocery"
+var level
 func _ready():
+	level = self
 	Global = get_node("/root/Global")
 	enemy_faction = get_node("Enemy_faction")
 	faction = get_node("Faction")
@@ -17,19 +20,19 @@ func _ready():
 #		for zones in get_node("dzones").get_children():
 #			zones.init()
 #			objective_list.append(zones.myself)
-
-		for spawn in get_node("enemy_start").get_children():
-			var zombie = enemies.get_node("Zombie_movement").duplicate()
-			enemy_faction.add_child(zombie)
-			zombie.set_global_pos(spawn.get_global_pos())
-		
-		for spawn in get_node("Area2D/resource_spawns").get_children():
-			var random = round(rand_range(0, 1))
-			print(random)
-			if random == 1:
-				var res = resource.get_node("food").duplicate()
-				res.set_global_pos(spawn.get_global_pos())
-				add_child(res)
+		reinforce()
+#		for spawn in get_node("enemy_start").get_children():
+#			var zombie = enemies.get_node("Zombie_movement").duplicate()
+#			enemy_faction.add_child(zombie)
+#			zombie.set_global_pos(spawn.get_global_pos())
+#		
+#		for spawn in get_node("Area2D/resource_spawns").get_children():
+#			var random = round(rand_range(0, 1))
+#			print(random)
+#			if random == 1:
+#				var res = resource.get_node("food").duplicate()
+#				res.set_global_pos(spawn.get_global_pos())
+#				add_child(res)
 #		for survivor in Global.party:
 #			if survivor == null:
 #				pass

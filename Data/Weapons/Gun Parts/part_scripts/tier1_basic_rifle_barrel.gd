@@ -1,14 +1,14 @@
 extends "res://Data/Weapons/Gun Parts/Barrel/Barrel.gd"
 
 var name = "Basic Barrel"
-var accuracy = rand_range(-.1, - .15 )
-var distance = .3
-var stopping_power = rand_range(0.1, 0.2)
+var accuracy = -.6
+var distance = .1
+var stopping_power = 1
 var stats
 # extra
 var damage = 0
 var reload_speed = 0
-var fire_rate = 0
+var fire_rate = -.6
 var clip_capacity = 0
 var fullauto
 var barrel_size = 5
@@ -18,9 +18,11 @@ func equip(gun):
 	gun.accuracy += accuracy
 	gun.damage += damage
 	gun.fire_rate += fire_rate
+	gun.stopping_power + stopping_power
 
 func bullet(bullet):
-	pass
+	return bullet
+#	pass
 #	var new_bullet =  attacks.get_node(str(get_parent().get_parent().type) + "/direct").duplicate()
 #	new_bullet.get_node("RayCast2D").set_layer_mask(get_parent().get_parent().get_parent().get_parent().get_parent().faction.enemynumberval)
 #	bullet.distance += distance

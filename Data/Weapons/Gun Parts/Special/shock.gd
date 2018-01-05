@@ -17,13 +17,20 @@ var effect_multiplier = 1
 
 func bullet(bullet):
 	var shock = get_node("Particles2D").duplicate()
+#	shock.set_emitting(true)
 	bullet.add_child(shock)
 	bullet.effect = effect
 	bullet.effect_multiplier = effect_multiplier
 	bullet.visual_effect = shock
 	bullet.shock()
 	return bullet
-	
+
+func equip(gun):
+	gun.effect = effect
+	gun.effect_multiplier = effect_multiplier
+#	gun.visual_effect = shock
+	pass
+
 func _ready():
 	stats = [fa]
 	# Called every time the node is added to the scene.

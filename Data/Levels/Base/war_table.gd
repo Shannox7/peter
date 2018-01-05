@@ -25,10 +25,7 @@ func stop_interact(collider):
 	selfy = null
 func _input(event):
 	if event.is_action_pressed("interact"):
-		if get_parent().dusk:
-			get_parent().night()
-		elif Global.player.building != null:
-			get_parent().day()
+		Global.generate_area("City")
 
 
 #		display map

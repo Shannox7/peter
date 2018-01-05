@@ -10,8 +10,6 @@
 
 [node name="foliage" type="Node2D"]
 
-editor/display_folded = true
-
 [node name="Sprite" type="Sprite" parent="."]
 
 texture = ExtResource( 1 )

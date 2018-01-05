@@ -35,12 +35,13 @@ extents = Vector2( 11, 6 )
 
 [node name="body" type="Node2D" parent="Tier_1"]
 
+editor/display_folded = true
+
 [node name="flakjacket" type="KinematicBody2D" parent="Tier_1/body" groups=[
 "body",
-"armour",
+"Armour",
 ]]
 
-editor/display_folded = true
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
@@ -99,7 +100,7 @@ max_lines_visible = -1
 
 [node name="combathelmet" type="KinematicBody2D" parent="Tier_1/head" groups=[
 "head",
-"armour",
+"Armour",
 ]]
 
 editor/display_folded = true

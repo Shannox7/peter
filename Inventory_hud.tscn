@@ -1,21 +1,19 @@
 [gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://Data/Hud_scripts/inventory.gd" type="Script" id=1]
-[ext_resource path="res://Data/Hud_scripts/Inventory/inventory.png" type="Texture" id=2]
-[ext_resource path="res://Data/Deployables/deployable box center.png" type="Texture" id=3]
-[ext_resource path="res://Data/Deployables/deployable box.png" type="Texture" id=4]
+[ext_resource path="res://Data/Hud_scripts/Inventory/tablet.png" type="Texture" id=2]
+[ext_resource path="res://Data/Hud_scripts/theme.tres" type="Theme" id=3]
+[ext_resource path="res://Data/Hud_scripts/Inventory/tablet_crystal.png" type="Texture" id=4]
 
 [node name="Inventory_hud" type="CanvasLayer"]
 
-layer = 1
+layer = 100
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
 [node name="inventory" type="Control" parent="."]
 
-editor/display_folded = true
-visibility/opacity = 0.75
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -29,462 +27,83 @@ script/script = ExtResource( 1 )
 [node name="Sprite" type="Sprite" parent="inventory"]
 
 texture = ExtResource( 2 )
+centered = false
 
-[node name="select" type="Sprite" parent="inventory"]
+[node name="list" type="ItemList" parent="inventory"]
 
-visibility/opacity = 0.0
-transform/pos = Vector2( 125, -100 )
-transform/scale = Vector2( 10, 1.5 )
-texture = ExtResource( 3 )
-
-[node name="select1" type="Sprite" parent="inventory"]
-
-visibility/opacity = 0.0
-transform/pos = Vector2( 125, -50 )
-transform/scale = Vector2( 10, 1.5 )
-texture = ExtResource( 3 )
-
-[node name="select2" type="Sprite" parent="inventory"]
-
-visibility/opacity = 0.0
-transform/pos = Vector2( 125, 0 )
-transform/scale = Vector2( 10, 1.5 )
-texture = ExtResource( 3 )
-
-[node name="select3" type="Sprite" parent="inventory"]
-
-visibility/opacity = 0.0
-transform/pos = Vector2( 125, 50 )
-transform/scale = Vector2( 10, 1.5 )
-texture = ExtResource( 3 )
-
-[node name="select4" type="Sprite" parent="inventory"]
-
-visibility/opacity = 0.0
-transform/pos = Vector2( 125, 100 )
-transform/scale = Vector2( 10, 1.5 )
-texture = ExtResource( 3 )
-
-[node name="list" type="RichTextLabel" parent="inventory"]
-
+visibility/opacity = 0.8
 focus/ignore_mouse = true
 focus/stop_mouse = true
-size_flags/horizontal = 2
+size_flags/horizontal = 0
 size_flags/vertical = 0
-margin/left = -220.0
-margin/top = -100.0
-margin/right = -120.0
-margin/bottom = 100.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="Label" type="RichTextLabel" parent="inventory"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -120.0
-margin/top = -50.0
-margin/right = -20.0
-margin/bottom = 100.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="Label1" type="RichTextLabel" parent="inventory"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 20.0
-margin/top = -50.0
-margin/right = 120.0
-margin/bottom = 100.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="Label2" type="RichTextLabel" parent="inventory"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 120.0
-margin/top = -50.0
-margin/right = 220.0
-margin/bottom = 100.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
+theme/theme = ExtResource( 3 )
+margin/left = 10.0
+margin/top = 32.0
+margin/right = 140.0
+margin/bottom = 242.0
 
 [node name="display_pos" type="Position2D" parent="inventory"]
 
-transform/pos = Vector2( -70, -75 )
+transform/pos = Vector2( 150, 0 )
 
 [node name="display_pos1" type="Position2D" parent="inventory"]
 
-transform/pos = Vector2( 70, -75 )
+transform/pos = Vector2( 0, 265 )
 
 [node name="display_pos2" type="Position2D" parent="inventory"]
 
-transform/pos = Vector2( 170, -75 )
+transform/pos = Vector2( 150, 265 )
 
-[node name="boxes" type="Sprite" parent="inventory"]
+[node name="title" type="Label" parent="inventory"]
 
-editor/display_folded = true
-visibility/opacity = 0.0
-transform/pos = Vector2( 122, 1 )
-transform/scale = Vector2( 2, 2 )
-
-[node name="box1" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( -24, 0 )
-texture = ExtResource( 4 )
-
-[node name="box2" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( -24, -24 )
-texture = ExtResource( 4 )
-
-[node name="box3" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( 0, -24 )
-texture = ExtResource( 4 )
-
-[node name="box4" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( 24, -24 )
-texture = ExtResource( 4 )
-
-[node name="box5" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( 24, 0 )
-texture = ExtResource( 4 )
-
-[node name="box6" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( 24, 24 )
-texture = ExtResource( 4 )
-
-[node name="box7" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( 0, 24 )
-texture = ExtResource( 4 )
-
-[node name="box8" type="Sprite" parent="inventory/boxes"]
-
-transform/pos = Vector2( -24, 24 )
-texture = ExtResource( 4 )
-
-[node name="box9" type="Sprite" parent="inventory/boxes"]
-
-texture = ExtResource( 3 )
-
-[node name="modding" type="Control" parent="inventory"]
-
-editor/display_folded = true
-focus/ignore_mouse = false
+focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
-size_flags/vertical = 2
+size_flags/vertical = 0
+margin/left = 5.0
+margin/top = 17.0
+margin/right = 145.0
+margin/bottom = 32.0
+custom_colors/font_color = Color( 0, 0.319061, 0.996094, 1 )
+align = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="equipped1" type="Label" parent="inventory"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
 margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 40.0
-
-[node name="body" type="Position2D" parent="inventory/modding"]
-
-editor/display_folded = true
-transform/pos = Vector2( 25, -100 )
-
-[node name="body_label" type="RichTextLabel" parent="inventory/modding/body"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -20.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="name" type="Label" parent="inventory/modding/body"]
-
-visibility/opacity = 0.0
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -20.0
-margin/top = 5.0
-margin/right = 20.0
-margin/bottom = 19.0
+margin/top = 252.0
+margin/right = 150.0
+margin/bottom = 266.0
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="clip" type="Position2D" parent="inventory/modding"]
-
-editor/display_folded = true
-transform/pos = Vector2( 25, -50 )
-
-[node name="clip_label" type="RichTextLabel" parent="inventory/modding/clip"]
+[node name="equipped2" type="Label" parent="inventory"]
 
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -20.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="name" type="Label" parent="inventory/modding/clip"]
-
-visibility/opacity = 0.0
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -20.0
-margin/top = 5.0
-margin/right = 20.0
-margin/bottom = 19.0
+margin/left = 150.0
+margin/top = 251.0
+margin/right = 300.0
+margin/bottom = 265.0
+align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="special" type="Position2D" parent="inventory/modding"]
+[node name="animate_crystal" type="Sprite" parent="inventory"]
 
-editor/display_folded = true
-transform/pos = Vector2( 25, 0 )
-
-[node name="special_label" type="RichTextLabel" parent="inventory/modding/special"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -20.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="name" type="Label" parent="inventory/modding/special"]
-
-visibility/opacity = 0.0
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -20.0
-margin/top = 5.0
-margin/right = 20.0
-margin/bottom = 19.0
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="sight" type="Position2D" parent="inventory/modding"]
-
-editor/display_folded = true
-transform/pos = Vector2( 25, 50 )
-
-[node name="sight_label" type="RichTextLabel" parent="inventory/modding/sight"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -20.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="name" type="Label" parent="inventory/modding/sight"]
-
-visibility/opacity = 0.0
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -20.0
-margin/top = 5.0
-margin/right = 20.0
-margin/bottom = 19.0
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="barrel" type="Position2D" parent="inventory/modding"]
-
-editor/display_folded = true
-transform/pos = Vector2( 25, 100 )
-
-[node name="barrel_label" type="RichTextLabel" parent="inventory/modding/barrel"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -20.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="name" type="Label" parent="inventory/modding/barrel"]
-
-visibility/opacity = 0.0
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = -20.0
-margin/top = 5.0
-margin/right = 20.0
-margin/bottom = 19.0
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="mod_with" type="Control" parent="inventory"]
-
-editor/display_folded = true
-focus/ignore_mouse = false
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 2
-margin/left = 0.0
-margin/top = 0.0
-margin/right = 40.0
-margin/bottom = 40.0
-
-[node name="body" type="Position2D" parent="inventory/mod_with"]
-
-editor/display_folded = true
-transform/pos = Vector2( 150, -100 )
-
-[node name="body_label" type="RichTextLabel" parent="inventory/mod_with/body"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -25.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="clip" type="Position2D" parent="inventory/mod_with"]
-
-editor/display_folded = true
-transform/pos = Vector2( 150, -50 )
-
-[node name="clip_label" type="RichTextLabel" parent="inventory/mod_with/clip"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -25.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="special" type="Position2D" parent="inventory/mod_with"]
-
-editor/display_folded = true
-transform/pos = Vector2( 150, 0 )
-
-[node name="special_label" type="RichTextLabel" parent="inventory/mod_with/special"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -25.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="sight" type="Position2D" parent="inventory/mod_with"]
-
-editor/display_folded = true
-transform/pos = Vector2( 150, 50 )
-
-[node name="sight_label" type="RichTextLabel" parent="inventory/mod_with/sight"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -25.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
-
-[node name="barrel" type="Position2D" parent="inventory/mod_with"]
-
-editor/display_folded = true
-transform/pos = Vector2( 150, 100 )
-
-[node name="barrel_label" type="RichTextLabel" parent="inventory/mod_with/barrel"]
-
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-size_flags/vertical = 0
-margin/left = 25.0
-margin/top = -25.0
-margin/right = 100.0
-margin/bottom = 25.0
-custom_colors/default_color = Color( 0, 0, 0, 1 )
-bbcode/enabled = false
-bbcode/bbcode = ""
-visible_characters = -1
+transform/pos = Vector2( 72, 10 )
+texture = ExtResource( 4 )
+centered = false
 
 

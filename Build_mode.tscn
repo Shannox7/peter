@@ -130,6 +130,7 @@ margin/bottom = 150.0
 bbcode/enabled = false
 bbcode/bbcode = ""
 visible_characters = -1
+percent_visible = 1.0
 
 [node name="weapon" type="Control" parent="description"]
 
@@ -294,6 +295,7 @@ margin/bottom = 150.0
 bbcode/enabled = false
 bbcode/bbcode = ""
 visible_characters = -1
+percent_visible = 1.0
 
 [node name="supply_run_description" type="Control" parent="."]
 
@@ -321,6 +323,7 @@ margin/bottom = 150.0
 bbcode/enabled = false
 bbcode/bbcode = ""
 visible_characters = -1
+percent_visible = 1.0
 
 [node name="upgrade_description" type="Control" parent="."]
 
@@ -348,6 +351,7 @@ margin/bottom = 150.0
 bbcode/enabled = false
 bbcode/bbcode = ""
 visible_characters = -1
+percent_visible = 1.0
 
 [node name="build_upgrade" type="CanvasLayer" parent="."]
 

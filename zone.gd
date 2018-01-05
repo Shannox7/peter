@@ -18,3 +18,6 @@ func size():
 
 func zone(collider):
 	collider.get_parent().zone = self
+	if collider.get_parent().is_in_group("players"):
+		get_parent().get_parent().call_deferred("reinforce", get_parent())
+		collider.get_parent().zone()

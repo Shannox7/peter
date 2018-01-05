@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=1]
+[gd_scene load_steps=83 format=1]
 
 [ext_resource path="res://Data/Buildings/Tank.gd" type="Script" id=1]
 [ext_resource path="res://Data/Player/Melee.tres" type="Animation" id=2]
@@ -23,34 +23,33 @@
 [ext_resource path="res://Data/NPC/Army/Airplane.gd" type="Script" id=21]
 [ext_resource path="res://Data/Buildings/Plane.png" type="Texture" id=22]
 [ext_resource path="res://Data/Player/Engineer_movement.gd" type="Script" id=23]
-[ext_resource path="res://Data/Player/Run_R2.png" type="Texture" id=24]
-[ext_resource path="res://Data/Player/Idle_R.png" type="Texture" id=25]
-[ext_resource path="res://Data/Player/Run_R1.png" type="Texture" id=26]
-[ext_resource path="res://Data/Player/Walk_Crouch_R2.png" type="Texture" id=27]
-[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=28]
-[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=29]
-[ext_resource path="res://Data/Player/Idle_Prone_R.png" type="Texture" id=30]
-[ext_resource path="res://Data/Player/Crawl_Prone_R1.png" type="Texture" id=31]
-[ext_resource path="res://Data/Player/Crawl_Prone_R2.png" type="Texture" id=32]
+[ext_resource path="res://Data/Player/Idle_R.png" type="Texture" id=24]
+[ext_resource path="res://Data/Player/Idle_Prone_R.png" type="Texture" id=25]
+[ext_resource path="res://Data/Player/Walk_Crouch_R2.png" type="Texture" id=26]
+[ext_resource path="res://Data/Player/Crawl_Prone_R1.png" type="Texture" id=27]
+[ext_resource path="res://Data/Player/Crawl_Prone_R2.png" type="Texture" id=28]
+[ext_resource path="res://Data/Player/Run_R2.png" type="Texture" id=29]
+[ext_resource path="res://Data/Player/Run_R1.png" type="Texture" id=30]
+[ext_resource path="res://Data/Player/Updated peter/crouch_walk_2.png" type="Texture" id=31]
+[ext_resource path="res://Data/Player/Updated peter/idle_crouch.png" type="Texture" id=32]
 [ext_resource path="res://Data/Player/Head.png" type="Texture" id=33]
 [ext_resource path="res://Data/Health bar/health_meter.png" type="Texture" id=34]
 [ext_resource path="res://Data/Player/newArm.png" type="Texture" id=35]
 [ext_resource path="res://Data/Weapons/Gun Parts/Base/rifle_frame.png" type="Texture" id=36]
 [ext_resource path="res://Data/Player/Ally_Movement.gd" type="Script" id=37]
 [ext_resource path="res://Data/NPC/Survivor.gd" type="Script" id=38]
-[ext_resource path="res://Data/NPC/idle_npc.tres" type="Animation" id=39]
-[ext_resource path="res://Data/NPC/prone_crawl_npc.tres" type="Animation" id=40]
-[ext_resource path="res://Data/NPC/pron_idle_npc.tres" type="Animation" id=41]
-[ext_resource path="res://Data/NPC/running_npc.tres" type="Animation" id=42]
-[ext_resource path="res://Data/Player/idle_hands.tres" type="Animation" id=43]
-[ext_resource path="res://Data/Player/shoot_hands.tres" type="Animation" id=44]
+[ext_resource path="res://Data/Player/idle_hands.tres" type="Animation" id=39]
+[ext_resource path="res://Data/Player/shoot_hands.tres" type="Animation" id=40]
+[ext_resource path="res://Data/Player/bicep.png" type="Texture" id=41]
+[ext_resource path="res://Data/Player/hand.png" type="Texture" id=42]
+[ext_resource path="res://Data/Player/hand1.png" type="Texture" id=43]
+[ext_resource path="res://Data/Player/waists/waist0.png" type="Texture" id=44]
 [ext_resource path="res://Data/Player/thigh.png" type="Texture" id=45]
 [ext_resource path="res://Data/Player/lower_leg.png" type="Texture" id=46]
-[ext_resource path="res://Data/Player/torso.png" type="Texture" id=47]
-[ext_resource path="res://Data/Player/waist.png" type="Texture" id=48]
-[ext_resource path="res://Data/Player/bicep.png" type="Texture" id=49]
-[ext_resource path="res://Data/Player/hand.png" type="Texture" id=50]
-[ext_resource path="res://Data/Player/hand1.png" type="Texture" id=51]
+[ext_resource path="res://Data/Player/shoes/shoes0.png" type="Texture" id=47]
+[ext_resource path="res://Data/Player/torsos/torso0.png" type="Texture" id=48]
+[ext_resource path="res://Data/Player/eyes/outside.png" type="Texture" id=49]
+[ext_resource path="res://Data/Player/eyes/inside.png" type="Texture" id=50]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -72,12 +71,12 @@ points = Vector2Array( 29, 22, -29, 22, 10, -14, 25, -14, 39, 0, 39, 14 )
 animations = [ {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
-"name": "run",
+"name": "idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 5 ) ],
 "loop": true,
-"name": "idle",
+"name": "run",
 "speed": 5.0
 } ]
 
@@ -128,12 +127,12 @@ extents = Vector2( 10, 14 )
 animations = [ {
 "frames": [ ExtResource( 19 ) ],
 "loop": true,
-"name": "run",
+"name": "idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 19 ) ],
 "loop": true,
-"name": "idle",
+"name": "run",
 "speed": 5.0
 } ]
 
@@ -147,12 +146,12 @@ extents = Vector2( 89, 14 )
 animations = [ {
 "frames": [ ExtResource( 22 ) ],
 "loop": true,
-"name": "run",
+"name": "idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 22 ) ],
 "loop": true,
-"name": "idle",
+"name": "run",
 "speed": 5.0
 } ]
 
@@ -201,39 +200,39 @@ radius = 9.0
 [sub_resource type="SpriteFrames" id=22]
 
 animations = [ {
-"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ],
+"frames": [ ExtResource( 24 ) ],
 "loop": true,
-"name": "run",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 27 ) ],
-"loop": false,
-"name": "jump",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 28 ), ExtResource( 29 ) ],
-"loop": true,
-"name": "crouch_walk_r",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 30 ) ],
-"loop": true,
-"name": "prone_idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 29 ) ],
-"loop": true,
-"name": "crouch_idle_r",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 31 ), ExtResource( 32 ) ],
-"loop": true,
-"name": "prone_crawl",
+"name": "idle",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 25 ) ],
 "loop": true,
-"name": "idle",
+"name": "prone_idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 26 ) ],
+"loop": false,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 27 ), ExtResource( 28 ) ],
+"loop": true,
+"name": "prone_crawl",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 24 ), ExtResource( 30 ) ],
+"loop": true,
+"name": "run",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 31 ), ExtResource( 32 ) ],
+"loop": true,
+"name": "crouch_walk_r",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 32 ) ],
+"loop": true,
+"name": "crouch_idle_r",
 "speed": 5.0
 } ]
 
@@ -258,6 +257,334 @@ custom_solver_bias = 0.0
 radius = 425.0
 height = 20.0
 
+[sub_resource type="Animation" id=29]
+
+resource/name = "idle"
+length = 0.1
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/lower_body/leg_l:transform/rot")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("body/lower_body/leg_r:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ -10.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("body/lower_body/leg_r/Sprite:transform/rot")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 5.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("body/lower_body/leg_l/Sprite:transform/rot")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("body/arm_l:transform/pos")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( -2, 0 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("body/head:transform/pos")
+tracks/5/interp = 1
+tracks/5/imported = false
+tracks/5/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -13 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("body/upper_body:transform/rot")
+tracks/6/interp = 1
+tracks/6/imported = false
+tracks/6/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("body/upper_body:transform/pos")
+tracks/7/interp = 1
+tracks/7/imported = false
+tracks/7/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -1 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("body/arm_r:transform/pos")
+tracks/8/interp = 1
+tracks/8/imported = false
+tracks/8/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( -2, -2 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("body/lower_body/leg_r/Sprite:transform/pos")
+tracks/9/interp = 1
+tracks/9/imported = false
+tracks/9/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 5 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("body/lower_body/leg_r:transform/pos")
+tracks/10/interp = 1
+tracks/10/imported = false
+tracks/10/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( -1, -2 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("body/lower_body/leg_l/Sprite:transform/pos")
+tracks/11/interp = 1
+tracks/11/imported = false
+tracks/11/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 5 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("body/lower_body/leg_l:transform/pos")
+tracks/12/interp = 1
+tracks/12/imported = false
+tracks/12/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, -2 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("body/lower_body:transform/rot")
+tracks/13/interp = 1
+tracks/13/imported = false
+tracks/13/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("body/lower_body:transform/pos")
+tracks/14/interp = 1
+tracks/14/imported = false
+tracks/14/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 5 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("body:transform/pos")
+tracks/15/interp = 1
+tracks/15/imported = false
+tracks/15/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -17 ) ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("body/standing:transform/rot")
+tracks/16/interp = 1
+tracks/16/imported = false
+tracks/16/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("body/standing:transform/pos")
+tracks/17/interp = 1
+tracks/17/imported = false
+tracks/17/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 5 ) ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("body/headcollision:transform/pos")
+tracks/18/interp = 1
+tracks/18/imported = false
+tracks/18/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -13 ) ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("body/headcollision:transform/rot")
+tracks/19/interp = 1
+tracks/19/imported = false
+tracks/19/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("body/lower_body/leg_l/Sprite/shoe:transform/rot")
+tracks/20/interp = 1
+tracks/20/imported = false
+tracks/20/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("body/lower_body/leg_r/Sprite/shoe:transform/rot")
+tracks/21/interp = 1
+tracks/21/imported = false
+tracks/21/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ 5.0 ]
+}
+
+[sub_resource type="Animation" id=30]
+
+resource/name = "prone_crawl"
+length = 0.5
+loop = true
+step = 0.1
+
+[sub_resource type="Animation" id=31]
+
+resource/name = "prone_idle"
+length = 0.01
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/upper_body:transform/pos")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ Vector2( 5, 3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("body/upper_body:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 0,
+"values": [ -90.0 ]
+}
+
+[sub_resource type="Animation" id=32]
+
+resource/name = "run"
+length = 0.4
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("body/lower_body/leg_l:transform/rot")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 30.0, -30.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("body/lower_body/leg_r:transform/rot")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 0.1, 0.3, 0.4 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -30.0, 30.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("body/lower_body/leg_l/Sprite:transform/rot")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 10.0, 0.0, -60.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("body/lower_body/leg_r/Sprite:transform/rot")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -60.0, 0.0, 10.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("body/head:transform/pos")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = {
+"times": FloatArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -13 ), Vector2( 0, -12 ), Vector2( 0, -13 ), Vector2( 0, -12 ), Vector2( 0, -13 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("body:transform/pos")
+tracks/5/interp = 1
+tracks/5/imported = false
+tracks/5/keys = {
+"times": FloatArray( 0.000385702, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -17 ), Vector2( 0, -19 ), Vector2( 0, -17 ), Vector2( 0, -19 ), Vector2( 0, -17 ) ]
+}
+
 [sub_resource type="RectangleShape2D" id=26]
 
 custom_solver_bias = 0.0
@@ -272,54 +599,6 @@ extents = Vector2( 6, 12 )
 
 custom_solver_bias = 0.0
 radius = 9.0
-
-[sub_resource type="SpriteFrames" id=29]
-
-animations = [ {
-"frames": [ ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ) ],
-"loop": true,
-"name": "run",
-"speed": 10.0
-}, {
-"frames": [ ExtResource( 27 ) ],
-"loop": false,
-"name": "jump",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 28 ), ExtResource( 29 ) ],
-"loop": true,
-"name": "crouch_walk_r",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 30 ) ],
-"loop": true,
-"name": "prone_idle",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 29 ) ],
-"loop": true,
-"name": "crouch_idle_r",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 31 ), ExtResource( 32 ) ],
-"loop": true,
-"name": "prone_crawl",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 47 ) ],
-"loop": true,
-"name": "idle",
-"speed": 5.0
-} ]
-
-[sub_resource type="SpriteFrames" id=30]
-
-animations = [ {
-"frames": [ ExtResource( 33 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
 
 [node name="Allies" type="Node2D"]
 
@@ -444,8 +723,8 @@ shape_range = Vector2( 0, 1 )
 trigger = false
 
 [node name="Tank_gun" type="RigidBody2D" parent="Tank/body" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
@@ -579,8 +858,8 @@ script/script = ExtResource( 14 )
 transform/pos = Vector2( -2, -1 )
 
 [node name="Pig" type="RigidBody2D" parent="Tank/body/machinegun_turret/body" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 transform/pos = Vector2( 20, -20 )
@@ -864,8 +1143,8 @@ transform/pos = Vector2( 5, -23 )
 transform/pos = Vector2( -20, -12 )
 
 [node name="artillary_cannon" type="RigidBody2D" parent="Artillary/body" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 input/pickable = false
@@ -1136,8 +1415,8 @@ type_mask = 15
 transform/pos = Vector2( 3, 5 )
 
 [node name="Pig" type="RigidBody2D" parent="Helicopter/body/helo_turret/body" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 input/pickable = false
@@ -1441,8 +1720,8 @@ transform/pos = Vector2( -1, 3 )
 transform/pos = Vector2( -10, 11 )
 
 [node name="Pig" type="RigidBody2D" parent="Airplane/body" groups=[
-"guns and parts",
 "weapons",
+"guns and parts",
 ]]
 
 editor/display_folded = true
@@ -2094,10 +2373,10 @@ type_mask = 15
 playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
-anims/idle = ExtResource( 39 )
-anims/prone_crawl = ExtResource( 40 )
-anims/prone_idle = ExtResource( 41 )
-anims/run = ExtResource( 42 )
+anims/idle = SubResource( 29 )
+anims/prone_crawl = SubResource( 30 )
+anims/prone_idle = SubResource( 31 )
+anims/run = SubResource( 32 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -2110,8 +2389,8 @@ playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/Melee = ExtResource( 2 )
 anims/Shoot = ExtResource( 3 )
-anims/idle_hands = ExtResource( 43 )
-anims/shoot_hands = ExtResource( 44 )
+anims/idle_hands = ExtResource( 39 )
+anims/shoot_hands = ExtResource( 40 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -2128,7 +2407,7 @@ shapes/0/shape = SubResource( 26 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, -1 )
 shapes/0/trigger = true
 shapes/1/shape = SubResource( 27 )
-shapes/1/transform = Matrix32( 1, 0, 0, 1, 0, 4 )
+shapes/1/transform = Matrix32( 1, 0, 0, 1, 0, 5 )
 shapes/1/trigger = false
 shapes/2/shape = SubResource( 28 )
 shapes/2/transform = Matrix32( 1, 0, 0, 1, 0, -13 )
@@ -2137,128 +2416,12 @@ collision/layers = 16386
 collision/mask = 0
 collision/margin = 0.08
 
-[node name="leg_l" type="Sprite" parent="Survivor/body"]
-
-editor/display_folded = true
-transform/pos = Vector2( 1, 3 )
-texture = ExtResource( 45 )
-centered = false
-offset = Vector2( -4, 0 )
-
-[node name="Sprite" type="Sprite" parent="Survivor/body/leg_l"]
-
-transform/pos = Vector2( 1, 5 )
-texture = ExtResource( 46 )
-centered = false
-offset = Vector2( -4, 0 )
-
-[node name="leg_r" type="Sprite" parent="Survivor/body"]
-
-editor/display_folded = true
-transform/pos = Vector2( -1, 3 )
-texture = ExtResource( 45 )
-centered = false
-offset = Vector2( -4, 0 )
-
-[node name="Sprite" type="Sprite" parent="Survivor/body/leg_r"]
-
-transform/pos = Vector2( 1, 5 )
-texture = ExtResource( 46 )
-centered = false
-offset = Vector2( -4, 0 )
-
-[node name="legs" type="AnimatedSprite" parent="Survivor/body"]
-
-editor/display_folded = true
-transform/pos = Vector2( 0, -1 )
-frames = SubResource( 29 )
-animation = "idle"
-
-[node name="secondaryEquip" type="Sprite" parent="Survivor/body/legs"]
-
-transform/pos = Vector2( -5, -20 )
-transform/rot = -90.0
-
-[node name="waist" type="Sprite" parent="Survivor/body"]
-
-transform/pos = Vector2( -4, 4 )
-texture = ExtResource( 48 )
-centered = false
-
-[node name="head" type="AnimatedSprite" parent="Survivor/body"]
-
-transform/pos = Vector2( 0, -13 )
-frames = SubResource( 30 )
-animation = "default"
-
-[node name="health_meter" type="Sprite" parent="Survivor/body/head"]
-
-transform/pos = Vector2( -3, -3 )
-transform/rot = 180.0
-texture = ExtResource( 34 )
-centered = false
-
-[node name="health" type="Sprite" parent="Survivor/body/head/health_meter"]
-
-transform/pos = Vector2( 2, 1 )
-transform/scale = Vector2( 1, 3 )
-texture = ExtResource( 12 )
-centered = false
-
-[node name="Direction" type="RayCast2D" parent="Survivor/body"]
-
-transform/rot = 90.0
-enabled = false
-cast_to = Vector2( 0, 50 )
-layer_mask = 1
-type_mask = 15
-
-[node name="arm_r" type="Sprite" parent="Survivor/body"]
-
-visibility/self_opacity = 0.0
-transform/pos = Vector2( -2, -2.968 )
-texture = ExtResource( 35 )
-centered = false
-offset = Vector2( 0, -3 )
-
-[node name="bicep" type="Sprite" parent="Survivor/body/arm_r"]
-
-transform/pos = Vector2( 0, -1.1344 )
-transform/rot = -30.0
-texture = ExtResource( 49 )
-centered = false
-offset = Vector2( 0, -4 )
-
-[node name="forearm" type="Sprite" parent="Survivor/body/arm_r/bicep"]
-
-visibility/behind_parent = true
-transform/pos = Vector2( 6.23107, 1.08341 )
-transform/rot = 50.0
-texture = ExtResource( 50 )
-centered = false
-offset = Vector2( 0, -3 )
-
-[node name="hand" type="Sprite" parent="Survivor/body/arm_r/bicep/forearm"]
-
-visibility/behind_parent = true
-transform/pos = Vector2( 4.9399, -1.45181 )
-transform/rot = -20.0
-texture = ExtResource( 51 )
-centered = false
-offset = Vector2( 0, -3 )
-
-[node name="Gun" type="Sprite" parent="Survivor/body/arm_r"]
-
-visibility/visible = false
-transform/pos = Vector2( 6, -6 )
-texture = ExtResource( 36 )
-centered = false
-
 [node name="arm_l" type="Sprite" parent="Survivor/body"]
 
+editor/display_folded = true
 visibility/self_opacity = 0.0
 visibility/behind_parent = true
-transform/pos = Vector2( -2, -2.968 )
+transform/pos = Vector2( -2, 0 )
 texture = ExtResource( 35 )
 centered = false
 offset = Vector2( 0, -3 )
@@ -2275,7 +2438,7 @@ centered = false
 visibility/behind_parent = true
 transform/pos = Vector2( -1, -2 )
 transform/rot = -30.0
-texture = ExtResource( 49 )
+texture = ExtResource( 41 )
 centered = false
 offset = Vector2( -1, -4 )
 
@@ -2284,7 +2447,7 @@ offset = Vector2( -1, -4 )
 visibility/behind_parent = true
 transform/pos = Vector2( 6.00569, 0.199072 )
 transform/rot = 50.0
-texture = ExtResource( 50 )
+texture = ExtResource( 42 )
 centered = false
 offset = Vector2( 0, -3 )
 
@@ -2293,9 +2456,162 @@ offset = Vector2( 0, -3 )
 visibility/behind_parent = true
 transform/pos = Vector2( 6, -1 )
 transform/rot = -20.0
-texture = ExtResource( 51 )
+texture = ExtResource( 43 )
 centered = false
 offset = Vector2( 0, -3 )
+
+[node name="lower_body" type="Sprite" parent="Survivor/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, 5 )
+texture = ExtResource( 44 )
+
+[node name="leg_l" type="Sprite" parent="Survivor/body/lower_body"]
+
+editor/display_folded = true
+visibility/behind_parent = true
+transform/pos = Vector2( 1, -2 )
+texture = ExtResource( 45 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Survivor/body/lower_body/leg_l"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 46 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="shoe" type="Sprite" parent="Survivor/body/lower_body/leg_l/Sprite"]
+
+transform/pos = Vector2( 1, 5 )
+texture = ExtResource( 47 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="leg_r" type="Sprite" parent="Survivor/body/lower_body"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( -1, -2 )
+transform/rot = -10.0
+texture = ExtResource( 45 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="Sprite" type="Sprite" parent="Survivor/body/lower_body/leg_r"]
+
+transform/pos = Vector2( 1, 5 )
+transform/rot = 5.0
+texture = ExtResource( 46 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="shoe" type="Sprite" parent="Survivor/body/lower_body/leg_r/Sprite"]
+
+transform/pos = Vector2( 1, 5 )
+transform/rot = 5.0
+texture = ExtResource( 47 )
+centered = false
+offset = Vector2( -4, 0 )
+
+[node name="upper_body" type="Sprite" parent="Survivor/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -1 )
+texture = ExtResource( 48 )
+
+[node name="secondaryEquip" type="Sprite" parent="Survivor/body/upper_body"]
+
+transform/pos = Vector2( -5, -20 )
+transform/rot = -90.0
+
+[node name="head" type="Sprite" parent="Survivor/body"]
+
+editor/display_folded = true
+transform/pos = Vector2( 0, -13 )
+texture = ExtResource( 33 )
+
+[node name="top_hair" type="Sprite" parent="Survivor/body/head"]
+
+visibility/behind_parent = true
+
+[node name="outside_eye" type="Sprite" parent="Survivor/body/head"]
+
+transform/pos = Vector2( 7, -2 )
+texture = ExtResource( 49 )
+
+[node name="inside_eye" type="Sprite" parent="Survivor/body/head"]
+
+transform/pos = Vector2( 8, -2 )
+texture = ExtResource( 50 )
+modulate = Color( 1, 0, 0, 1 )
+
+[node name="main_hair" type="Sprite" parent="Survivor/body/head"]
+
+[node name="health_meter" type="Sprite" parent="Survivor/body/head"]
+
+editor/display_folded = true
+transform/pos = Vector2( -3, -3 )
+transform/rot = -180.0
+texture = ExtResource( 34 )
+centered = false
+
+[node name="health" type="Sprite" parent="Survivor/body/head/health_meter"]
+
+transform/pos = Vector2( 2, 1 )
+transform/scale = Vector2( 1, 3 )
+texture = ExtResource( 12 )
+centered = false
+
+[node name="arm_r" type="Sprite" parent="Survivor/body"]
+
+editor/display_folded = true
+visibility/self_opacity = 0.0
+transform/pos = Vector2( -2, -2 )
+texture = ExtResource( 35 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="bicep" type="Sprite" parent="Survivor/body/arm_r"]
+
+transform/pos = Vector2( 0, -1.1344 )
+transform/rot = -30.0
+texture = ExtResource( 41 )
+centered = false
+offset = Vector2( 0, -4 )
+
+[node name="forearm" type="Sprite" parent="Survivor/body/arm_r/bicep"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 6.23107, 1.08341 )
+transform/rot = 50.0
+texture = ExtResource( 42 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="hand" type="Sprite" parent="Survivor/body/arm_r/bicep/forearm"]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 4.9399, -1.45181 )
+transform/rot = -20.0
+texture = ExtResource( 43 )
+centered = false
+offset = Vector2( 0, -3 )
+
+[node name="Gun" type="Sprite" parent="Survivor/body/arm_r"]
+
+visibility/visible = false
+transform/pos = Vector2( 6, -6 )
+texture = ExtResource( 36 )
+centered = false
+
+[node name="Direction" type="RayCast2D" parent="Survivor/body"]
+
+transform/rot = 90.0
+enabled = false
+cast_to = Vector2( 0, 50 )
+layer_mask = 1
+type_mask = 15
 
 [node name="prone" type="CollisionShape2D" parent="Survivor/body"]
 
@@ -2308,7 +2624,7 @@ _update_shape_index = 0
 [node name="standing" type="CollisionShape2D" parent="Survivor/body"]
 
 visibility/visible = false
-transform/pos = Vector2( 0, 4 )
+transform/pos = Vector2( 0, 5 )
 shape = SubResource( 27 )
 trigger = false
 _update_shape_index = 1

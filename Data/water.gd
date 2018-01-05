@@ -1,27 +1,51 @@
-extends StaticBody2D
-var effect = preload("res://effects.tscn").instance()
-var shock
-var ignite = false
-var burn_time = 5
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+extends "res://resource.gd"
+var name = "Water"
+var weight = 1
+var scrap = 0
+var food = 0
+var medicine = 0
+var ammo = 0
+var shrapnel = 0
+var damage = 2
+
+var amount = 10
+var value = 10
+var effect = "shock"
+var effect_multiplier = 2
+
+func description():
+#	var g  = "Extra health: " + str(health) + "/n"
+	var desc = "Water, usually people drink it, but if you throw some on the ground and add electricy you can have a dance off!"
+	return desc
+
+func stats():
+	return  load("res://traps.tscn").instance().get_node("water").stats()
+
+func fundamental():
+	return "Shock Trap" + "\n" + str(effect) + " X" + str(effect_multiplier)
+	
+func hit(collider):
+	var explosion = load("res://Explosives.tscn").instance().get_node("explosion").duplicate()
+	explosion.damage = damage
+	explosion.shrapnelnumber = shrapnel
+#	explosion.faction = faction
+	explosion.effect = effect
+	explosion.effect_multiplier = effect_multiplier
+	explosion.set_collision_mask_bit(1, true)
+	explosion.set_collision_mask_bit(2, true)
+	explosion.set_pos(get_pos())
+	get_parent().add_child(explosion)
+	call_deferred("queue_free")
+
+func used():
+	amount -= 1
+	if amount <= 0:
+		queue_free()
+
+func activate():
+	var trap = load("res://traps.tscn").instance().get_node("water").duplicate()
+	return trap
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
+
 	pass
-
-func hit(collider):
-	if (collider.effect == "shock") and not ignite:
-		set_layer_mask_bit(1, false)
-		set_layer_mask_bit(2, false)
-		var shock = effect.get_node("shock").duplicate()
-		get_parent().add_child(shock)
-		set_fixed_process(true)
-		ignite = true
-
-func _fixed_process(delta):
-	burn_time -= delta
-	if burn_time <= 0:
-		get_parent().call_deferred("queue_free")

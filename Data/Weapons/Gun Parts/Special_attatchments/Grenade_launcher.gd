@@ -5,7 +5,10 @@ var special_stopping_power = 5
 
 func special():
 	return grenade()
-		
+
+func equip(gun):
+	pass
+
 func _ready():
 	# Called every time the node is added to the scene.
 	# Initialization here

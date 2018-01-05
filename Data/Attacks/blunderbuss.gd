@@ -12,15 +12,18 @@ var clip_capacity = 0
 var fullauto
 var barrel_size = 5
 
+var trajectory = "Splash"
+
 func equip(gun):
 	gun.distance += distance
 	gun.accuracy += accuracy
 	gun.damage += damage
 	gun.fire_rate += fire_rate
+	gun.trajectory = trajectory
 	pass
 
 func bullet(bullet):
-	var new_bullet =  attacks.get_node(str(get_parent().get_parent().type) + "/splash").duplicate()
+	var new_bullet = get_parent().get_parent().Global.attacks.get_node(str(get_parent().get_parent().type) + "/splash").duplicate()
 #	bullet.distance += distance
 	bullet = new_bullet
 	return bullet
